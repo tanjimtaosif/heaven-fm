@@ -23,3 +23,7 @@ dist-ssr
 *.sln
 *.sw?
 company-details.pdf
+
+# Agent & Skills
+.agents/
+skills-lock.json
