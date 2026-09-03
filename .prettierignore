@@ -1,0 +1,9 @@
+node_modules
+dist
+dist-ssr
+.vscode
+*.local
+package-lock.json
+skills-lock.json
+company-details.pdf
+.agents
