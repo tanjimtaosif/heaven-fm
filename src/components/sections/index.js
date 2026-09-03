@@ -1,0 +1,5 @@
+export { HeroSection } from './HeroSection'
+export { ScrollVideoRevealSection } from './ScrollVideoRevealSection'
+export { ManifestoSection } from './ManifestoSection'
+export { CollectionsSection } from './CollectionsSection'
+export { ContactSection } from './ContactSection'
