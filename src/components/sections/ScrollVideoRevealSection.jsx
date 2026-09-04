@@ -55,7 +55,7 @@ export const ScrollVideoRevealSection = () => {
   return (
     <section
       ref={sectionRef}
-      className="relative mt-[-25vh]"
+      className="relative mt-0"
       style={{ height: '180vh' }}
       aria-label="Promo Video"
     >
