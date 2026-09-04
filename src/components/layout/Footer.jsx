@@ -12,6 +12,7 @@ import {
   Award,
   CheckCircle2,
   MessageSquare,
+  CalendarCheck,
 } from 'lucide-react'
 
 // Exponential ease-out matching the studio Lenis configuration
@@ -55,6 +56,51 @@ const SocialIcon = ({ type }) => {
   return null
 }
 
+// Shared presentation primitives keep every column visually consistent
+const columnHeadingClass =
+  'text-canvas font-serif text-[13px] font-semibold tracking-[0.16em] uppercase sm:text-base sm:tracking-wide sm:normal-case'
+
+const navLinkClass =
+  'group text-text-inverse-muted hover:text-brass inline-flex items-center gap-2 py-0.5 text-[13px] transition-colors duration-200 sm:text-sm'
+
+const LinkBullet = () => (
+  <span
+    aria-hidden="true"
+    className="bg-charcoal-border group-hover:bg-brass h-1 w-1 shrink-0 rounded-full transition-all duration-300 group-hover:w-2.5"
+  />
+)
+
+const socialActionClass =
+  'border-charcoal-border bg-charcoal-surface/60 text-text-inverse-muted hover:border-brass hover:bg-brass hover:text-charcoal-deep focus-visible:ring-brass focus-visible:ring-offset-charcoal-deep flex h-9 w-9 items-center justify-center rounded-full border transition-all duration-200 hover:scale-105 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none'
+
+const badgeBaseClass =
+  'border-charcoal-border/80 bg-charcoal-surface/80 inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-[11px] font-medium sm:px-3 sm:text-xs'
+
+const STUDIO_LINKS = [
+  { label: 'The Studio Story', target: '#why-us' },
+  { label: 'The Heaven Difference', target: '#why-us' },
+  { label: 'Bespoke FAQ', target: '#faq' },
+  { label: 'Book Consultation', target: '#contact' },
+]
+
+const ATELIER_PILLARS = [
+  {
+    icon: Sparkles,
+    title: 'Free Spatial Consultation',
+    detail: 'Tailored to your interior blueprints',
+  },
+  {
+    icon: ShieldCheck,
+    title: '100% Bespoke Joinery',
+    detail: 'Seasoned solid hardwoods & fine textiles',
+  },
+  {
+    icon: CheckCircle2,
+    title: 'White-Glove Installation',
+    detail: 'Direct assembly by master craftsmen',
+  },
+]
+
 export const Footer = () => {
   const lenis = useLenis()
 
@@ -86,7 +132,7 @@ export const Footer = () => {
   }
 
   return (
-    <footer className="bg-charcoal-deep text-canvas border-charcoal-border/60 relative overflow-hidden border-t pt-20 pb-12">
+    <footer className="bg-charcoal-deep text-canvas border-charcoal-border/60 relative overflow-hidden border-t pt-14 pb-8 sm:pt-16 sm:pb-10">
       {/* Architectural Ambient Lighting & Gold Gradient Accent */}
       <div
         aria-hidden="true"
@@ -94,14 +140,14 @@ export const Footer = () => {
       />
       <div
         aria-hidden="true"
-        className="from-brass/10 via-brass/[0.02] pointer-events-none absolute -top-24 left-1/2 h-72 w-[680px] -translate-x-1/2 rounded-full bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] to-transparent blur-2xl"
+        className="from-brass/10 via-brass/[0.02] pointer-events-none absolute -top-24 left-1/2 h-72 w-[680px] max-w-[140vw] -translate-x-1/2 rounded-full bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] to-transparent blur-2xl"
       />
 
-      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div className="relative mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
         {/* Main Footer Grid */}
-        <div className="grid grid-cols-1 gap-12 pb-16 lg:grid-cols-12 lg:gap-8">
+        <div className="grid grid-cols-2 gap-x-6 gap-y-10 pb-10 sm:gap-x-8 sm:gap-y-12 lg:grid-cols-12 lg:gap-8 lg:pb-12">
           {/* Column 1: Brand Atelier & Official Logo (Span 4) */}
-          <div className="space-y-6 lg:col-span-4">
+          <div className="col-span-2 space-y-5 lg:col-span-4">
             {/* Official SVG Logo */}
             <div>
               <a
@@ -113,53 +159,51 @@ export const Footer = () => {
                 <img
                   src={heavenLogo}
                   alt="Heaven Furniture Mart"
-                  className="h-10 w-auto object-contain transition-transform duration-300 group-hover:scale-[1.02] sm:h-12"
+                  className="h-9 w-auto object-contain transition-transform duration-300 group-hover:scale-[1.02] sm:h-11"
                 />
               </a>
 
               {/* Tagline */}
-              <p className="text-brass mt-2.5 text-xs font-medium tracking-[0.28em] uppercase">
+              <p className="text-brass mt-2.5 text-[10px] font-medium tracking-[0.22em] uppercase sm:text-xs sm:tracking-[0.28em]">
                 {COMPANY_INFO.tagline}
               </p>
             </div>
 
             {/* Atelier Descriptor */}
-            <p className="text-text-inverse-muted max-w-md text-sm leading-relaxed">
-              Chattogram's premier bespoke interior atelier. We conceptualize,
-              tailor, and handcraft architectural furniture pieces designed
-              around your space, proportions, and lifestyle.
+            <p className="text-text-inverse-muted max-w-md text-[13px] leading-relaxed sm:text-sm">
+              Chattogram&apos;s premier bespoke interior atelier. We
+              conceptualize, tailor, and handcraft architectural furniture
+              pieces designed around your space, proportions, and lifestyle.
             </p>
 
             {/* Curated Trust & Heritage Badges */}
-            <div className="flex flex-wrap items-center gap-2.5 pt-1">
-              <span className="border-charcoal-border/80 bg-charcoal-surface/80 text-brass-border inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-medium backdrop-blur-xs">
-                <Award className="text-brass h-3.5 w-3.5" />
+            <div className="flex flex-wrap items-center gap-2">
+              <span className={`${badgeBaseClass} text-brass-border`}>
+                <Award className="text-brass h-3.5 w-3.5 shrink-0" />
                 BFIOA Recognized
               </span>
-              <span className="border-charcoal-border/80 bg-charcoal-surface/80 text-brass-border inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-medium backdrop-blur-xs">
-                <ShieldCheck className="text-brass h-3.5 w-3.5" />
+              <span className={`${badgeBaseClass} text-brass-border`}>
+                <ShieldCheck className="text-brass h-3.5 w-3.5 shrink-0" />
                 Chamber of Commerce
               </span>
-              <span className="border-charcoal-border/80 bg-charcoal-surface/80 text-text-inverse-muted inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-medium">
+              <span className={`${badgeBaseClass} text-text-inverse-muted`}>
                 Est. {COMPANY_INFO.foundedYear}
               </span>
             </div>
           </div>
 
           {/* Column 2: Bespoke Collections (Span 2) */}
-          <div className="space-y-4 lg:col-span-2">
-            <h4 className="text-canvas font-serif text-base font-semibold tracking-wide">
-              Collections
-            </h4>
-            <ul className="space-y-2.5 text-sm">
+          <div className="col-span-1 space-y-4 lg:col-span-2">
+            <h4 className={columnHeadingClass}>Collections</h4>
+            <ul className="space-y-2.5">
               {COMPANY_INFO.categories.map((cat) => (
                 <li key={cat.id}>
                   <a
                     href="#collections"
                     onClick={(e) => handleSmoothScroll(e, '#collections')}
-                    className="group text-text-inverse-muted hover:text-brass inline-flex items-center gap-1.5 transition-colors duration-200"
+                    className={navLinkClass}
                   >
-                    <span className="bg-charcoal-border group-hover:bg-brass h-1 w-1 rounded-full transition-all duration-300 group-hover:w-2.5" />
+                    <LinkBullet />
                     <span>{cat.title}</span>
                   </a>
                 </li>
@@ -167,65 +211,33 @@ export const Footer = () => {
             </ul>
           </div>
 
-          {/* Column 3: The Atelier & Discovery (Span 2) */}
-          <div className="space-y-4 lg:col-span-2">
-            <h4 className="text-canvas font-serif text-base font-semibold tracking-wide">
-              The Studio
-            </h4>
-            <ul className="space-y-2.5 text-sm">
-              <li>
-                <a
-                  href="#why-us"
-                  onClick={(e) => handleSmoothScroll(e, '#why-us')}
-                  className="group text-text-inverse-muted hover:text-brass inline-flex items-center gap-1.5 transition-colors duration-200"
-                >
-                  <span className="bg-charcoal-border group-hover:bg-brass h-1 w-1 rounded-full transition-all duration-300 group-hover:w-2.5" />
-                  <span>The Studio Story</span>
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#why-us"
-                  onClick={(e) => handleSmoothScroll(e, '#why-us')}
-                  className="group text-text-inverse-muted hover:text-brass inline-flex items-center gap-1.5 transition-colors duration-200"
-                >
-                  <span className="bg-charcoal-border group-hover:bg-brass h-1 w-1 rounded-full transition-all duration-300 group-hover:w-2.5" />
-                  <span>The Heaven Difference</span>
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#faq"
-                  onClick={(e) => handleSmoothScroll(e, '#faq')}
-                  className="group text-text-inverse-muted hover:text-brass inline-flex items-center gap-1.5 transition-colors duration-200"
-                >
-                  <span className="bg-charcoal-border group-hover:bg-brass h-1 w-1 rounded-full transition-all duration-300 group-hover:w-2.5" />
-                  <span>Bespoke FAQ</span>
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#contact"
-                  onClick={(e) => handleSmoothScroll(e, '#contact')}
-                  className="group text-text-inverse-muted hover:text-brass inline-flex items-center gap-1.5 transition-colors duration-200"
-                >
-                  <span className="bg-charcoal-border group-hover:bg-brass h-1 w-1 rounded-full transition-all duration-300 group-hover:w-2.5" />
-                  <span>Book Consultation</span>
-                </a>
-              </li>
+          {/* Column 3: The Atelier & Discovery (Span 3) */}
+          <div className="col-span-1 space-y-4 lg:col-span-3">
+            <h4 className={columnHeadingClass}>The Studio</h4>
+            <ul className="space-y-2.5">
+              {STUDIO_LINKS.map((link) => (
+                <li key={link.label}>
+                  <a
+                    href={link.target}
+                    onClick={(e) => handleSmoothScroll(e, link.target)}
+                    className={navLinkClass}
+                  >
+                    <LinkBullet />
+                    <span>{link.label}</span>
+                  </a>
+                </li>
+              ))}
             </ul>
           </div>
 
-          {/* Column 4: Studio Location & Inquiries (Minimal & Elegant, Span 4) */}
-          <div className="space-y-4 lg:col-span-4">
-            <h4 className="text-canvas font-serif text-base font-semibold tracking-wide">
-              Visit Our Studio
-            </h4>
-            <div className="text-text-inverse-muted space-y-3.5 text-sm">
+          {/* Column 4: Studio Location & Inquiries (Span 3) */}
+          <div className="col-span-2 space-y-4 lg:col-span-3">
+            <h4 className={columnHeadingClass}>Visit Our Studio</h4>
+            <div className="text-text-inverse-muted space-y-3.5 text-[13px] sm:text-sm">
               {/* Studio Address */}
               <div className="flex items-start gap-2.5">
-                <MapPin className="text-brass mt-1 h-4 w-4 shrink-0" />
-                <div>
+                <MapPin className="text-brass mt-0.5 h-4 w-4 shrink-0" />
+                <div className="min-w-0">
                   <p className="text-canvas/90 leading-snug">
                     {COMPANY_INFO.location}
                   </p>
@@ -236,13 +248,13 @@ export const Footer = () => {
                     className="text-brass hover:text-brass-hover inline-flex items-center gap-1 pt-1 text-xs transition-colors"
                   >
                     <span>Get Directions</span>
-                    <ArrowUpRight className="h-3 w-3" />
+                    <ArrowUpRight className="h-3 w-3 shrink-0" />
                   </a>
                 </div>
               </div>
 
               {/* Direct Phone */}
-              <div className="flex items-center gap-2.5 pt-0.5">
+              <div className="flex items-center gap-2.5">
                 <Phone className="text-brass h-4 w-4 shrink-0" />
                 <a
                   href={`tel:${COMPANY_INFO.contact.phoneClean}`}
@@ -253,19 +265,19 @@ export const Footer = () => {
               </div>
 
               {/* Direct Email */}
-              <div className="flex items-center gap-2.5">
+              <div className="flex min-w-0 items-center gap-2.5">
                 <Mail className="text-brass h-4 w-4 shrink-0" />
                 <a
                   href={`mailto:${COMPANY_INFO.contact.email}`}
-                  className="hover:text-brass truncate transition-colors"
+                  className="hover:text-brass min-w-0 truncate transition-colors"
                 >
                   {COMPANY_INFO.contact.email}
                 </a>
               </div>
 
               {/* WhatsApp Concierge */}
-              <div className="flex items-center gap-2.5">
-                <MessageSquare className="text-brass h-4 w-4 shrink-0" />
+              <div className="flex items-start gap-2.5">
+                <MessageSquare className="text-brass mt-0.5 h-4 w-4 shrink-0" />
                 <a
                   href={COMPANY_INFO.contact.whatsappUrl}
                   target="_blank"
@@ -273,83 +285,67 @@ export const Footer = () => {
                   className="text-brass hover:text-brass-hover inline-flex items-center gap-1 transition-colors"
                 >
                   <span>WhatsApp Design Concierge</span>
-                  <ArrowUpRight className="h-3 w-3" />
+                  <ArrowUpRight className="h-3 w-3 shrink-0" />
                 </a>
               </div>
             </div>
+
+            {/* Consultation Action — anchors the column and closes the gap */}
+            <a
+              href="#contact"
+              onClick={(e) => handleSmoothScroll(e, '#contact')}
+              className="group border-brass/45 text-brass hover:border-brass hover:bg-brass hover:text-charcoal-deep focus-visible:ring-brass focus-visible:ring-offset-charcoal-deep mt-1 inline-flex w-full items-center justify-center gap-2 rounded-full border px-4 py-2.5 text-xs font-semibold tracking-wide transition-all duration-300 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none sm:w-auto"
+            >
+              <CalendarCheck className="h-4 w-4 shrink-0" />
+              <span>Book a Design Consultation</span>
+            </a>
           </div>
         </div>
 
         {/* Signature Atelier Pillars Bar */}
-        <div className="border-charcoal-border/50 border-t py-8">
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-3 sm:gap-8">
-            <div className="flex items-center gap-3">
-              <div className="border-charcoal-border bg-charcoal-surface/60 text-brass flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border">
-                <Sparkles className="h-4 w-4" />
+        <div className="border-charcoal-border/50 border-t py-7">
+          <div className="grid grid-cols-1 gap-5 sm:grid-cols-3 sm:gap-8">
+            {ATELIER_PILLARS.map(({ icon: Icon, title, detail }) => (
+              <div key={title} className="flex items-center gap-3">
+                <div className="border-charcoal-border bg-charcoal-surface/60 text-brass flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border">
+                  <Icon className="h-4 w-4" />
+                </div>
+                <div className="min-w-0">
+                  <p className="text-canvas text-xs font-semibold tracking-wide">
+                    {title}
+                  </p>
+                  <p className="text-text-inverse-muted text-[11px] leading-snug">
+                    {detail}
+                  </p>
+                </div>
               </div>
-              <div>
-                <p className="text-canvas text-xs font-semibold tracking-wide">
-                  Free Spatial Consultation
-                </p>
-                <p className="text-text-inverse-muted text-[11px]">
-                  Tailored to your interior blueprints
-                </p>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-3">
-              <div className="border-charcoal-border bg-charcoal-surface/60 text-brass flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border">
-                <ShieldCheck className="h-4 w-4" />
-              </div>
-              <div>
-                <p className="text-canvas text-xs font-semibold tracking-wide">
-                  100% Bespoke Joinery
-                </p>
-                <p className="text-text-inverse-muted text-[11px]">
-                  Seasoned solid hardwoods & fine textiles
-                </p>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-3">
-              <div className="border-charcoal-border bg-charcoal-surface/60 text-brass flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border">
-                <CheckCircle2 className="h-4 w-4" />
-              </div>
-              <div>
-                <p className="text-canvas text-xs font-semibold tracking-wide">
-                  White-Glove Installation
-                </p>
-                <p className="text-text-inverse-muted text-[11px]">
-                  Direct assembly by master craftsmen
-                </p>
-              </div>
-            </div>
+            ))}
           </div>
         </div>
 
         {/* Bottom Bar: Copyright, Social Presence & Back to Top */}
-        <div className="border-charcoal-border/50 border-t pt-8">
-          <div className="flex flex-col items-center justify-between gap-6 sm:flex-row">
+        <div className="border-charcoal-border/50 border-t pt-7">
+          {/* Equal thirds on desktop keep the social row optically dead-centred */}
+          <div className="grid grid-cols-1 items-center gap-6 sm:grid-cols-3 sm:gap-4">
             {/* Left: Copyright & Heritage Seal */}
-            <div className="space-y-1 text-center sm:text-left">
-              <p className="text-text-inverse-muted text-xs">
+            <div className="order-2 space-y-1 text-center sm:order-1 sm:text-left">
+              <p className="text-text-inverse-muted text-[11px] sm:text-xs">
                 © {new Date().getFullYear()} {COMPANY_INFO.name}. All rights
                 reserved.
               </p>
               <p className="text-text-inverse-muted/70 text-[11px] tracking-wide">
-                Agrabad Access Road, Chattogram, Bangladesh • Luxury Bespoke
-                Interiors
+                Luxury Bespoke Interiors • Chattogram
               </p>
             </div>
 
             {/* Center: Luxury Social Media Links */}
-            <div className="flex items-center gap-2.5">
+            <div className="order-1 flex items-center justify-center gap-3 sm:order-2">
               <a
                 href={COMPANY_INFO.socialLinks.facebook}
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Follow Heaven Furniture Mart on Facebook"
-                className="border-charcoal-border bg-charcoal-surface/60 text-text-inverse-muted hover:border-brass hover:bg-brass hover:text-charcoal-deep flex h-8 w-8 items-center justify-center rounded-full border transition-all duration-200 hover:scale-105"
+                className={socialActionClass}
               >
                 <SocialIcon type="facebook" />
               </a>
@@ -358,7 +354,7 @@ export const Footer = () => {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Follow Heaven Furniture Mart on Instagram"
-                className="border-charcoal-border bg-charcoal-surface/60 text-text-inverse-muted hover:border-brass hover:bg-brass hover:text-charcoal-deep flex h-8 w-8 items-center justify-center rounded-full border transition-all duration-200 hover:scale-105"
+                className={socialActionClass}
               >
                 <SocialIcon type="instagram" />
               </a>
@@ -367,18 +363,18 @@ export const Footer = () => {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Subscribe to Heaven Furniture Mart on YouTube"
-                className="border-charcoal-border bg-charcoal-surface/60 text-text-inverse-muted hover:border-brass hover:bg-brass hover:text-charcoal-deep flex h-8 w-8 items-center justify-center rounded-full border transition-all duration-200 hover:scale-105"
+                className={socialActionClass}
               >
                 <SocialIcon type="youtube" />
               </a>
             </div>
 
             {/* Right: Smooth Back to Top Action */}
-            <div>
+            <div className="order-3 flex justify-center sm:justify-end">
               <button
                 type="button"
                 onClick={(e) => handleSmoothScroll(e, '#')}
-                className="group border-charcoal-border bg-charcoal-surface/60 text-text-inverse-muted hover:border-brass hover:text-brass focus-visible:ring-brass inline-flex items-center gap-2 rounded-full border px-3.5 py-1.5 text-xs font-medium transition-all duration-300 focus-visible:ring-2 focus-visible:outline-none"
+                className="group border-charcoal-border bg-charcoal-surface/60 text-text-inverse-muted hover:border-brass hover:text-brass focus-visible:ring-brass focus-visible:ring-offset-charcoal-deep inline-flex items-center gap-2 rounded-full border px-4 py-2 text-xs font-medium transition-all duration-300 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
                 aria-label="Back to Top"
               >
                 <span>Back to Top</span>
