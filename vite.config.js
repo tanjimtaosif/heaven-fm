@@ -13,7 +13,16 @@ export default defineConfig({
   },
   server: {
     watch: {
-      ignored: ['**/*.crdownload', '**/*.tmp'],
+      ignored: [
+        '**/*.crdownload',
+        '**/*.tmp',
+        '**/*.png',
+        '**/*.jpg',
+        '**/*.jpeg',
+        '**/*.webp',
+        '**/*.mp4',
+        '**/*.svg',
+      ],
     },
   },
 })
