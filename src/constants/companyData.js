@@ -31,8 +31,10 @@ export const COMPANY_INFO = {
     headline: 'Furniture, Crafted Around You',
     subheadline:
       "Step into Chattogram's premier bespoke interior studio. We curate, tailor, and handcraft timeless luxury pieces built specifically for your architecture and lifestyle.",
-    primaryCta: 'Request a Consultation',
+    primaryCta: 'Get Quote',
     secondaryCta: 'Explore Collections',
+    // Tightened label for phones, where the two CTAs share one row
+    secondaryCtaShort: 'Collections',
   },
 
   brandIntro: {
@@ -102,46 +104,52 @@ export const COMPANY_INFO = {
   categories: [
     {
       id: 'living-room',
+      media: 'sofa-cat',
       title: 'Living Room',
       subtitle: 'Sculptural Comfort & Social Elegance',
-      items: ['Sofas', 'Coffee Tables', 'TV Units', 'Console Tables'],
+      items: ['Sofas', 'Coffee Tables', 'TV Units', 'Consoles'],
+      ctaLabel: 'Explore Living Room',
       imageTag: 'Living room bespoke luxury seating',
     },
     {
       id: 'bedroom',
+      media: 'bed-cat',
       title: 'Bedroom',
       subtitle: 'Sanctuaries of Quiet Refinement',
-      items: [
-        'Master Beds',
-        'Walk-in Wardrobes',
-        'Dressing Tables',
-        'Bedside Tables',
-      ],
+      items: ['Beds', 'Wardrobes', 'Dressing Tables', 'Bedside Tables'],
+      ctaLabel: 'Explore Bedroom',
       imageTag: 'Luxury bespoke bedroom suite',
     },
     {
       id: 'dining',
+      media: 'dining-cat',
       title: 'Dining',
       subtitle: 'Feast in Architectural Splendor',
-      items: ['Dining Tables', 'Dining Chairs', 'Credenzas & Cabinets'],
+      items: ['Dining Tables', 'Dining Chairs', 'Cabinets'],
+      ctaLabel: 'Explore Dining',
       imageTag: 'Bespoke dining table solid timber',
     },
     {
       id: 'office-study',
+      media: 'office-cat',
       title: 'Office & Study',
       subtitle: 'Executive Stature & Ergonomics',
-      items: ['Executive Desks', 'Bookcases', 'Custom Workstations'],
+      items: ['Executive Tables', 'Bookshelves', 'Workstations'],
+      ctaLabel: 'Explore Office & Study',
       imageTag: 'Executive bespoke study furniture',
     },
     {
       id: 'bespoke-commissions',
-      title: 'Bespoke Commissions',
+      media: 'video',
+      title: 'Bespoke / Custom',
       subtitle: 'Limitless Imagination, One-of-a-Kind Pieces',
+      note: 'Anything built to a customer’s own space, size, and taste.',
       items: [
-        'Custom Architectural Millwork',
-        'Wall Paneling',
-        'Tailored Statement Pieces',
+        'Custom Spatial Sizing',
+        'Handpicked Timber & Velvet',
+        'Architectural Joinery',
       ],
+      ctaLabel: 'Commission a Custom Piece',
       imageTag: 'Custom bespoke furniture artisan detailing',
       highlight: true,
     },
@@ -177,6 +185,55 @@ export const COMPANY_INFO = {
       title: 'Nationwide BFIOA Recognition',
       description:
         'Honored with nationwide industry recognition by the Bangladesh Furniture Industry Owners Association (BFIOA).',
+    },
+  ],
+
+  /**
+   * Why Choose Us — four reasons presented as a scroll-stacked deck.
+   * `image` keys map to the files in src/assets/whychooseus.
+   */
+  whyChooseUs: [
+    {
+      id: 'designed-around-you',
+      image: 'why-1',
+      imageAlt:
+        'A Heaven design consultant walking a client through material samples in the Agrabad showroom.',
+      eyebrow: 'For Your Space',
+      title: 'Designed Around You',
+      points: [
+        'Free design consultation',
+        'Fully bespoke, built to your space',
+      ],
+    },
+    {
+      id: 'premium-craftsmanship',
+      image: 'why-2',
+      imageAlt:
+        'Close detail of premium timber and upholstery on a finished Heaven piece.',
+      eyebrow: 'For Lasting Quality',
+      title: 'Premium Craftsmanship',
+      points: ['Premium wood & materials', 'Skilled in-house craftsmanship'],
+    },
+    {
+      id: 'hassle-free-service',
+      image: 'why-3',
+      imageAlt:
+        'A Heaven team delivering and installing a finished commission in a client home.',
+      eyebrow: 'For Complete Ease',
+      title: 'Hassle-Free Service',
+      points: ['Delivery & installation included', 'Easy payment options'],
+    },
+    {
+      id: 'trusted-established',
+      image: 'why-4',
+      imageAlt:
+        'The Heaven Furniture Mart showroom floor on Agrabad Access Road, Chattogram.',
+      eyebrow: 'For Peace of Mind',
+      title: 'Trusted & Established',
+      points: [
+        'Large showroom in Agrabad, Chattogram',
+        'Trusted by hundreds of happy homeowners',
+      ],
     },
   ],
 
