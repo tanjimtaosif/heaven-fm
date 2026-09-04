@@ -2,7 +2,13 @@ import { useState, useEffect } from 'react'
 import { Badge, Button } from '@/components/ui'
 import { COMPANY_INFO } from '@/constants/companyData'
 import { FAQS, fetchFaqs } from '@/constants/faq'
-import { MessageSquare, Phone, ChevronDown, Sparkles, HelpCircle } from 'lucide-react'
+import {
+  MessageSquare,
+  Phone,
+  ChevronDown,
+  Sparkles,
+  HelpCircle,
+} from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 export const FaqSection = () => {
@@ -29,7 +35,7 @@ export const FaqSection = () => {
   return (
     <section
       id="faq"
-      className="bg-charcoal-deep text-canvas relative border-t border-charcoal-border/60 py-20 sm:py-24 lg:py-28"
+      className="bg-charcoal-deep text-canvas border-charcoal-border/60 relative border-t py-20 sm:py-24 lg:py-28"
       aria-labelledby="faq-heading"
     >
       {/* Ambient Atelier Lighting & Background Accents */}
@@ -38,7 +44,6 @@ export const FaqSection = () => {
         aria-hidden="true"
       >
         <div className="bg-brass/5 absolute -top-40 right-1/4 h-96 w-96 rounded-full blur-3xl" />
-        <div className="bg-charcoal-surface/40 absolute -bottom-40 left-1/10 h-80 w-80 rounded-full blur-2xl" />
         <div className="bg-atelier-rules absolute inset-0 [mask-image:linear-gradient(180deg,transparent_0%,#000_20%,#000_80%,transparent_100%)] opacity-20" />
       </div>
 
@@ -68,28 +73,26 @@ export const FaqSection = () => {
               <p className="text-text-inverse-muted max-w-lg text-base leading-relaxed sm:text-lg">
                 Every commission we sculpt is tailored to your spatial layout,
                 lifestyle, and individual taste in Chattogram. Here is clear,
-                uncompromising guidance on our bespoke process, Agrabad showroom,
-                materials, and white-glove delivery.
+                uncompromising guidance on our bespoke process, Agrabad
+                showroom, materials, and white-glove delivery.
               </p>
 
               {/* Quick Stat / Reading Indicator */}
-              <div className="flex items-center gap-3 pt-1 text-xs text-text-inverse-muted">
-                <span className="flex h-2 w-2 rounded-full bg-brass animate-pulse" />
-                <span>
-                  {faqsList.length} Curated Questions Available
-                </span>
+              <div className="text-text-inverse-muted flex items-center gap-3 pt-1 text-xs">
+                <span className="bg-brass flex h-2 w-2 animate-pulse rounded-full" />
+                <span>{faqsList.length} Curated Questions Available</span>
               </div>
 
               {/* Desktop Concierge Callout Box */}
-              <div className="hidden space-y-4 rounded-2xl border border-charcoal-border/80 bg-charcoal-surface/70 p-6 backdrop-blur-md lg:block">
-                <div className="flex items-center gap-2 text-brass">
+              <div className="border-charcoal-border/80 bg-charcoal-surface/70 hidden space-y-4 rounded-2xl border p-6 backdrop-blur-md lg:block">
+                <div className="text-brass flex items-center gap-2">
                   <Sparkles className="h-4 w-4" />
                   <span className="text-xs font-semibold tracking-wider uppercase">
                     Direct Atelier Support
                   </span>
                 </div>
                 <div className="space-y-1">
-                  <h3 className="font-serif text-lg font-semibold text-canvas">
+                  <h3 className="text-canvas font-serif text-lg font-semibold">
                     Have a specific architectural drawing or custom inquiry?
                   </h3>
                   <p className="text-text-inverse-muted text-xs leading-relaxed">
@@ -159,10 +162,10 @@ export const FaqSection = () => {
                     >
                       <div className="space-y-1.5 pr-2">
                         <div className="flex items-center gap-2">
-                          <span className="font-mono text-xs font-medium text-brass/70">
+                          <span className="text-brass/70 font-mono text-xs font-medium">
                             {String(index + 1).padStart(2, '0')}
                           </span>
-                          <span className="text-[11px] font-semibold tracking-widest text-brass uppercase">
+                          <span className="text-brass text-[11px] font-semibold tracking-widest uppercase">
                             {faq.categoryLabel}
                           </span>
                         </div>
@@ -204,7 +207,7 @@ export const FaqSection = () => {
                     )}
                   >
                     <div className="overflow-hidden">
-                      <div className="border-t border-charcoal-border/40 px-5 pt-4 pb-6 sm:px-6">
+                      <div className="border-charcoal-border/40 border-t px-5 pt-4 pb-6 sm:px-6">
                         <div className="text-canvas/80 space-y-2 text-sm leading-relaxed sm:text-base sm:leading-relaxed">
                           {faq.answer.split('\n').map((line, idx) => {
                             if (line.startsWith('•')) {
@@ -213,7 +216,7 @@ export const FaqSection = () => {
                                   key={idx}
                                   className="flex items-start gap-2.5 pt-1 pl-1"
                                 >
-                                  <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-brass" />
+                                  <span className="bg-brass mt-2 h-1.5 w-1.5 shrink-0 rounded-full" />
                                   <span>{line.replace('•', '').trim()}</span>
                                 </div>
                               )
@@ -231,20 +234,20 @@ export const FaqSection = () => {
         </div>
 
         {/* Mobile Concierge Card: Positioned beneath FAQs on mobile for fluid conversion */}
-        <div className="mt-8 space-y-4 rounded-2xl border border-charcoal-border/80 bg-charcoal-surface/70 p-5 backdrop-blur-md sm:p-6 lg:hidden">
-          <div className="flex items-center gap-2 text-brass">
+        <div className="border-charcoal-border/80 bg-charcoal-surface/70 mt-8 space-y-4 rounded-2xl border p-5 backdrop-blur-md sm:p-6 lg:hidden">
+          <div className="text-brass flex items-center gap-2">
             <Sparkles className="h-4 w-4" />
             <span className="text-xs font-semibold tracking-wider uppercase">
               Atelier Concierge
             </span>
           </div>
           <div className="space-y-1">
-            <h3 className="font-serif text-lg font-semibold text-canvas">
+            <h3 className="text-canvas font-serif text-lg font-semibold">
               Still have questions about your spatial layout?
             </h3>
             <p className="text-text-inverse-muted text-xs leading-relaxed">
-              Chat directly with our design consultants or visit our
-              flagship studio on Agrabad Access Road.
+              Chat directly with our design consultants or visit our flagship
+              studio on Agrabad Access Road.
             </p>
           </div>
 
