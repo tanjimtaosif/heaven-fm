@@ -136,11 +136,11 @@ export const Footer = () => {
       {/* Architectural Ambient Lighting & Gold Gradient Accent */}
       <div
         aria-hidden="true"
-        className="via-brass/45 pointer-events-none absolute top-0 left-1/2 h-[1px] w-3/4 max-w-4xl -translate-x-1/2 bg-gradient-to-r from-transparent to-transparent"
+        className="via-brass/45 pointer-events-none absolute top-0 left-1/2 h-px w-3/4 max-w-4xl -translate-x-1/2 bg-linear-to-r from-transparent to-transparent"
       />
       <div
         aria-hidden="true"
-        className="from-brass/10 via-brass/[0.02] pointer-events-none absolute -top-24 left-1/2 h-72 w-[680px] max-w-[140vw] -translate-x-1/2 rounded-full bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] to-transparent blur-2xl"
+        className="from-brass/10 via-brass/2 pointer-events-none absolute -top-24 left-1/2 h-72 w-170 max-w-[140vw] -translate-x-1/2 rounded-full bg-[radial-gradient(ellipse_at_top,var(--tw-gradient-stops))] to-transparent blur-2xl"
       />
 
       <div className="relative mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
