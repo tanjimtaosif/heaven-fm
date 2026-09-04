@@ -10,6 +10,7 @@ import {
   ManifestoSection,
   CollectionsSection,
   WhyChooseUsSection,
+  TestimonialsSection,
   FaqSection,
   ContactSection,
 } from '@/components/sections'
@@ -37,6 +38,7 @@ export default function App() {
             <ManifestoSection />
             <CollectionsSection />
             <WhyChooseUsSection />
+            <TestimonialsSection />
             <FaqSection />
             <ContactSection />
           </main>
