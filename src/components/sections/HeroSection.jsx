@@ -1,5 +1,5 @@
 import { Fragment } from 'react'
-import heroBg from '@/assets/hero-bg.png'
+import heroBg from '@/assets/hero-bg.webp'
 import { COMPANY_INFO } from '@/constants/companyData'
 import { Button, Badge } from '@/components/ui'
 import { Sparkles, ArrowRight, MessageSquare } from 'lucide-react'

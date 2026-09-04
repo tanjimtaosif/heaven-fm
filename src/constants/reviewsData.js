@@ -6,17 +6,17 @@
  * Each quote is concisely crafted (20–26 words) for optimal card legibility.
  */
 
-import royalBlueSofaSet from '@/assets/reviews/royal-blue-sofa-set.jpg'
-import luxuryPosterBed from '@/assets/reviews/luxury-poster-bed.jpg'
-import teakDiningSet from '@/assets/reviews/teak-dining-set.jpg'
-import modernDressingTable from '@/assets/reviews/modern-dressing-table.jpg'
-import quiltedArmchair from '@/assets/reviews/quilted-armchair.jpg'
-import royalTuftedBed from '@/assets/reviews/royal-tufted-bed.jpg'
-import carvedDiningSet from '@/assets/reviews/carved-dining-set.jpg'
-import royalDiwanSofa from '@/assets/reviews/royal-diwan-sofa.jpg'
-import marbleDiningTable from '@/assets/reviews/marble-dining-table.jpg'
-import rockingChair from '@/assets/reviews/rocking-chair.jpg'
-import royalDiningSet from '@/assets/reviews/royal-dining-set.jpg'
+import royalBlueSofaSet from '@/assets/reviews/royal-blue-sofa-set.webp'
+import luxuryPosterBed from '@/assets/reviews/luxury-poster-bed.webp'
+import teakDiningSet from '@/assets/reviews/teak-dining-set.webp'
+import modernDressingTable from '@/assets/reviews/modern-dressing-table.webp'
+import quiltedArmchair from '@/assets/reviews/quilted-armchair.webp'
+import royalTuftedBed from '@/assets/reviews/royal-tufted-bed.webp'
+import carvedDiningSet from '@/assets/reviews/carved-dining-set.webp'
+import royalDiwanSofa from '@/assets/reviews/royal-diwan-sofa.webp'
+import marbleDiningTable from '@/assets/reviews/marble-dining-table.webp'
+import rockingChair from '@/assets/reviews/rocking-chair.webp'
+import royalDiningSet from '@/assets/reviews/royal-dining-set.webp'
 
 export const TESTIMONIALS = [
   {

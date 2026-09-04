@@ -13,7 +13,7 @@
 
 // Eagerly resolve all product photography assets via Vite
 const productImages = import.meta.glob(
-  '../assets/products/**/*.{png,jpg,jpeg}',
+  '../assets/products/**/*.{png,jpg,jpeg,webp}',
   {
     eager: true,
     import: 'default',
@@ -37,11 +37,11 @@ export const PRODUCTS = [
     price: 135000,
     priceFormatted: '৳135,000',
     pricePrefix: 'from',
-    image: getImg('beds/black-shot-1.png'),
+    image: getImg('beds/black-shot-1.webp'),
     images: [
-      getImg('beds/black-shot-1.png'),
-      getImg('beds/black-shot-2.png'),
-      getImg('beds/black-shot-3.png'),
+      getImg('beds/black-shot-1.webp'),
+      getImg('beds/black-shot-2.webp'),
+      getImg('beds/black-shot-3.webp'),
     ],
     colors: [
       { name: 'Obsidian Noir', hex: '#232323' },
@@ -69,8 +69,8 @@ export const PRODUCTS = [
     price: 142000,
     priceFormatted: '৳142,000',
     pricePrefix: 'from',
-    image: getImg('beds/green-shot-1.png'),
-    images: [getImg('beds/green-shot-1.png'), getImg('beds/green-shot-2.png')],
+    image: getImg('beds/green-shot-1.webp'),
+    images: [getImg('beds/green-shot-1.webp'), getImg('beds/green-shot-2.webp')],
     colors: [
       { name: 'Deep Emerald', hex: '#264639' },
       { name: 'Moss Velvet', hex: '#4B6354' },
@@ -97,11 +97,11 @@ export const PRODUCTS = [
     price: 128000,
     priceFormatted: '৳128,000',
     pricePrefix: 'from',
-    image: getImg('beds/sky-shot-1.png'),
+    image: getImg('beds/sky-shot-1.webp'),
     images: [
-      getImg('beds/sky-shot-1.png'),
-      getImg('beds/sky-shot-2.png'),
-      getImg('beds/sky-shot-3.png'),
+      getImg('beds/sky-shot-1.webp'),
+      getImg('beds/sky-shot-2.webp'),
+      getImg('beds/sky-shot-3.webp'),
     ],
     colors: [
       { name: 'Sky Ash', hex: '#879CA8' },
@@ -129,12 +129,12 @@ export const PRODUCTS = [
     price: 148000,
     priceFormatted: '৳148,000',
     pricePrefix: 'from',
-    image: getImg('beds/wooden-shot-1.png'),
+    image: getImg('beds/wooden-shot-1.webp'),
     images: [
-      getImg('beds/wooden-shot-1.png'),
-      getImg('beds/wooden-shot-2.png'),
-      getImg('beds/wooden-shot-3.png'),
-      getImg('beds/wooden-shot-4.png'),
+      getImg('beds/wooden-shot-1.webp'),
+      getImg('beds/wooden-shot-2.webp'),
+      getImg('beds/wooden-shot-3.webp'),
+      getImg('beds/wooden-shot-4.webp'),
     ],
     colors: [
       { name: 'Natural Teak', hex: '#B8860B' },
@@ -166,11 +166,11 @@ export const PRODUCTS = [
     price: 26000,
     priceFormatted: '৳26,000',
     pricePrefix: 'from',
-    image: getImg('bedside-tables/brown-shot-1.png'),
+    image: getImg('bedside-tables/brown-shot-1.webp'),
     images: [
-      getImg('bedside-tables/brown-shot-1.png'),
-      getImg('bedside-tables/brown-shot-2.png'),
-      getImg('bedside-tables/brown-shot-3.png'),
+      getImg('bedside-tables/brown-shot-1.webp'),
+      getImg('bedside-tables/brown-shot-2.webp'),
+      getImg('bedside-tables/brown-shot-3.webp'),
     ],
     colors: [
       { name: 'Warm Walnut', hex: '#5D4037' },
@@ -198,11 +198,11 @@ export const PRODUCTS = [
     price: 28000,
     priceFormatted: '৳28,000',
     pricePrefix: 'from',
-    image: getImg('bedside-tables/choco-shot-1.png'),
+    image: getImg('bedside-tables/choco-shot-1.webp'),
     images: [
-      getImg('bedside-tables/choco-shot-1.png'),
-      getImg('bedside-tables/choco-shot-2.png'),
-      getImg('bedside-tables/choco-shot-3.png'),
+      getImg('bedside-tables/choco-shot-1.webp'),
+      getImg('bedside-tables/choco-shot-2.webp'),
+      getImg('bedside-tables/choco-shot-3.webp'),
     ],
     colors: [
       { name: 'Smoked Truffle', hex: '#3E2723' },
@@ -230,11 +230,11 @@ export const PRODUCTS = [
     price: 24000,
     priceFormatted: '৳24,000',
     pricePrefix: 'from',
-    image: getImg('bedside-tables/white-shot-1.png'),
+    image: getImg('bedside-tables/white-shot-1.webp'),
     images: [
-      getImg('bedside-tables/white-shot-1.png'),
-      getImg('bedside-tables/white-shot-2.png'),
-      getImg('bedside-tables/white-shot-3.png'),
+      getImg('bedside-tables/white-shot-1.webp'),
+      getImg('bedside-tables/white-shot-2.webp'),
+      getImg('bedside-tables/white-shot-3.webp'),
     ],
     colors: [
       { name: 'Warm Ivory', hex: '#FAF9F6' },
@@ -266,11 +266,11 @@ export const PRODUCTS = [
     price: 68000,
     priceFormatted: '৳68,000',
     pricePrefix: 'from',
-    image: getImg('dressing-table/navy-shot-1.png'),
+    image: getImg('dressing-table/navy-shot-1.webp'),
     images: [
-      getImg('dressing-table/navy-shot-1.png'),
-      getImg('dressing-table/navy-shot-2.png'),
-      getImg('dressing-table/navy-shot-3.png'),
+      getImg('dressing-table/navy-shot-1.webp'),
+      getImg('dressing-table/navy-shot-2.webp'),
+      getImg('dressing-table/navy-shot-3.webp'),
     ],
     colors: [
       { name: 'Midnight Navy', hex: '#1C2833' },
@@ -298,11 +298,11 @@ export const PRODUCTS = [
     price: 62000,
     priceFormatted: '৳62,000',
     pricePrefix: 'from',
-    image: getImg('dressing-table/peanut-shot-1.png'),
+    image: getImg('dressing-table/peanut-shot-1.webp'),
     images: [
-      getImg('dressing-table/peanut-shot-1.png'),
-      getImg('dressing-table/peanut-shot-2.png'),
-      getImg('dressing-table/peanut-shot-3.png'),
+      getImg('dressing-table/peanut-shot-1.webp'),
+      getImg('dressing-table/peanut-shot-2.webp'),
+      getImg('dressing-table/peanut-shot-3.webp'),
     ],
     colors: [{ name: 'Caramel Teak', hex: '#C68B59' }],
     shortDescription:
@@ -327,11 +327,11 @@ export const PRODUCTS = [
     price: 65000,
     priceFormatted: '৳65,000',
     pricePrefix: 'from',
-    image: getImg('dressing-table/white-shot-1.png'),
+    image: getImg('dressing-table/white-shot-1.webp'),
     images: [
-      getImg('dressing-table/white-shot-1.png'),
-      getImg('dressing-table/white-shot-2.png'),
-      getImg('dressing-table/white-shot-3.png'),
+      getImg('dressing-table/white-shot-1.webp'),
+      getImg('dressing-table/white-shot-2.webp'),
+      getImg('dressing-table/white-shot-3.webp'),
     ],
     colors: [
       { name: 'Alabaster White', hex: '#FAF9F6' },
@@ -363,11 +363,11 @@ export const PRODUCTS = [
     price: 165000,
     priceFormatted: '৳165,000',
     pricePrefix: 'from',
-    image: getImg('wardrobes/choco-shot-1.png'),
+    image: getImg('wardrobes/choco-shot-1.webp'),
     images: [
-      getImg('wardrobes/choco-shot-1.png'),
-      getImg('wardrobes/choco-shot-2.png'),
-      getImg('wardrobes/choco-shot-3.png'),
+      getImg('wardrobes/choco-shot-1.webp'),
+      getImg('wardrobes/choco-shot-2.webp'),
+      getImg('wardrobes/choco-shot-3.webp'),
     ],
     colors: [
       { name: 'Deep Truffle', hex: '#3E2723' },
@@ -395,11 +395,11 @@ export const PRODUCTS = [
     price: 178000,
     priceFormatted: '৳178,000',
     pricePrefix: 'from',
-    image: getImg('wardrobes/coffee-shot-1.png'),
+    image: getImg('wardrobes/coffee-shot-1.webp'),
     images: [
-      getImg('wardrobes/coffee-shot-1.png'),
-      getImg('wardrobes/coffee-shot-2.png'),
-      getImg('wardrobes/coffee-shot-3.png'),
+      getImg('wardrobes/coffee-shot-1.webp'),
+      getImg('wardrobes/coffee-shot-2.webp'),
+      getImg('wardrobes/coffee-shot-3.webp'),
     ],
     colors: [
       { name: 'Smoked Espresso', hex: '#4E342E' },
@@ -427,11 +427,11 @@ export const PRODUCTS = [
     price: 155000,
     priceFormatted: '৳155,000',
     pricePrefix: 'from',
-    image: getImg('wardrobes/wood-shot-1.png'),
+    image: getImg('wardrobes/wood-shot-1.webp'),
     images: [
-      getImg('wardrobes/wood-shot-1.png'),
-      getImg('wardrobes/wood-shot-2.png'),
-      getImg('wardrobes/wood-shot-3.png'),
+      getImg('wardrobes/wood-shot-1.webp'),
+      getImg('wardrobes/wood-shot-2.webp'),
+      getImg('wardrobes/wood-shot-3.webp'),
     ],
     colors: [
       { name: 'Golden Teak', hex: '#C2A378' },

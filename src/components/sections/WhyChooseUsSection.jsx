@@ -3,10 +3,10 @@ import { useLenis } from '@/components/providers'
 import { COMPANY_INFO } from '@/constants/companyData'
 import { Badge, Button } from '@/components/ui'
 
-import why1 from '@/assets/whychooseus/why-1.png'
-import why2 from '@/assets/whychooseus/why-2.png'
-import why3 from '@/assets/whychooseus/why-3.png'
-import why4 from '@/assets/whychooseus/why-4.png'
+import why1 from '@/assets/whychooseus/why-1.webp'
+import why2 from '@/assets/whychooseus/why-2.webp'
+import why3 from '@/assets/whychooseus/why-3.webp'
+import why4 from '@/assets/whychooseus/why-4.webp'
 
 const IMAGES = {
   'why-1': why1,
@@ -104,19 +104,19 @@ export const WhyChooseUsSection = () => {
         <div className="absolute inset-0 bg-[linear-gradient(180deg,#faf8f5_0%,#f4ede4_40%,#ebe3d7_100%)]" />
 
         {/* Architectural column rules, carried over from the hero backdrop */}
-        <div className="bg-atelier-rules absolute inset-0 [mask-image:linear-gradient(180deg,transparent_0%,#000_11%,#000_84%,transparent_100%)] opacity-50" />
+        <div className="bg-atelier-rules absolute inset-0 mask-[linear-gradient(180deg,transparent_0%,#000_11%,#000_84%,transparent_100%)] opacity-50" />
 
         {/* Satin brass pool behind the top of the deck */}
-        <div className="animate-aurora absolute top-[8%] right-[-6%] h-[38rem] w-[38rem] rounded-full bg-[radial-gradient(circle,rgba(196,159,102,0.17)_0%,rgba(196,159,102,0.06)_45%,transparent_70%)]" />
+        <div className="animate-aurora absolute top-[8%] right-[-6%] h-152 w-152 rounded-full bg-[radial-gradient(circle,rgba(196,159,102,0.17)_0%,rgba(196,159,102,0.06)_45%,transparent_70%)]" />
 
         {/* Charcoal counterweight low on the left */}
-        <div className="absolute bottom-[4%] left-[-8%] h-[34rem] w-[34rem] rounded-full bg-[radial-gradient(circle,rgba(23,44,48,0.07)_0%,rgba(23,44,48,0.02)_45%,transparent_70%)]" />
+        <div className="absolute bottom-[4%] left-[-8%] h-136 w-136 rounded-full bg-[radial-gradient(circle,rgba(23,44,48,0.07)_0%,rgba(23,44,48,0.02)_45%,transparent_70%)]" />
 
         {/* Edges falling away, and grain so the cream reads as paper. Both are
             faded at the section boundaries — the base gradient opens on the
             exact canvas value and joins invisibly, but these would not. */}
-        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(31,26,23,0.05)_0%,transparent_13%,transparent_87%,rgba(31,26,23,0.05)_100%)] [mask-image:linear-gradient(180deg,transparent_0%,#000_5%,#000_94%,transparent_100%)]" />
-        <div className="bg-grain absolute inset-0 [mask-image:linear-gradient(180deg,transparent_0%,#000_5%,#000_94%,transparent_100%)] opacity-[0.05] mix-blend-multiply" />
+        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(31,26,23,0.05)_0%,transparent_13%,transparent_87%,rgba(31,26,23,0.05)_100%)] mask-[linear-gradient(180deg,transparent_0%,#000_5%,#000_94%,transparent_100%)]" />
+        <div className="bg-grain absolute inset-0 mask-[linear-gradient(180deg,transparent_0%,#000_5%,#000_94%,transparent_100%)] opacity-[0.05] mix-blend-multiply" />
       </div>
 
       {/* Section header — `relative` so it paints above the backdrop, which is
@@ -188,7 +188,7 @@ export const WhyChooseUsSection = () => {
                 }}
                 className="border-border-warm bg-surface bg-paper-grain hover:border-brass/45 relative origin-top overflow-hidden rounded-3xl border p-6 shadow-[0_22px_50px_-26px_rgba(15,30,33,0.22),0_2px_10px_-6px_rgba(15,30,33,0.06)] transition-colors duration-300 will-change-transform sm:p-8 lg:p-10"
               >
-                <div className="grid gap-6 sm:min-h-80 sm:grid-cols-[1.15fr_1fr] sm:gap-10 lg:min-h-[25rem] lg:gap-14">
+                <div className="grid gap-6 sm:min-h-80 sm:grid-cols-[1.15fr_1fr] sm:gap-10 lg:min-h-100 lg:gap-14">
                   {/* Copy */}
                   <div className="flex flex-col justify-center">
                     <div className="flex items-center gap-3">
@@ -237,7 +237,7 @@ export const WhyChooseUsSection = () => {
                   </div>
 
                   {/* Supporting photograph, inset within the card */}
-                  <div className="relative aspect-[16/10] overflow-hidden rounded-2xl sm:aspect-auto">
+                  <div className="relative aspect-16/10 overflow-hidden rounded-2xl sm:aspect-auto">
                     <img
                       src={IMAGES[item.image]}
                       alt={item.imageAlt}
@@ -251,7 +251,7 @@ export const WhyChooseUsSection = () => {
                 {/* Depth wash — driven by --recede as the next card covers
                     this one. */}
                 <div
-                  className="bg-text-primary pointer-events-none absolute inset-0 opacity-[var(--recede,0)]"
+                  className="bg-text-primary pointer-events-none absolute inset-0 opacity-(--recede,0)"
                   aria-hidden="true"
                 />
               </article>
