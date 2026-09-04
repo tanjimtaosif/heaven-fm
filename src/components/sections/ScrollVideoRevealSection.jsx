@@ -81,7 +81,7 @@ export const ScrollVideoRevealSection = () => {
           aria-hidden="true"
           className="pointer-events-none absolute inset-0 flex items-center justify-center"
         >
-          <div className="from-brass/25 via-brass/[0.04] h-[70vh] w-[85vw] max-w-6xl rounded-full bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] to-transparent blur-3xl" />
+          <div className="from-brass/25 via-brass/4 h-[70vh] w-[85vw] max-w-6xl rounded-full bg-[radial-gradient(ellipse_at_center,var(--tw-gradient-stops))] to-transparent blur-3xl" />
         </div>
 
         {/* Subtle Vertical Flank Guides (Editorial touches on wide viewports) */}
@@ -93,7 +93,7 @@ export const ScrollVideoRevealSection = () => {
             <span className="text-text-muted/60 text-[10px] tracking-[0.4em] uppercase [writing-mode:vertical-rl]">
               Atelier Showcase · Motion
             </span>
-            <span className="from-brass/30 h-16 w-px bg-gradient-to-b to-transparent" />
+            <span className="from-brass/30 h-16 w-px bg-linear-to-b to-transparent" />
           </div>
         </div>
 
@@ -105,7 +105,7 @@ export const ScrollVideoRevealSection = () => {
             <span className="text-text-muted/60 text-[10px] tracking-[0.4em] uppercase [writing-mode:vertical-rl]">
               Agrabad Access Road · Chattogram
             </span>
-            <span className="from-brass/30 h-16 w-px bg-gradient-to-b to-transparent" />
+            <span className="from-brass/30 h-16 w-px bg-linear-to-b to-transparent" />
           </div>
         </div>
 
@@ -123,13 +123,13 @@ export const ScrollVideoRevealSection = () => {
             {/* Top Vignette Overlay */}
             <div
               aria-hidden="true"
-              className="from-charcoal-deep/75 via-charcoal-deep/20 pointer-events-none absolute inset-x-0 top-0 z-10 h-28 bg-gradient-to-b to-transparent"
+              className="from-charcoal-deep/75 via-charcoal-deep/20 pointer-events-none absolute inset-x-0 top-0 z-10 h-28 bg-linear-to-b to-transparent"
             />
 
             {/* Bottom Vignette Overlay */}
             <div
               aria-hidden="true"
-              className="from-charcoal-deep/85 via-charcoal-deep/25 pointer-events-none absolute inset-x-0 bottom-0 z-10 h-36 bg-gradient-to-t to-transparent"
+              className="from-charcoal-deep/85 via-charcoal-deep/25 pointer-events-none absolute inset-x-0 bottom-0 z-10 h-36 bg-linear-to-t to-transparent"
             />
 
             {/* Architectural Viewfinder Corner Accents */}
