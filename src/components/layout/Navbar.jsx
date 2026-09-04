@@ -12,7 +12,6 @@ import {
   ArrowRight,
   ChevronDown,
   ChevronRight,
-  Home,
   Sparkles,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
@@ -20,7 +19,7 @@ import { cn } from '@/lib/utils'
 // Navigation Links in required sequence: Shop, About Us, Contact Us
 // `mega: true` marks the entry that reveals the collections mega menu.
 const NAV_LINKS = [
-  { label: 'Shop', href: '#collections', id: 'collections', mega: true },
+  { label: 'Shop', href: '#/shop', id: 'shop', mega: true },
   { label: 'About Us', href: '#why-us', id: 'why-us' },
   { label: 'Contact Us', href: '#contact', id: 'contact' },
 ]
@@ -31,14 +30,14 @@ const CATEGORIES = COMPANY_INFO.categories
 const ROOM_CATEGORIES = CATEGORIES.filter((c) => c.id !== 'bespoke-commissions')
 const BESPOKE_CATEGORY = CATEGORIES.find((c) => c.id === 'bespoke-commissions')
 
-// Every card in CollectionsSection carries this id, so a crumb or a mega menu
-// tile can land on the exact category instead of the section header.
-const categoryHref = (id) => `#category-${id}`
+// In shop mode, category links filter the catalog directly
+const categoryHref = (id) =>
+  id === 'bespoke-commissions' ? '#contact' : `#/shop?category=${id}`
 
 // Shared reveal curve — the same expo-out the rest of the site scrolls with.
 const EASE = 'ease-[cubic-bezier(0.16,1,0.3,1)]'
 
-export const Navbar = () => {
+export const Navbar = ({ isShopView = false, onNavigateHome }) => {
   const lenis = useLenis()
   const { isCartOpen, toggleCart, openCart, closeCart, totalCount } = useCart()
   const [isMobileOpen, setIsMobileOpen] = useState(false)
@@ -206,11 +205,33 @@ export const Navbar = () => {
     const easeOutExpo = (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t))
 
     if (href === '#' || href === '') {
+      if (isShopView && onNavigateHome) {
+        onNavigateHome()
+        return
+      }
       if (lenis) {
         lenis.scrollTo(0, { duration: 1.5, easing: easeOutExpo })
       } else {
         window.scrollTo({ top: 0, behavior: 'smooth' })
       }
+      return
+    }
+
+    if (href.startsWith('#/shop') || href === '#shop') {
+      window.location.hash = href
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+      return
+    }
+
+    if (isShopView) {
+      window.location.hash = href
+      setTimeout(() => {
+        const targetId = href.replace('#', '')
+        const targetElement = document.getElementById(targetId)
+        if (targetElement) {
+          targetElement.scrollIntoView({ behavior: 'smooth' })
+        }
+      }, 100)
       return
     }
 
@@ -237,34 +258,6 @@ export const Navbar = () => {
     }
   }
 
-  /* ------------------------------------------------------------------ *
-   * Breadcrumb trail.
-   * While the mega menu is open the trail previews the branch being
-   * explored; otherwise it mirrors the section currently in view.
-   * ------------------------------------------------------------------ */
-  const activeLink = NAV_LINKS.find((link) => link.id === activeSection)
-  const hoveredCategory = CATEGORIES.find((c) => c.id === activeCategory)
-
-  const crumbs = isMegaOpen
-    ? [
-        { label: 'Home', href: '#' },
-        { label: 'Shop', href: '#collections' },
-        {
-          label: hoveredCategory ? hoveredCategory.title : 'All Collections',
-          href: hoveredCategory
-            ? categoryHref(hoveredCategory.id)
-            : '#collections',
-        },
-      ]
-    : [
-        { label: 'Home', href: '#' },
-        {
-          label: activeLink ? activeLink.label : 'The Atelier',
-          href: activeLink ? activeLink.href : '#collections',
-        },
-      ]
-
-  const showBreadcrumb = (isScrolled || isMegaOpen) && !isMobileOpen
 
   return (
     <>
@@ -625,80 +618,6 @@ export const Navbar = () => {
             </div>
           </div>
 
-          {/* ============================================================ *
-           * Breadcrumb rail
-           * Mirrors the section in view, and previews the branch being
-           * explored while the mega menu is open.
-           * ============================================================ */}
-          <div
-            className={cn(
-              'grid transition-all duration-500 motion-reduce:transition-none',
-              EASE,
-              showBreadcrumb
-                ? 'mt-2 grid-rows-[1fr] opacity-100'
-                : 'mt-0 grid-rows-[0fr] opacity-0'
-            )}
-            aria-hidden={!showBreadcrumb}
-          >
-            <div className="overflow-hidden">
-              <nav
-                aria-label="Breadcrumb"
-                inert={!showBreadcrumb}
-                className={cn(
-                  'bg-charcoal-deep/90 border-charcoal-border/70 mx-auto flex w-fit max-w-full scrollbar-none items-center overflow-x-auto rounded-full border px-3 py-1.5 backdrop-blur-xl transition-transform duration-500 motion-reduce:transition-none',
-                  EASE,
-                  showBreadcrumb
-                    ? 'pointer-events-auto translate-y-0'
-                    : 'pointer-events-none -translate-y-2'
-                )}
-              >
-                <ol className="flex items-center gap-1 whitespace-nowrap">
-                  {crumbs.map((crumb, index) => {
-                    const isLast = index === crumbs.length - 1
-                    return (
-                      <li
-                        key={`${crumb.label}-${index}`}
-                        className="flex items-center gap-1"
-                      >
-                        {index > 0 && (
-                          <ChevronRight
-                            className="text-charcoal-border h-3 w-3 shrink-0"
-                            aria-hidden="true"
-                          />
-                        )}
-                        <a
-                          href={crumb.href}
-                          onClick={(e) => handleNavClick(e, crumb.href)}
-                          aria-current={isLast ? 'page' : undefined}
-                          className={cn(
-                            'focus-visible:ring-brass focus-visible:ring-offset-charcoal-deep inline-flex items-center gap-1.5 rounded-full px-2 py-0.5 text-[11px] tracking-wide transition-colors duration-300 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none',
-                            isLast
-                              ? 'text-brass font-semibold'
-                              : 'text-text-inverse-muted hover:text-canvas'
-                          )}
-                        >
-                          {index === 0 && (
-                            <Home
-                              className="h-3 w-3 shrink-0"
-                              aria-hidden="true"
-                            />
-                          )}
-                          {/* Keyed so a changing crumb fades in rather than
-                              swapping its text in place */}
-                          <span
-                            key={crumb.label}
-                            className="animate-fade-in inline-block"
-                          >
-                            {crumb.label}
-                          </span>
-                        </a>
-                      </li>
-                    )
-                  })}
-                </ol>
-              </nav>
-            </div>
-          </div>
 
           {/* ============================================================ *
            * Floating Mobile Navigation Drawer (Dark Theme)
