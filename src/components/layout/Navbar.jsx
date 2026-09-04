@@ -567,7 +567,7 @@ export const Navbar = () => {
                         }
                         onMouseLeave={() => setActiveCategory(null)}
                         onFocus={() => setActiveCategory(BESPOKE_CATEGORY.id)}
-                        className="group border-brass/35 from-brass/15 to-charcoal-surface/60 hover:border-brass/60 focus-visible:ring-brass focus-visible:ring-offset-charcoal-deep flex h-full flex-col justify-between rounded-2xl border bg-gradient-to-b p-3.5 transition-colors duration-300 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
+                        className="group border-brass/35 from-brass/15 to-charcoal-surface/60 hover:border-brass/60 focus-visible:ring-brass focus-visible:ring-offset-charcoal-deep flex h-full flex-col justify-between rounded-2xl border bg-linear-to-b p-3.5 transition-colors duration-300 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
                       >
                         <div>
                           <span className="text-brass inline-flex items-center gap-1.5 text-[10px] font-semibold tracking-[0.2em] uppercase">
@@ -645,7 +645,7 @@ export const Navbar = () => {
                 aria-label="Breadcrumb"
                 inert={!showBreadcrumb}
                 className={cn(
-                  'bg-charcoal-deep/90 border-charcoal-border/70 mx-auto flex w-fit max-w-full [scrollbar-width:none] items-center overflow-x-auto rounded-full border px-3 py-1.5 backdrop-blur-xl transition-transform duration-500 motion-reduce:transition-none [&::-webkit-scrollbar]:hidden',
+                  'bg-charcoal-deep/90 border-charcoal-border/70 mx-auto flex w-fit max-w-full scrollbar-none items-center overflow-x-auto rounded-full border px-3 py-1.5 backdrop-blur-xl transition-transform duration-500 motion-reduce:transition-none',
                   EASE,
                   showBreadcrumb
                     ? 'pointer-events-auto translate-y-0'
