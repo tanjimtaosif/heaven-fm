@@ -290,6 +290,36 @@
   .animate-marquee:hover {
     animation-play-state: paused;
   }
+
+  /* Cart drawer — quiet slide in from the right edge */
+  .animate-drawer-in {
+    animation: drawer-in 0.42s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .animate-drawer-in {
+      animation: none !important;
+    }
+  }
+}
+
+@keyframes drawer-in {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+/* Testimonials autoplay progress bar sweep */
+@keyframes testimonial-progress {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
 }
 
 /* ==========================================================================
