@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
+import { useLenis } from '@/components/providers'
 import heavenLogo from '@/assets/logo/heaven_logo.svg'
 import { COMPANY_INFO } from '@/constants/companyData'
 import { Button } from '@/components/ui'
@@ -13,6 +14,7 @@ const NAV_LINKS = [
 ]
 
 export const Navbar = () => {
+  const lenis = useLenis()
   const [isMobileOpen, setIsMobileOpen] = useState(false)
   const [isCartOpen, setIsCartOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
@@ -81,28 +83,53 @@ export const Navbar = () => {
     }
   }, [])
 
+  // Lock background scroll when mobile menu or cart modal is open
+  useEffect(() => {
+    if (!lenis) return
+    if (isMobileOpen || isCartOpen) {
+      lenis.stop()
+    } else {
+      lenis.start()
+    }
+  }, [isMobileOpen, isCartOpen, lenis])
+
   // Smooth scroll handler with offset for floating navbar
   const handleNavClick = (e, href) => {
     e.preventDefault()
     setIsMobileOpen(false)
     setIsCartOpen(false)
 
-    if (href === '#') {
-      window.scrollTo({ top: 0, behavior: 'smooth' })
+    const easeOutExpo = (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t))
+
+    if (href === '#' || href === '') {
+      if (lenis) {
+        lenis.scrollTo(0, { duration: 1.5, easing: easeOutExpo })
+      } else {
+        window.scrollTo({ top: 0, behavior: 'smooth' })
+      }
       return
     }
 
     const targetId = href.replace('#', '')
     const targetElement = document.getElementById(targetId)
     if (targetElement) {
-      const headerOffset = 90
-      const elementPosition = targetElement.getBoundingClientRect().top
-      const offsetPosition = elementPosition + window.pageYOffset - headerOffset
+      if (lenis) {
+        lenis.scrollTo(targetElement, {
+          offset: -90,
+          duration: 1.5,
+          easing: easeOutExpo,
+        })
+      } else {
+        const headerOffset = 90
+        const elementPosition = targetElement.getBoundingClientRect().top
+        const offsetPosition =
+          elementPosition + window.pageYOffset - headerOffset
 
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: 'smooth',
-      })
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: 'smooth',
+        })
+      }
     }
   }
 
@@ -233,6 +260,7 @@ export const Navbar = () => {
             <div
               id="mobile-nav-panel"
               ref={mobileRef}
+              data-lenis-prevent
               className="bg-charcoal-deep/98 border-charcoal-border text-canvas shadow-editorial-lg animate-fade-down pointer-events-auto mt-2 space-y-4 rounded-3xl border p-5 backdrop-blur-2xl md:hidden"
             >
               <div className="space-y-1">
@@ -298,6 +326,7 @@ export const Navbar = () => {
           {/* Floating Cart Panel */}
           <div
             ref={cartRef}
+            data-lenis-prevent
             className="bg-charcoal-deep/98 border-charcoal-border text-canvas shadow-editorial-lg animate-scale-in fixed top-18 right-3 z-50 w-[calc(100%-1.5rem)] space-y-5 rounded-3xl border p-6 backdrop-blur-2xl sm:top-20 sm:right-6 sm:w-96 lg:right-10"
             role="dialog"
             aria-modal="true"
