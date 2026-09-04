@@ -44,7 +44,7 @@ export const FaqSection = () => {
         aria-hidden="true"
       >
         <div className="bg-brass/5 absolute -top-40 right-1/4 h-96 w-96 rounded-full blur-3xl" />
-        <div className="bg-atelier-rules absolute inset-0 [mask-image:linear-gradient(180deg,transparent_0%,#000_20%,#000_80%,transparent_100%)] opacity-20" />
+        <div className="bg-atelier-rules absolute inset-0 mask-[linear-gradient(180deg,transparent_0%,#000_20%,#000_80%,transparent_100%)] opacity-20" />
       </div>
 
       <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
