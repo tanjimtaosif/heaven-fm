@@ -121,11 +121,16 @@ const CategoryCard = ({ category }) => {
   const detail =
     category.note || (category.items ? category.items.join('  ·  ') : '')
 
+  const targetHref =
+    category.id === 'bespoke-commissions'
+      ? '#contact'
+      : `#/shop?category=${category.id}`
+
   return (
     <a
       ref={hostRef}
       id={`category-${category.id}`}
-      href="#contact"
+      href={targetHref}
       aria-label={`${category.title} — explore category and bespoke commissions`}
       className={cn(
         'group bg-charcoal-deep relative isolate flex flex-col justify-end overflow-hidden rounded-2xl',
