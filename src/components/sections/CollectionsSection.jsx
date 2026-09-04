@@ -129,7 +129,7 @@ const CategoryCard = ({ category }) => {
       aria-label={`${category.title} — explore category and bespoke commissions`}
       className={cn(
         'group bg-charcoal-deep relative isolate flex flex-col justify-end overflow-hidden rounded-2xl',
-        'h-[390px] transition-colors duration-300',
+        'h-97.5 transition-colors duration-300',
         'border-border-subtle hover:border-brass/40 shadow-editorial border',
         'focus-visible:ring-brass focus-visible:ring-offset-canvas focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none',
         PLACEMENT[category.id]
@@ -151,7 +151,7 @@ const CategoryCard = ({ category }) => {
           Leaves upper 50-60% completely clear and naturally lit, gently deepening
           only at the bottom to ensure flawless typography legibility */}
       <div
-        className="from-charcoal-deep/95 via-charcoal-deep/45 group-hover:from-charcoal-deep/98 pointer-events-none absolute inset-0 bg-gradient-to-t to-transparent transition-opacity duration-300"
+        className="from-charcoal-deep/95 via-charcoal-deep/45 group-hover:from-charcoal-deep/98 pointer-events-none absolute inset-0 bg-linear-to-t to-transparent transition-opacity duration-300"
         aria-hidden="true"
       />
 
