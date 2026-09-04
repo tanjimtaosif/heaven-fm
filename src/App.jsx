@@ -4,6 +4,7 @@ import { Navbar } from '@/components/layout/Navbar'
 import { AtelierBackdrop } from '@/components/layout/AtelierBackdrop'
 import { Footer } from '@/components/layout/Footer'
 import { CartSidebar, FloatingCartTrigger } from '@/components/cart'
+import { useIsDesktop } from '@/hooks'
 import {
   HeroSection,
   ScrollVideoRevealSection,
@@ -16,6 +17,10 @@ import {
 } from '@/components/sections'
 
 export default function App() {
+  // The pinned, scroll-driven film only earns its 180vh on large screens.
+  // Below lg the same film plays inline inside the hero instead.
+  const isDesktop = useIsDesktop()
+
   return (
     <SmoothScrollProvider>
       <CartProvider>
@@ -32,7 +37,7 @@ export default function App() {
             <div className="relative">
               <AtelierBackdrop />
               <HeroSection />
-              <ScrollVideoRevealSection />
+              {isDesktop && <ScrollVideoRevealSection />}
             </div>
 
             <ManifestoSection />
