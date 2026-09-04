@@ -232,14 +232,17 @@ export const ShopFilterToolbar = ({
         </div>
 
         {/* Instant Search Box */}
-        <div className="relative min-w-[200px] max-w-xs grow sm:grow-0">
+        <div className="relative min-w-50 max-w-xs grow sm:grow-0">
           <Search className="pointer-events-none absolute top-1/2 left-3.5 h-3.5 w-3.5 -translate-y-1/2 text-text-muted" />
           <input
             type="text"
             value={filters.searchQuery || ''}
             onChange={(e) => onSearchChange(e.target.value)}
             placeholder="Search timber, piece, room..."
-            className="w-full rounded-full border border-border-subtle bg-surface py-2 pr-9 pl-9 text-xs text-text-primary placeholder:text-text-muted focus:border-brass focus:ring-1 focus:ring-brass focus:outline-none"
+            className={cn(
+              'w-full rounded-full border border-border-subtle bg-surface py-2 pr-9 pl-9 text-xs text-text-primary',
+              'placeholder:text-text-muted focus:border-brass focus:ring-1 focus:ring-brass focus:outline-none'
+            )}
           />
           {filters.searchQuery && (
             <button
