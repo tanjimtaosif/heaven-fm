@@ -424,7 +424,7 @@ export const PopularFurnituresSection = () => {
               data-card
               className={cn(
                 'group bg-surface relative flex shrink-0 flex-col overflow-hidden rounded-2xl sm:rounded-3xl',
-                'w-[260px] sm:w-[290px] md:w-[320px] lg:w-[340px]',
+                'w-65 sm:w-72.5 md:w-80 lg:w-85',
                 'border-border-subtle/90 hover:border-brass/50 shadow-subtle hover:shadow-card-hover border transition-all duration-500',
                 'focus-visible:ring-brass focus-visible:ring-2 focus-visible:outline-none'
               )}
