@@ -1,8 +1,10 @@
 export { HeroSection } from './HeroSection'
 export { ScrollVideoRevealSection } from './ScrollVideoRevealSection'
 export { ManifestoSection } from './ManifestoSection'
+export { PopularFurnituresSection } from './PopularFurnituresSection'
 export { CollectionsSection } from './CollectionsSection'
 export { WhyChooseUsSection } from './WhyChooseUsSection'
 export { TestimonialsSection } from './TestimonialsSection'
 export { FaqSection } from './FaqSection'
 export { ContactSection } from './ContactSection'
+
