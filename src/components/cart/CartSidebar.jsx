@@ -120,7 +120,7 @@ export const CartSidebar = () => {
           className={cn(
             'animate-drawer-in pointer-events-auto flex h-dvh w-screen flex-col',
             'bg-canvas border-border-subtle shadow-editorial-lg border-l',
-            'sm:w-[420px] lg:w-[460px]'
+            'sm:w-105 lg:w-115'
           )}
         >
           {/* Header */}
@@ -160,7 +160,7 @@ export const CartSidebar = () => {
                 <h3 className="text-text-primary mt-6 font-serif text-lg font-normal">
                   Your cart is empty
                 </h3>
-                <p className="text-text-secondary mt-2 max-w-[15rem] text-sm leading-relaxed">
+                <p className="text-text-secondary mt-2 max-w-60 text-sm leading-relaxed">
                   Every Heaven piece is made to your proportions. Start with a
                   collection to begin your commission.
                 </p>
@@ -176,12 +176,15 @@ export const CartSidebar = () => {
               </div>
             ) : (
               /* Item list — hairline rows, no boxes */
-              <ul className="divide-border-subtle border-border-subtle divide-y border-t">
+              <ul>
                 {items.map((item) => {
                   const isNoteOpen = activeNoteId === item.id
 
                   return (
-                    <li key={item.id} className="py-5">
+                    <li
+                      key={item.id}
+                      className="border-border-subtle border-t py-5"
+                    >
                       <div className="flex gap-4">
                         <div className="bg-surface-muted border-border-subtle h-20 w-20 shrink-0 overflow-hidden rounded-lg border sm:h-22 sm:w-22">
                           <img
