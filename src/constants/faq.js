@@ -16,7 +16,8 @@ export const FAQS = [
     id: 'bespoke-difference',
     category: 'bespoke',
     categoryLabel: 'Bespoke Process',
-    question: 'What makes Heaven Furniture Mart different from an off-the-shelf furniture store?',
+    question:
+      'What makes Heaven Furniture Mart different from an off-the-shelf furniture store?',
     answer:
       'Unlike retail showrooms that sell mass-produced furniture pulled off a warehouse shelf, Heaven Furniture Mart is an artisanal bespoke interior studio based in Chattogram. Our guiding philosophy is "Designed. Crafted. Customized." Every sofa, master bed, dining suite, and executive workstation is designed from scratch around your specific room dimensions, architectural style, and ergonomic preferences. You select the exact hardwoods, upholstery textures, dimensions, and finishes.',
   },
@@ -24,7 +25,8 @@ export const FAQS = [
     id: 'free-consultation',
     category: 'bespoke',
     categoryLabel: 'Bespoke Process',
-    question: 'Is the initial interior design consultation truly free with no obligation?',
+    question:
+      'Is the initial interior design consultation truly free with no obligation?',
     answer:
       'Yes, 100% complimentary. We believe bespoke design begins with listening. You can visit our Agrabad showroom or connect virtually with our design specialists. We will review your architectural floor plans, spatial requirements, and aesthetic references to recommend tailored timber selections and layouts — with zero upfront cost or commissioning obligation.',
   },
@@ -32,7 +34,8 @@ export const FAQS = [
     id: 'furniture-categories',
     category: 'bespoke',
     categoryLabel: 'Collections',
-    question: 'What furniture categories and custom architectural pieces do you create?',
+    question:
+      'What furniture categories and custom architectural pieces do you create?',
     answer:
       'We craft comprehensive luxury furniture across five core specialties:\n• Living Room: Bespoke sofas, sculptural coffee tables, media consoles, and accent TV units.\n• Bedroom: Handcrafted master beds, upholstered headboards, walk-in wardrobes, dressing tables, and bedside pedestals.\n• Dining: Solid timber dining tables, bespoke chairs, credenzas, and buffet display units.\n• Office & Study: Executive desks, custom architectural bookcases, and executive workstations.\n• Bespoke Architectural Millwork: Wall paneling, custom cabinetry, and one-of-a-kind statement commissions tailored to any space.',
   },
@@ -40,7 +43,8 @@ export const FAQS = [
     id: 'showroom-location',
     category: 'showroom',
     categoryLabel: 'Agrabad Showroom',
-    question: 'Where is your showroom located, and can I inspect timber and finishes in person?',
+    question:
+      'Where is your showroom located, and can I inspect timber and finishes in person?',
     answer:
       'Our expansive physical showroom is located on Agrabad Access Road, Chattogram. We warmly invite you to visit our studio to test seating ergonomic angles, experience seasoned hardwood grains firsthand, and browse hundreds of imported textile and genuine leather swatches before making any decisions.',
   },
@@ -48,7 +52,8 @@ export const FAQS = [
     id: 'craftsmanship-materials',
     category: 'materials',
     categoryLabel: 'Timber & Craft',
-    question: 'Who builds your furniture and what materials are used in construction?',
+    question:
+      'Who builds your furniture and what materials are used in construction?',
     answer:
       'Every piece is handcrafted by our master in-house artisans in Chattogram who possess decades of heritage joinery experience. We exclusively use premium seasoned hardwoods, high-resilience ergonomic foam cores, precision European hardware, and luxury upholstery fabrics with stain-resistant protection to ensure lifetime structural durability.',
   },
@@ -56,7 +61,8 @@ export const FAQS = [
     id: 'delivery-installation',
     category: 'logistics',
     categoryLabel: 'Delivery & Logistics',
-    question: 'Are delivery and on-site assembly included with my bespoke order?',
+    question:
+      'Are delivery and on-site assembly included with my bespoke order?',
     answer:
       'Yes. Every commission includes comprehensive white-glove delivery and professional in-home placement across Chattogram. Our dedicated logistics and assembly crew unpacks, positions, levels, and inspects your furniture in your residence, leaving your space spotless and ready to enjoy.',
   },
