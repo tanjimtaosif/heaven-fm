@@ -59,26 +59,26 @@ export const ShopPage = ({ initialCategoryId = 'all', onNavigateHome }) => {
   const currentCategory = categories.find((c) => c.id === filters.categoryId)
 
   return (
-    <div className="min-h-screen bg-canvas pt-24 pb-20 sm:pt-28 md:pt-32">
+    <div className="bg-canvas min-h-screen pt-24 pb-20 sm:pt-28 md:pt-32">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Breadcrumb Trail */}
         <nav
           aria-label="Breadcrumb"
-          className="flex items-center gap-1.5 text-xs text-text-muted"
+          className="text-text-muted flex items-center gap-1.5 text-xs"
         >
           <button
             type="button"
             onClick={onNavigateHome}
-            className="flex items-center gap-1 hover:text-text-primary transition-colors cursor-pointer"
+            className="hover:text-text-primary flex cursor-pointer items-center gap-1 transition-colors"
           >
             <Home className="h-3.5 w-3.5" />
             <span>Home</span>
           </button>
-          <ChevronRight className="h-3 w-3 text-border-warm" />
+          <ChevronRight className="text-border-warm h-3 w-3" />
           <span className="text-text-secondary font-medium">Catalog</span>
           {currentCategory && currentCategory.id !== 'all' && (
             <>
-              <ChevronRight className="h-3 w-3 text-border-warm" />
+              <ChevronRight className="text-border-warm h-3 w-3" />
               <span className="text-brass-dark font-semibold">
                 {currentCategory.name}
               </span>
@@ -86,7 +86,7 @@ export const ShopPage = ({ initialCategoryId = 'all', onNavigateHome }) => {
           )}
           {filters.subcategory !== 'all' && (
             <>
-              <ChevronRight className="h-3 w-3 text-border-warm" />
+              <ChevronRight className="text-border-warm h-3 w-3" />
               <span className="text-text-primary capitalize">
                 {filters.subcategory.replace('-', ' ')}
               </span>

@@ -50,14 +50,14 @@ export const ProductCard = ({ product, onQuickView }) => {
 
   return (
     <article
-      className="group relative flex flex-col justify-between rounded-2xl border border-border-subtle/80 bg-surface p-3 transition-all duration-300 hover:border-brass/40 hover:shadow-lg sm:p-4"
+      className="group border-border-subtle/80 bg-surface hover:border-brass/40 relative flex flex-col justify-between rounded-2xl border p-3 transition-all duration-300 hover:shadow-lg sm:p-4"
       tabIndex={0}
       aria-label={`${product.name}, ${product.priceFormatted}`}
     >
       <div>
         {/* Main Photo Frame (3:4 aspect ratio) */}
         <div
-          className="relative aspect-3/4 w-full overflow-hidden rounded-xl bg-surface-muted/60 select-none cursor-pointer"
+          className="bg-surface-muted/60 relative aspect-3/4 w-full cursor-pointer overflow-hidden rounded-xl select-none"
           onClick={() => onQuickView && onQuickView(product, activeImageIndex)}
           onTouchStart={handleTouchStart}
           onTouchEnd={handleTouchEnd}
@@ -70,14 +70,14 @@ export const ProductCard = ({ product, onQuickView }) => {
           />
 
           {/* Badges Overlay */}
-          <div className="absolute top-2.5 left-2.5 flex flex-wrap gap-1.5 z-10">
+          <div className="absolute top-2.5 left-2.5 z-10 flex flex-wrap gap-1.5">
             {product.isNew && (
-              <span className="rounded-full bg-charcoal-surface/90 px-2.5 py-0.5 text-[10px] font-semibold tracking-wider text-brass uppercase backdrop-blur-xs shadow-xs">
+              <span className="bg-charcoal-surface/90 text-brass rounded-full px-2.5 py-0.5 text-[10px] font-semibold tracking-wider uppercase shadow-xs backdrop-blur-xs">
                 New
               </span>
             )}
             {product.isFeatured && (
-              <span className="rounded-full bg-brass/90 px-2 py-0.5 text-[10px] font-bold tracking-wider text-charcoal-deep uppercase backdrop-blur-xs shadow-xs">
+              <span className="bg-brass/90 text-charcoal-deep rounded-full px-2 py-0.5 text-[10px] font-bold tracking-wider uppercase shadow-xs backdrop-blur-xs">
                 Featured
               </span>
             )}
@@ -90,7 +90,7 @@ export const ProductCard = ({ product, onQuickView }) => {
               e.stopPropagation()
               onQuickView && onQuickView(product, activeImageIndex)
             }}
-            className="absolute top-2.5 right-2.5 flex h-8 w-8 items-center justify-center rounded-full bg-surface/90 text-text-primary opacity-0 backdrop-blur-xs transition-opacity duration-200 group-hover:opacity-100 hover:bg-surface hover:text-brass cursor-pointer shadow-xs"
+            className="bg-surface/90 text-text-primary hover:bg-surface hover:text-brass absolute top-2.5 right-2.5 flex h-8 w-8 cursor-pointer items-center justify-center rounded-full opacity-0 shadow-xs backdrop-blur-xs transition-opacity duration-200 group-hover:opacity-100"
             title="Inspect angles & details"
             aria-label="Quick view"
           >
@@ -99,7 +99,7 @@ export const ProductCard = ({ product, onQuickView }) => {
 
           {/* Mobile Swipe Angle Pill Indicator */}
           {hasMultipleAngles && (
-            <div className="pointer-events-none absolute bottom-2.5 right-2.5 flex items-center gap-1 rounded-full bg-black/60 px-2 py-0.5 text-[10px] font-medium text-white/90 backdrop-blur-xs sm:hidden">
+            <div className="pointer-events-none absolute right-2.5 bottom-2.5 flex items-center gap-1 rounded-full bg-black/60 px-2 py-0.5 text-[10px] font-medium text-white/90 backdrop-blur-xs sm:hidden">
               <span>
                 {activeImageIndex + 1}/{images.length}
               </span>
@@ -122,10 +122,10 @@ export const ProductCard = ({ product, onQuickView }) => {
                   }}
                   onMouseEnter={() => setActiveImageIndex(idx)}
                   className={cn(
-                    'relative h-10 w-10 shrink-0 overflow-hidden rounded-lg border transition-all duration-200 cursor-pointer sm:h-11 sm:w-11',
+                    'relative h-10 w-10 shrink-0 cursor-pointer overflow-hidden rounded-lg border transition-all duration-200 sm:h-11 sm:w-11',
                     isActive
                       ? 'border-brass ring-1.5 ring-brass/40 shadow-xs'
-                      : 'border-border-subtle opacity-70 hover:opacity-100 hover:border-brass/50'
+                      : 'border-border-subtle hover:border-brass/50 opacity-70 hover:opacity-100'
                   )}
                   aria-label={`View angle ${idx + 1}`}
                   aria-pressed={isActive}
@@ -137,12 +137,12 @@ export const ProductCard = ({ product, onQuickView }) => {
                     loading="lazy"
                   />
                   {isActive && (
-                    <span className="absolute inset-0 bg-brass/10" />
+                    <span className="bg-brass/10 absolute inset-0" />
                   )}
                 </button>
               )
             })}
-            <span className="ml-auto hidden text-[10px] font-medium text-text-muted sm:inline-block">
+            <span className="text-text-muted ml-auto hidden text-[10px] font-medium sm:inline-block">
               {images.length} angles
             </span>
           </div>
@@ -151,37 +151,39 @@ export const ProductCard = ({ product, onQuickView }) => {
         {/* Product Details */}
         <div className="mt-3">
           {/* Eyebrow / Department Tag */}
-          <span className="text-[11px] font-medium tracking-wide text-text-muted uppercase">
+          <span className="text-text-muted text-[11px] font-medium tracking-wide uppercase">
             {product.subcategoryLabel || product.category}
           </span>
 
           {/* Product Title */}
           <h2
-            onClick={() => onQuickView && onQuickView(product, activeImageIndex)}
-            className="mt-0.5 font-serif text-base font-medium text-text-primary transition-colors hover:text-brass-dark line-clamp-1 cursor-pointer sm:text-lg"
+            onClick={() =>
+              onQuickView && onQuickView(product, activeImageIndex)
+            }
+            className="text-text-primary hover:text-brass-dark mt-0.5 line-clamp-1 cursor-pointer font-serif text-base font-medium transition-colors sm:text-lg"
           >
             {product.name}
           </h2>
 
           {/* Short Description */}
-          <p className="mt-1 text-xs leading-relaxed text-text-secondary line-clamp-2">
+          <p className="text-text-secondary mt-1 line-clamp-2 text-xs leading-relaxed">
             {product.shortDescription}
           </p>
 
           {/* Craft Timber & Dimension Spec */}
-          <div className="mt-2 flex items-center gap-1.5 text-[11px] text-text-muted">
+          <div className="text-text-muted mt-2 flex items-center gap-1.5 text-[11px]">
             <span className="truncate">{product.material}</span>
           </div>
         </div>
       </div>
 
       {/* Footer: Price & Add to Bag CTA */}
-      <div className="mt-4 flex items-center justify-between border-t border-border-subtle/80 pt-3">
+      <div className="border-border-subtle/80 mt-4 flex items-center justify-between border-t pt-3">
         <div>
-          <span className="block text-[10px] uppercase tracking-wider text-text-muted">
+          <span className="text-text-muted block text-[10px] tracking-wider uppercase">
             {product.pricePrefix || 'from'}
           </span>
-          <span className="font-sans text-sm font-bold text-text-primary sm:text-base">
+          <span className="text-text-primary font-sans text-sm font-bold sm:text-base">
             {product.priceFormatted}
           </span>
         </div>
@@ -191,7 +193,7 @@ export const ProductCard = ({ product, onQuickView }) => {
           type="button"
           onClick={handleAddToCart}
           className={cn(
-            'inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-semibold transition-all duration-200 cursor-pointer shadow-xs sm:px-4 sm:py-2',
+            'inline-flex cursor-pointer items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-semibold shadow-xs transition-all duration-200 sm:px-4 sm:py-2',
             isAdded
               ? 'bg-emerald-700 text-white'
               : 'bg-charcoal-surface text-brass hover:bg-charcoal-deep active:scale-95'

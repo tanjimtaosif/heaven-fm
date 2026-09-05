@@ -65,23 +65,23 @@ export const ProductDetailModal = ({
       aria-label={product.name}
     >
       <div
-        className="animate-scale-in relative flex max-h-[92vh] w-full max-w-4xl flex-col overflow-y-auto rounded-3xl border border-border-subtle bg-surface shadow-2xl md:flex-row md:overflow-hidden"
+        className="animate-scale-in border-border-subtle bg-surface relative flex max-h-[92vh] w-full max-w-4xl flex-col overflow-y-auto rounded-3xl border shadow-2xl md:flex-row md:overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Close Button */}
         <button
           type="button"
           onClick={onClose}
-          className="absolute top-4 right-4 z-20 flex h-9 w-9 items-center justify-center rounded-full bg-surface/90 text-text-primary shadow-sm backdrop-blur-xs transition-colors hover:bg-surface-muted cursor-pointer"
+          className="bg-surface/90 text-text-primary hover:bg-surface-muted absolute top-4 right-4 z-20 flex h-9 w-9 cursor-pointer items-center justify-center rounded-full shadow-sm backdrop-blur-xs transition-colors"
           aria-label="Close dialog"
         >
           <X className="h-5 w-5" />
         </button>
 
         {/* Left: Angle Gallery View */}
-        <div className="flex flex-col bg-surface-muted/40 p-4 sm:p-6 md:w-1/2">
+        <div className="bg-surface-muted/40 flex flex-col p-4 sm:p-6 md:w-1/2">
           {/* Main Large Photograph */}
-          <div className="relative aspect-3/4 w-full overflow-hidden rounded-2xl bg-surface-muted">
+          <div className="bg-surface-muted relative aspect-3/4 w-full overflow-hidden rounded-2xl">
             <img
               src={currentImage}
               alt={`${product.name} view ${activeAngleIndex + 1}`}
@@ -98,7 +98,7 @@ export const ProductDetailModal = ({
                       (prev) => (prev - 1 + images.length) % images.length
                     )
                   }
-                  className="pointer-events-auto flex h-8 w-8 items-center justify-center rounded-full bg-surface/80 text-text-primary shadow-sm hover:bg-surface cursor-pointer"
+                  className="bg-surface/80 text-text-primary hover:bg-surface pointer-events-auto flex h-8 w-8 cursor-pointer items-center justify-center rounded-full shadow-sm"
                   aria-label="Previous angle"
                 >
                   <ChevronLeft className="h-4 w-4" />
@@ -108,7 +108,7 @@ export const ProductDetailModal = ({
                   onClick={() =>
                     setActiveAngleIndex((prev) => (prev + 1) % images.length)
                   }
-                  className="pointer-events-auto flex h-8 w-8 items-center justify-center rounded-full bg-surface/80 text-text-primary shadow-sm hover:bg-surface cursor-pointer"
+                  className="bg-surface/80 text-text-primary hover:bg-surface pointer-events-auto flex h-8 w-8 cursor-pointer items-center justify-center rounded-full shadow-sm"
                   aria-label="Next angle"
                 >
                   <ChevronRight className="h-4 w-4" />
@@ -126,9 +126,9 @@ export const ProductDetailModal = ({
                   type="button"
                   onClick={() => setActiveAngleIndex(idx)}
                   className={cn(
-                    'h-12 w-12 shrink-0 overflow-hidden rounded-xl border transition-all cursor-pointer sm:h-14 sm:w-14',
+                    'h-12 w-12 shrink-0 cursor-pointer overflow-hidden rounded-xl border transition-all sm:h-14 sm:w-14',
                     activeAngleIndex === idx
-                      ? 'border-brass ring-2 ring-brass/40 shadow-xs'
+                      ? 'border-brass ring-brass/40 shadow-xs ring-2'
                       : 'border-border-subtle opacity-70 hover:opacity-100'
                   )}
                   aria-label={`Switch to angle ${idx + 1}`}
@@ -149,81 +149,87 @@ export const ProductDetailModal = ({
           <div>
             {/* Category / Department */}
             <div className="flex items-center gap-2">
-              <span className="text-xs font-semibold tracking-wider text-brass-dark uppercase">
+              <span className="text-brass-dark text-xs font-semibold tracking-wider uppercase">
                 {product.category} • {product.subcategoryLabel}
               </span>
               {product.isFeatured && (
-                <span className="rounded-full bg-brass/20 px-2 py-0.5 text-[10px] font-bold text-brass-dark">
+                <span className="bg-brass/20 text-brass-dark rounded-full px-2 py-0.5 text-[10px] font-bold">
                   Atelier Choice
                 </span>
               )}
             </div>
 
             {/* Title */}
-            <h2 className="mt-2 font-serif text-2xl font-normal text-text-primary sm:text-3xl">
+            <h2 className="text-text-primary mt-2 font-serif text-2xl font-normal sm:text-3xl">
               {product.name}
             </h2>
 
             {/* Price */}
             <div className="mt-3 flex items-baseline gap-2">
-              <span className="text-xs uppercase text-text-muted">
+              <span className="text-text-muted text-xs uppercase">
                 {product.pricePrefix || 'from'}
               </span>
-              <span className="font-sans text-2xl font-bold text-text-primary">
+              <span className="text-text-primary font-sans text-2xl font-bold">
                 {product.priceFormatted}
               </span>
             </div>
 
             {/* Description */}
-            <p className="mt-4 text-xs leading-relaxed text-text-secondary sm:text-sm">
+            <p className="text-text-secondary mt-4 text-xs leading-relaxed sm:text-sm">
               {product.shortDescription}
             </p>
 
             {/* Specifications Grid */}
-            <div className="mt-6 space-y-2.5 rounded-2xl border border-border-subtle bg-surface-muted/30 p-4 text-xs">
-              <div className="flex items-center gap-2 text-text-secondary">
-                <Ruler className="h-4 w-4 shrink-0 text-brass" />
-                <span className="font-medium text-text-primary">Dimensions:</span>
+            <div className="border-border-subtle bg-surface-muted/30 mt-6 space-y-2.5 rounded-2xl border p-4 text-xs">
+              <div className="text-text-secondary flex items-center gap-2">
+                <Ruler className="text-brass h-4 w-4 shrink-0" />
+                <span className="text-text-primary font-medium">
+                  Dimensions:
+                </span>
                 <span>{product.dimensions || 'Customizable to space'}</span>
               </div>
-              <div className="flex items-center gap-2 text-text-secondary">
-                <Layers className="h-4 w-4 shrink-0 text-brass" />
-                <span className="font-medium text-text-primary">Material:</span>
+              <div className="text-text-secondary flex items-center gap-2">
+                <Layers className="text-brass h-4 w-4 shrink-0" />
+                <span className="text-text-primary font-medium">Material:</span>
                 <span>{product.material}</span>
               </div>
-              <div className="flex items-center gap-2 text-text-secondary">
-                <Clock className="h-4 w-4 shrink-0 text-brass" />
-                <span className="font-medium text-text-primary">Atelier Lead Time:</span>
+              <div className="text-text-secondary flex items-center gap-2">
+                <Clock className="text-brass h-4 w-4 shrink-0" />
+                <span className="text-text-primary font-medium">
+                  Atelier Lead Time:
+                </span>
                 <span>{product.leadTime || '14–21 Working Days'}</span>
               </div>
-              <div className="flex items-center gap-2 text-text-secondary">
-                <ShieldCheck className="h-4 w-4 shrink-0 text-brass" />
-                <span className="font-medium text-text-primary">Joinery Guarantee:</span>
+              <div className="text-text-secondary flex items-center gap-2">
+                <ShieldCheck className="text-brass h-4 w-4 shrink-0" />
+                <span className="text-text-primary font-medium">
+                  Joinery Guarantee:
+                </span>
                 <span>10-Year Master Guarantee</span>
               </div>
             </div>
           </div>
 
           {/* Action Footer */}
-          <div className="mt-6 space-y-3 pt-4 border-t border-border-subtle">
+          <div className="border-border-subtle mt-6 space-y-3 border-t pt-4">
             {/* Quantity Selector & Add to Bag */}
             <div className="flex items-center gap-3">
-              <div className="flex items-center rounded-full border border-border-subtle bg-surface-muted/40 p-1">
+              <div className="border-border-subtle bg-surface-muted/40 flex items-center rounded-full border p-1">
                 <button
                   type="button"
                   onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                  className="flex h-7 w-7 items-center justify-center rounded-full text-text-secondary hover:bg-surface cursor-pointer text-xs font-bold"
+                  className="text-text-secondary hover:bg-surface flex h-7 w-7 cursor-pointer items-center justify-center rounded-full text-xs font-bold"
                   aria-label="Decrease quantity"
                 >
                   -
                 </button>
-                <span className="w-8 text-center text-xs font-semibold text-text-primary">
+                <span className="text-text-primary w-8 text-center text-xs font-semibold">
                   {quantity}
                 </span>
                 <button
                   type="button"
                   onClick={() => setQuantity(quantity + 1)}
-                  className="flex h-7 w-7 items-center justify-center rounded-full text-text-secondary hover:bg-surface cursor-pointer text-xs font-bold"
+                  className="text-text-secondary hover:bg-surface flex h-7 w-7 cursor-pointer items-center justify-center rounded-full text-xs font-bold"
                   aria-label="Increase quantity"
                 >
                   +
@@ -234,7 +240,7 @@ export const ProductDetailModal = ({
                 type="button"
                 onClick={handleAddToCart}
                 className={cn(
-                  'flex grow items-center justify-center gap-2 rounded-full py-3 text-xs font-semibold uppercase tracking-wider transition-all duration-200 cursor-pointer shadow-md',
+                  'flex grow cursor-pointer items-center justify-center gap-2 rounded-full py-3 text-xs font-semibold tracking-wider uppercase shadow-md transition-all duration-200',
                   isAdded
                     ? 'bg-emerald-700 text-white'
                     : 'bg-charcoal-deep text-brass hover:bg-charcoal-surface active:scale-98'
@@ -259,9 +265,9 @@ export const ProductDetailModal = ({
               href={whatsappUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex w-full items-center justify-center gap-2 rounded-full border border-brass/40 py-2.5 text-xs font-semibold tracking-wide text-brass-dark hover:bg-brass-light/40 transition-colors"
+              className="border-brass/40 text-brass-dark hover:bg-brass-light/40 flex w-full items-center justify-center gap-2 rounded-full border py-2.5 text-xs font-semibold tracking-wide transition-colors"
             >
-              <MessageCircle className="h-4 w-4 text-whatsapp" />
+              <MessageCircle className="text-whatsapp h-4 w-4" />
               <span>Inquire Custom Sizing on WhatsApp</span>
             </a>
           </div>

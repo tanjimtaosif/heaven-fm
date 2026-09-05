@@ -7,48 +7,48 @@ export const BespokeCalloutCard = () => {
   )}`
 
   return (
-    <div className="relative flex flex-col justify-between overflow-hidden rounded-2xl border border-charcoal-border bg-charcoal-deep p-6 text-canvas shadow-xl sm:p-7">
+    <div className="border-charcoal-border bg-charcoal-deep text-canvas relative flex flex-col justify-between overflow-hidden rounded-2xl border p-6 shadow-xl sm:p-7">
       {/* Subtle Grain Background Accent */}
-      <div className="pointer-events-none absolute -top-12 -right-12 h-44 w-44 rounded-full bg-brass/10 blur-3xl" />
+      <div className="bg-brass/10 pointer-events-none absolute -top-12 -right-12 h-44 w-44 rounded-full blur-3xl" />
 
       <div>
-        <div className="inline-flex items-center gap-1.5 rounded-full border border-brass/30 bg-brass/10 px-3 py-1 text-[11px] font-semibold tracking-wider text-brass uppercase">
+        <div className="border-brass/30 bg-brass/10 text-brass inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-[11px] font-semibold tracking-wider uppercase">
           <Sparkles className="h-3 w-3" />
           <span>Bespoke Atelier</span>
         </div>
 
-        <h3 className="mt-4 font-serif text-2xl font-normal leading-snug text-canvas sm:text-3xl">
+        <h3 className="text-canvas mt-4 font-serif text-2xl leading-snug font-normal sm:text-3xl">
           Need Custom Dimensions or Grain?
         </h3>
 
-        <p className="mt-3 text-xs leading-relaxed text-text-inverse-muted sm:text-sm">
-          Every interior has distinct architectural proportions. If our standard catalog
-          pieces do not match your floor plan, our master carpenters will tailor any design
-          to your exact millimeter specifications.
+        <p className="text-text-inverse-muted mt-3 text-xs leading-relaxed sm:text-sm">
+          Every interior has distinct architectural proportions. If our standard
+          catalog pieces do not match your floor plan, our master carpenters
+          will tailor any design to your exact millimeter specifications.
         </p>
 
-        <ul className="mt-5 space-y-2 text-xs text-text-inverse-muted">
+        <ul className="text-text-inverse-muted mt-5 space-y-2 text-xs">
           <li className="flex items-center gap-2">
-            <span className="h-1.5 w-1.5 rounded-full bg-brass" />
+            <span className="bg-brass h-1.5 w-1.5 rounded-full" />
             <span>Seasoned Burma Teak & Kiln-Dried Mahogany</span>
           </li>
           <li className="flex items-center gap-2">
-            <span className="h-1.5 w-1.5 rounded-full bg-brass" />
+            <span className="bg-brass h-1.5 w-1.5 rounded-full" />
             <span>Custom internal wardrobe & drawer layout</span>
           </li>
           <li className="flex items-center gap-2">
-            <span className="h-1.5 w-1.5 rounded-full bg-brass" />
+            <span className="bg-brass h-1.5 w-1.5 rounded-full" />
             <span>Fabric, velvet & leather upholstery selection</span>
           </li>
         </ul>
       </div>
 
-      <div className="mt-6 pt-5 border-t border-charcoal-border/80">
+      <div className="border-charcoal-border/80 mt-6 border-t pt-5">
         <a
           href={whatsappUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-brass py-3 text-xs font-semibold tracking-wider text-charcoal-deep uppercase transition-all duration-200 hover:bg-brass-hover active:scale-98 shadow-md"
+          className="bg-brass text-charcoal-deep hover:bg-brass-hover inline-flex w-full items-center justify-center gap-2 rounded-full py-3 text-xs font-semibold tracking-wider uppercase shadow-md transition-all duration-200 active:scale-98"
         >
           <MessageCircle className="h-4 w-4" />
           <span>Request Custom Build</span>

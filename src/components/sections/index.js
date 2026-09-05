@@ -7,4 +7,3 @@ export { WhyChooseUsSection } from './WhyChooseUsSection'
 export { TestimonialsSection } from './TestimonialsSection'
 export { FaqSection } from './FaqSection'
 export { ContactSection } from './ContactSection'
-

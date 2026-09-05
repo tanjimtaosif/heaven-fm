@@ -9,18 +9,19 @@ export const ShopHeader = ({ totalCount = 0 }) => {
     <header className="relative pt-6 pb-8 md:pt-10 md:pb-12">
       {/* Editorial Headline & Subtitle */}
       <div className="max-w-4xl">
-        <div className="inline-flex items-center gap-2 rounded-full border border-brass/30 bg-brass-light/60 px-3.5 py-1 text-xs font-semibold tracking-wider text-brass-dark uppercase dark:bg-brass/10">
-          <Sparkles className="h-3.5 w-3.5 text-brass" />
+        <div className="border-brass/30 bg-brass-light/60 text-brass-dark dark:bg-brass/10 inline-flex items-center gap-2 rounded-full border px-3.5 py-1 text-xs font-semibold tracking-wider uppercase">
+          <Sparkles className="text-brass h-3.5 w-3.5" />
           <span>Atelier Product Catalog</span>
         </div>
 
-        <h1 className="mt-4 font-serif text-3xl font-normal tracking-tight text-text-primary sm:text-4xl md:text-5xl lg:text-6xl">
+        <h1 className="text-text-primary mt-4 font-serif text-3xl font-normal tracking-tight sm:text-4xl md:text-5xl lg:text-6xl">
           Architectural Furnishings
         </h1>
 
-        <p className="mt-3 text-base leading-relaxed text-text-secondary sm:text-lg">
-          Choose the piece that harmonizes with your interior. Handcrafted from seasoned
-          Burma teak and kiln-dried mahogany, tailored to the exact proportions of your home.
+        <p className="text-text-secondary mt-3 text-base leading-relaxed sm:text-lg">
+          Choose the piece that harmonizes with your interior. Handcrafted from
+          seasoned Burma teak and kiln-dried mahogany, tailored to the exact
+          proportions of your home.
         </p>
 
         {/* Collapsible Atelier Craft Note */}
@@ -28,10 +29,14 @@ export const ShopHeader = ({ totalCount = 0 }) => {
           <button
             type="button"
             onClick={() => setIsStoryExpanded(!isStoryExpanded)}
-            className="inline-flex items-center gap-1.5 text-xs font-medium tracking-wide text-brass-dark underline decoration-brass/40 underline-offset-4 transition-colors hover:text-text-primary cursor-pointer"
+            className="text-brass-dark decoration-brass/40 hover:text-text-primary inline-flex cursor-pointer items-center gap-1.5 text-xs font-medium tracking-wide underline underline-offset-4 transition-colors"
             aria-expanded={isStoryExpanded}
           >
-            <span>{isStoryExpanded ? 'Show less' : 'Read atelier standard & joinery notes'}</span>
+            <span>
+              {isStoryExpanded
+                ? 'Show less'
+                : 'Read atelier standard & joinery notes'}
+            </span>
             <ChevronDown
               className={cn(
                 'h-3.5 w-3.5 transition-transform duration-200',
@@ -41,13 +46,14 @@ export const ShopHeader = ({ totalCount = 0 }) => {
           </button>
 
           {isStoryExpanded && (
-            <div className="animate-fade-in mt-3 rounded-2xl border border-border-subtle bg-surface-muted/50 p-4 text-xs leading-relaxed text-text-secondary sm:text-sm">
+            <div className="animate-fade-in border-border-subtle bg-surface-muted/50 text-text-secondary mt-3 rounded-2xl border p-4 text-xs leading-relaxed sm:text-sm">
               <p>
-                Every piece in our catalog is built to order in our Narayanganj atelier.
-                We eliminate MDF and commercial particle board in favor of sustainably sourced,
-                kiln-dried solid hardwoods, traditional mortise-and-tenon joints, and
-                durable satin wax or Italian polyurethane lacquers. Custom dimensional
-                adjustments are available for every item.
+                Every piece in our catalog is built to order in our Narayanganj
+                atelier. We eliminate MDF and commercial particle board in favor
+                of sustainably sourced, kiln-dried solid hardwoods, traditional
+                mortise-and-tenon joints, and durable satin wax or Italian
+                polyurethane lacquers. Custom dimensional adjustments are
+                available for every item.
               </p>
             </div>
           )}
@@ -55,21 +61,28 @@ export const ShopHeader = ({ totalCount = 0 }) => {
       </div>
 
       {/* Craft Guarantees Strip */}
-      <div className="mt-6 flex flex-wrap items-center gap-y-2 gap-x-6 text-xs text-text-muted border-t border-border-subtle/80 pt-4">
+      <div className="text-text-muted border-border-subtle/80 mt-6 flex flex-wrap items-center gap-x-6 gap-y-2 border-t pt-4 text-xs">
         <div className="flex items-center gap-1.5">
-          <Hammer className="h-3.5 w-3.5 text-brass" />
-          <span className="font-medium text-text-secondary">Solid Hardwood Joinery</span>
+          <Hammer className="text-brass h-3.5 w-3.5" />
+          <span className="text-text-secondary font-medium">
+            Solid Hardwood Joinery
+          </span>
         </div>
         <div className="flex items-center gap-1.5">
-          <ShieldCheck className="h-3.5 w-3.5 text-brass" />
-          <span className="font-medium text-text-secondary">10-Year Structural Guarantee</span>
+          <ShieldCheck className="text-brass h-3.5 w-3.5" />
+          <span className="text-text-secondary font-medium">
+            10-Year Structural Guarantee
+          </span>
         </div>
         <div className="flex items-center gap-1.5">
-          <Clock className="h-3.5 w-3.5 text-brass" />
-          <span className="font-medium text-text-secondary">Direct Atelier Lead Times</span>
+          <Clock className="text-brass h-3.5 w-3.5" />
+          <span className="text-text-secondary font-medium">
+            Direct Atelier Lead Times
+          </span>
         </div>
-        <div className="ml-auto hidden text-xs font-medium text-text-muted sm:block">
-          {totalCount} {totalCount === 1 ? 'piece available' : 'pieces available'}
+        <div className="text-text-muted ml-auto hidden text-xs font-medium sm:block">
+          {totalCount}{' '}
+          {totalCount === 1 ? 'piece available' : 'pieces available'}
         </div>
       </div>
     </header>

@@ -35,8 +35,7 @@ export default function App() {
     return () => window.removeEventListener('hashchange', handleHashChange)
   }, [])
 
-  const isShopView =
-    currentHash.startsWith('#/shop') || currentHash === '#shop'
+  const isShopView = currentHash.startsWith('#/shop') || currentHash === '#shop'
 
   // Extract category param if present, e.g. #/shop?category=bedroom
   let initialCategory = 'all'
@@ -97,4 +96,3 @@ export default function App() {
     </SmoothScrollProvider>
   )
 }
-

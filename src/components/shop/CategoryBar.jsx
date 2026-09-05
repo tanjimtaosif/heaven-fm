@@ -46,10 +46,7 @@ const CATEGORY_ITEMS = [
   },
 ]
 
-export const CategoryBar = ({
-  activeCategoryId = 'all',
-  onSelectCategory,
-}) => {
+export const CategoryBar = ({ activeCategoryId = 'all', onSelectCategory }) => {
   const scrollContainerRef = useRef(null)
 
   const scroll = (direction) => {
@@ -65,7 +62,7 @@ export const CategoryBar = ({
         <button
           type="button"
           onClick={() => scroll('left')}
-          className="pointer-events-auto flex h-8 w-8 items-center justify-center rounded-full border border-border-subtle bg-surface text-text-secondary transition-colors hover:border-brass hover:text-brass cursor-pointer"
+          className="border-border-subtle bg-surface text-text-secondary hover:border-brass hover:text-brass pointer-events-auto flex h-8 w-8 cursor-pointer items-center justify-center rounded-full border transition-colors"
           aria-label="Scroll categories left"
         >
           <ChevronLeft className="h-4 w-4" />
@@ -73,7 +70,7 @@ export const CategoryBar = ({
         <button
           type="button"
           onClick={() => scroll('right')}
-          className="pointer-events-auto flex h-8 w-8 items-center justify-center rounded-full border border-border-subtle bg-surface text-text-secondary transition-colors hover:border-brass hover:text-brass cursor-pointer"
+          className="border-border-subtle bg-surface text-text-secondary hover:border-brass hover:text-brass pointer-events-auto flex h-8 w-8 cursor-pointer items-center justify-center rounded-full border transition-colors"
           aria-label="Scroll categories right"
         >
           <ChevronRight className="h-4 w-4" />
@@ -83,7 +80,7 @@ export const CategoryBar = ({
       {/* Horizontal Carousel Track */}
       <div
         ref={scrollContainerRef}
-        className="no-scrollbar -mx-4 flex items-center gap-3 overflow-x-auto px-4 py-2 sm:mx-0 sm:gap-4 sm:px-0 scroll-smooth snap-x"
+        className="no-scrollbar -mx-4 flex snap-x items-center gap-3 overflow-x-auto scroll-smooth px-4 py-2 sm:mx-0 sm:gap-4 sm:px-0"
       >
         {CATEGORY_ITEMS.map((item) => {
           const isActive = activeCategoryId === item.id
@@ -94,9 +91,9 @@ export const CategoryBar = ({
               type="button"
               onClick={() => onSelectCategory(item.id)}
               className={cn(
-                'group relative flex shrink-0 cursor-pointer items-center gap-3 rounded-2xl border p-2 pr-4 transition-all duration-200 snap-start select-none',
+                'group relative flex shrink-0 cursor-pointer snap-start items-center gap-3 rounded-2xl border p-2 pr-4 transition-all duration-200 select-none',
                 isActive
-                  ? 'border-brass bg-surface shadow-subtle ring-1 ring-brass/30'
+                  ? 'border-brass bg-surface shadow-subtle ring-brass/30 ring-1'
                   : 'border-border-subtle/80 bg-surface hover:border-brass/50 hover:bg-surface-muted/40'
               )}
               aria-pressed={isActive}
@@ -104,8 +101,8 @@ export const CategoryBar = ({
               {/* Card Thumbnail / Icon Avatar */}
               <div
                 className={cn(
-                  'relative h-12 w-12 overflow-hidden rounded-xl bg-surface-muted transition-transform duration-300 group-hover:scale-105 sm:h-13 sm:w-13',
-                  isActive ? 'ring-1 ring-brass/40' : ''
+                  'bg-surface-muted relative h-12 w-12 overflow-hidden rounded-xl transition-transform duration-300 group-hover:scale-105 sm:h-13 sm:w-13',
+                  isActive ? 'ring-brass/40 ring-1' : ''
                 )}
               >
                 {item.type === 'image' ? (
@@ -116,12 +113,12 @@ export const CategoryBar = ({
                     loading="lazy"
                   />
                 ) : item.type === 'bespoke' ? (
-                  <div className="flex h-full w-full items-center justify-center bg-charcoal-surface text-brass">
+                  <div className="bg-charcoal-surface text-brass flex h-full w-full items-center justify-center">
                     <Sparkles className="h-5 w-5 animate-pulse" />
                   </div>
                 ) : (
-                  <div className="flex h-full w-full items-center justify-center bg-brass-light/80 text-brass-dark">
-                    <Layers className="h-5 w-5 text-brass" />
+                  <div className="bg-brass-light/80 text-brass-dark flex h-full w-full items-center justify-center">
+                    <Layers className="text-brass h-5 w-5" />
                   </div>
                 )}
               </div>
@@ -138,18 +135,18 @@ export const CategoryBar = ({
                 >
                   {item.name}
                 </span>
-                <span className="block text-[11px] text-text-muted">
+                <span className="text-text-muted block text-[11px]">
                   {item.id === 'all'
                     ? 'Full Catalog'
                     : item.id === 'bespoke'
-                    ? 'Custom Crafted'
-                    : 'Collection'}
+                      ? 'Custom Crafted'
+                      : 'Collection'}
                 </span>
               </div>
 
               {/* Active Underline Pip */}
               {isActive && (
-                <span className="absolute bottom-1 left-1/2 h-0.5 w-6 -translate-x-1/2 rounded-full bg-brass" />
+                <span className="bg-brass absolute bottom-1 left-1/2 h-0.5 w-6 -translate-x-1/2 rounded-full" />
               )}
             </button>
           )

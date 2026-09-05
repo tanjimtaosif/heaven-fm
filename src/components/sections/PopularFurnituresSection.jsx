@@ -326,7 +326,7 @@ export const PopularFurnituresSection = () => {
   return (
     <section
       id="popular-furnitures"
-      className="bg-canvas relative overflow-hidden py-20 sm:py-24 lg:py-28 select-none"
+      className="bg-canvas relative overflow-hidden py-20 select-none sm:py-24 lg:py-28"
       aria-labelledby="featured-furniture-heading"
     >
       {/* Brand Section Header */}
@@ -342,7 +342,8 @@ export const PopularFurnituresSection = () => {
             </h2>
             <p className="text-text-secondary max-w-2xl text-sm leading-relaxed text-pretty sm:text-base">
               Fully furnished showroom favorites and master bedroom commissions
-              handcrafted from seasoned Burma teak, kiln-dried mahogany, and rich bouclé upholstery.
+              handcrafted from seasoned Burma teak, kiln-dried mahogany, and
+              rich bouclé upholstery.
             </p>
           </div>
 
@@ -372,7 +373,7 @@ export const PopularFurnituresSection = () => {
                 className={cn(
                   'border-border-warm bg-surface text-charcoal-deep flex h-10 w-10 items-center justify-center rounded-full border sm:h-11 sm:w-11',
                   'hover:border-brass hover:bg-brass hover:text-charcoal-deep hover:shadow-glow-brass transition-all duration-300',
-                  'active:scale-95 focus-visible:ring-brass focus-visible:ring-2 focus-visible:outline-none shadow-xs cursor-pointer'
+                  'focus-visible:ring-brass cursor-pointer shadow-xs focus-visible:ring-2 focus-visible:outline-none active:scale-95'
                 )}
               >
                 <ArrowLeft className="h-4 w-4" strokeWidth={2} />
@@ -385,7 +386,7 @@ export const PopularFurnituresSection = () => {
                 className={cn(
                   'border-border-warm bg-surface text-charcoal-deep flex h-10 w-10 items-center justify-center rounded-full border sm:h-11 sm:w-11',
                   'hover:border-brass hover:bg-brass hover:text-charcoal-deep hover:shadow-glow-brass transition-all duration-300',
-                  'active:scale-95 focus-visible:ring-brass focus-visible:ring-2 focus-visible:outline-none shadow-xs cursor-pointer'
+                  'focus-visible:ring-brass cursor-pointer shadow-xs focus-visible:ring-2 focus-visible:outline-none active:scale-95'
                 )}
               >
                 <ArrowRight className="h-4 w-4" strokeWidth={2} />
@@ -467,7 +468,7 @@ export const PopularFurnituresSection = () => {
                   </h3>
 
                   {/* Material & Craft Detail */}
-                  <p className="text-text-muted mt-1 text-xs font-normal line-clamp-1">
+                  <p className="text-text-muted mt-1 line-clamp-1 text-xs font-normal">
                     {item.material}
                   </p>
                 </div>

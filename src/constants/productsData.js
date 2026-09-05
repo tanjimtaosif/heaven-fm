@@ -70,7 +70,10 @@ export const PRODUCTS = [
     priceFormatted: '৳142,000',
     pricePrefix: 'from',
     image: getImg('beds/green-shot-1.webp'),
-    images: [getImg('beds/green-shot-1.webp'), getImg('beds/green-shot-2.webp')],
+    images: [
+      getImg('beds/green-shot-1.webp'),
+      getImg('beds/green-shot-2.webp'),
+    ],
     colors: [
       { name: 'Deep Emerald', hex: '#264639' },
       { name: 'Moss Velvet', hex: '#4B6354' },
@@ -793,7 +796,8 @@ export const PRODUCTS = [
     shortDescription:
       'Authoritative executive director desk featuring monolithic timber construction, concealed cable management, and side storage pedenza.',
     dimensions: 'W 210cm × D 90cm × H 76cm',
-    material: 'Kiln-Dried Hardwood Frame • Saddle Leather Blotter • Brass Accents',
+    material:
+      'Kiln-Dried Hardwood Frame • Saddle Leather Blotter • Brass Accents',
     leadTime: '16–22 Days',
     isFeatured: true,
     isNew: false,
@@ -817,9 +821,7 @@ export const PRODUCTS = [
     priceFormatted: '৳54,000',
     pricePrefix: 'from',
     image: getImg('study-table/study-shot-1.webp'),
-    images: [
-      getImg('study-table/study-shot-1.webp'),
-    ],
+    images: [getImg('study-table/study-shot-1.webp')],
     colors: [
       { name: 'Natural Honey Oak', hex: '#D29953' },
       { name: 'Smoked Ash', hex: '#4A4A4A' },
