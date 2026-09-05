@@ -43,7 +43,6 @@ export const Navbar = ({ isShopView = false, onNavigateHome }) => {
   const [isMobileOpen, setIsMobileOpen] = useState(false)
   const [isMobileShopOpen, setIsMobileShopOpen] = useState(false)
   const [isMegaOpen, setIsMegaOpen] = useState(false)
-  const [activeCategory, setActiveCategory] = useState(null)
   const [isScrolled, setIsScrolled] = useState(false)
   const [isNavHidden, setIsNavHidden] = useState(false)
   const [activeSection, setActiveSection] = useState('')
@@ -72,7 +71,6 @@ export const Navbar = ({ isShopView = false, onNavigateHome }) => {
   const closeMegaMenu = useCallback(() => {
     clearMegaTimer()
     setIsMegaOpen(false)
-    setActiveCategory(null)
   }, [])
 
   const scheduleMegaClose = (delay = 160) => {
@@ -80,7 +78,6 @@ export const Navbar = ({ isShopView = false, onNavigateHome }) => {
     megaTimerRef.current = setTimeout(() => {
       megaTimerRef.current = null
       setIsMegaOpen(false)
-      setActiveCategory(null)
     }, delay)
   }
 
@@ -257,7 +254,6 @@ export const Navbar = ({ isShopView = false, onNavigateHome }) => {
       }
     }
   }
-
 
   return (
     <>
@@ -516,9 +512,6 @@ export const Navbar = ({ isShopView = false, onNavigateHome }) => {
                           onClick={(e) =>
                             handleNavClick(e, categoryHref(category.id))
                           }
-                          onMouseEnter={() => setActiveCategory(category.id)}
-                          onMouseLeave={() => setActiveCategory(null)}
-                          onFocus={() => setActiveCategory(category.id)}
                           className="group border-charcoal-border/60 bg-charcoal-surface/45 hover:border-brass/45 hover:bg-charcoal-surface focus-visible:ring-brass focus-visible:ring-offset-charcoal-deep flex h-full flex-col rounded-2xl border p-3.5 transition-colors duration-300 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
                         >
                           <div className="flex items-start justify-between gap-2">
@@ -555,11 +548,6 @@ export const Navbar = ({ isShopView = false, onNavigateHome }) => {
                         onClick={(e) =>
                           handleNavClick(e, categoryHref(BESPOKE_CATEGORY.id))
                         }
-                        onMouseEnter={() =>
-                          setActiveCategory(BESPOKE_CATEGORY.id)
-                        }
-                        onMouseLeave={() => setActiveCategory(null)}
-                        onFocus={() => setActiveCategory(BESPOKE_CATEGORY.id)}
                         className="group border-brass/35 from-brass/15 to-charcoal-surface/60 hover:border-brass/60 focus-visible:ring-brass focus-visible:ring-offset-charcoal-deep flex h-full flex-col justify-between rounded-2xl border bg-linear-to-b p-3.5 transition-colors duration-300 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
                       >
                         <div>
@@ -617,7 +605,6 @@ export const Navbar = ({ isShopView = false, onNavigateHome }) => {
               </div>
             </div>
           </div>
-
 
           {/* ============================================================ *
            * Floating Mobile Navigation Drawer (Dark Theme)
