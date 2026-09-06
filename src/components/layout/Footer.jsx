@@ -55,10 +55,10 @@ const SocialIcon = ({ type }) => {
 }
 
 const columnHeadingClass =
-  'text-canvas font-serif text-[13px] font-semibold tracking-[0.16em] uppercase sm:text-base sm:tracking-wide sm:normal-case'
+  'text-canvas font-serif text-label-md font-semibold tracking-[0.16em] uppercase sm:text-base sm:tracking-wide sm:normal-case'
 
 const navLinkClass =
-  'group text-text-inverse-muted hover:text-brass inline-flex items-center gap-2 py-0.5 text-[13px] transition-colors duration-200 sm:text-sm'
+  'group text-text-inverse-muted hover:text-brass inline-flex items-center gap-2 py-0.5 text-label-md transition-colors duration-200 sm:text-sm'
 
 const LinkBullet = () => (
   <span
@@ -71,7 +71,7 @@ const socialActionClass =
   'border-charcoal-border bg-charcoal-surface/60 text-text-inverse-muted hover:border-brass hover:bg-brass hover:text-charcoal-deep focus-visible:ring-brass focus-visible:ring-offset-charcoal-deep flex h-9 w-9 items-center justify-center rounded-full border transition-all duration-200 hover:scale-105 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none'
 
 const badgeBaseClass =
-  'border-charcoal-border/80 bg-charcoal-surface/80 inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-[11px] font-medium sm:px-3 sm:text-xs'
+  'border-charcoal-border/80 bg-charcoal-surface/80 inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-label-sm font-medium sm:px-3 sm:text-xs'
 
 const STUDIO_LINKS = [
   { label: 'The Studio Story', target: '#why-us' },
@@ -139,7 +139,7 @@ export const Footer = () => {
         className="from-brass/10 via-brass/2 pointer-events-none absolute -top-24 left-1/2 h-72 w-170 max-w-[140vw] -translate-x-1/2 rounded-full bg-[radial-gradient(ellipse_at_top,var(--tw-gradient-stops))] to-transparent blur-2xl"
       />
 
-      <div className="relative mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
+      <div className="container-page relative">
         <div className="grid grid-cols-2 gap-x-6 gap-y-10 pb-10 sm:gap-x-8 sm:gap-y-12 lg:grid-cols-12 lg:gap-8 lg:pb-12">
           <div className="col-span-2 space-y-5 lg:col-span-4">
             <div>
@@ -156,12 +156,12 @@ export const Footer = () => {
                 />
               </a>
 
-              <p className="text-brass mt-2.5 text-[10px] font-medium tracking-[0.22em] uppercase sm:text-xs sm:tracking-[0.28em]">
+              <p className="text-brass text-label-xs mt-2.5 font-medium tracking-[0.22em] uppercase sm:text-xs sm:tracking-[0.28em]">
                 {COMPANY_INFO.tagline}
               </p>
             </div>
 
-            <p className="text-text-inverse-muted max-w-md text-[13px] leading-relaxed sm:text-sm">
+            <p className="text-text-inverse-muted text-label-md max-w-md leading-relaxed sm:text-sm">
               Chattogram&apos;s premier bespoke interior atelier. We
               conceptualize, tailor, and handcraft architectural furniture
               pieces designed around your space, proportions, and lifestyle.
@@ -220,7 +220,7 @@ export const Footer = () => {
 
           <div className="col-span-2 space-y-4 lg:col-span-3">
             <h4 className={columnHeadingClass}>Visit Our Studio</h4>
-            <div className="text-text-inverse-muted space-y-3.5 text-[13px] sm:text-sm">
+            <div className="text-text-inverse-muted text-label-md space-y-3.5 sm:text-sm">
               <div className="flex items-start gap-2.5">
                 <MapPin className="text-brass mt-0.5 h-4 w-4 shrink-0" />
                 <div className="min-w-0">
@@ -295,7 +295,7 @@ export const Footer = () => {
                   <p className="text-canvas text-xs font-semibold tracking-wide">
                     {title}
                   </p>
-                  <p className="text-text-inverse-muted text-[11px] leading-snug">
+                  <p className="text-text-inverse-muted text-label-sm leading-snug">
                     {detail}
                   </p>
                 </div>
@@ -307,11 +307,11 @@ export const Footer = () => {
         <div className="border-charcoal-border/50 border-t pt-7">
           <div className="grid grid-cols-1 items-center gap-6 sm:grid-cols-3 sm:gap-4">
             <div className="order-2 space-y-1 text-center sm:order-1 sm:text-left">
-              <p className="text-text-inverse-muted text-[11px] sm:text-xs">
+              <p className="text-text-inverse-muted text-label-sm sm:text-xs">
                 © {new Date().getFullYear()} {COMPANY_INFO.name}. All rights
                 reserved.
               </p>
-              <p className="text-text-inverse-muted/70 text-[11px] tracking-wide">
+              <p className="text-text-inverse-muted/70 text-label-sm tracking-wide">
                 Luxury Bespoke Interiors • Chattogram
               </p>
             </div>
