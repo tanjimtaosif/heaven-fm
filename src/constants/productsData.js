@@ -1,17 +1,3 @@
-/**
- * Heaven Furniture Mart — Master Products Catalog Data
- *
- * Categorized strictly according to company-details.pdf:
- *  - Living Room: Sofas, Coffee Tables, TV Units, Consoles
- *  - Bedroom: Beds, Wardrobes, Dressing Tables, Bedside Tables
- *  - Dining: Dining Tables, Dining Chairs, Cabinets
- *  - Office & Study: Executive Tables, Bookshelves, Workstations
- *  - Bespoke / Custom: Anything built to custom dimensions & taste
- *
- * Designed for shop catalog filtering, bento featured showcase, and cart integration.
- */
-
-// Eagerly resolve all product photography assets via Vite
 const productImages = import.meta.glob(
   '../assets/products/**/*.{png,jpg,jpeg,webp}',
   {
@@ -23,9 +9,6 @@ const productImages = import.meta.glob(
 const getImg = (relPath) => productImages[`../assets/products/${relPath}`] || ''
 
 export const PRODUCTS = [
-  // ==========================================
-  // BEDROOM — BEDS (Multi-shot photography)
-  // ==========================================
   {
     id: 'noir-fluted-arch-bed',
     name: 'The Noir Fluted Arch Bed',
@@ -155,9 +138,6 @@ export const PRODUCTS = [
     inStock: true,
   },
 
-  // ==========================================
-  // BEDROOM — BEDSIDE TABLES (Multi-shot)
-  // ==========================================
   {
     id: 'brunello-walnut-nightstand',
     name: 'The Brunello Walnut Nightstand',
@@ -255,9 +235,6 @@ export const PRODUCTS = [
     inStock: true,
   },
 
-  // ==========================================
-  // BEDROOM — DRESSING TABLES (Multi-shot)
-  // ==========================================
   {
     id: 'riviera-navy-vanity-suite',
     name: 'The Riviera Navy Vanity Suite',
@@ -352,9 +329,6 @@ export const PRODUCTS = [
     inStock: true,
   },
 
-  // ==========================================
-  // BEDROOM — WARDROBES (Multi-shot)
-  // ==========================================
   {
     id: 'palazzo-choco-modular-wardrobe',
     name: 'The Palazzo Choco Modular Wardrobe',
@@ -452,9 +426,6 @@ export const PRODUCTS = [
     inStock: true,
   },
 
-  // ==========================================
-  // LIVING ROOM — SOFAS
-  // ==========================================
   {
     id: 'sovereign-curved-chesterfield',
     name: 'The Sovereign Royal Velvet Chesterfield Sofa',
@@ -521,9 +492,6 @@ export const PRODUCTS = [
     inStock: true,
   },
 
-  // ==========================================
-  // LIVING ROOM — COFFEE TABLES
-  // ==========================================
   {
     id: 'solarium-marble-coffee-table',
     name: 'The Solarium Calacatta Marble Coffee Table',
@@ -589,9 +557,6 @@ export const PRODUCTS = [
     inStock: true,
   },
 
-  // ==========================================
-  // LIVING ROOM — TV UNITS & MEDIA CONSOLES
-  // ==========================================
   {
     id: 'horizon-slat-media-console',
     name: 'The Horizon Slat Acoustic Media Console & TV Unit',
@@ -626,9 +591,6 @@ export const PRODUCTS = [
     inStock: true,
   },
 
-  // ==========================================
-  // DINING — DINING TABLES
-  // ==========================================
   {
     id: 'heritage-8-seater-dining-table',
     name: 'The Heritage Solid Teak Banquet Dining Table',
@@ -694,9 +656,6 @@ export const PRODUCTS = [
     inStock: true,
   },
 
-  // ==========================================
-  // DINING — DINING CHAIRS
-  // ==========================================
   {
     id: 'verona-leather-dining-armchair',
     name: 'The Verona Sculptural Upholstered Dining Armchair',
@@ -732,9 +691,6 @@ export const PRODUCTS = [
     inStock: true,
   },
 
-  // ==========================================
-  // DINING — CABINETS & SIDEBOARDS
-  // ==========================================
   {
     id: 'castello-fluted-sideboard-credenza',
     name: 'The Castello Fluted Sideboard & Credenza Cabinet',
@@ -769,9 +725,6 @@ export const PRODUCTS = [
     inStock: true,
   },
 
-  // ==========================================
-  // OFFICE & STUDY — EXECUTIVE DESKS
-  // ==========================================
   {
     id: 'chancellor-executive-desk',
     name: 'The Chancellor Monolith Executive Director Desk',
@@ -806,9 +759,6 @@ export const PRODUCTS = [
     inStock: true,
   },
 
-  // ==========================================
-  // OFFICE & STUDY — STUDY DESKS
-  // ==========================================
   {
     id: 'solitude-artisan-study-desk',
     name: 'The Solitude Artisan Hardwood Study Desk',
@@ -838,9 +788,6 @@ export const PRODUCTS = [
     inStock: true,
   },
 
-  // ==========================================
-  // OFFICE & STUDY — WORKSTATIONS
-  // ==========================================
   {
     id: 'apex-dual-executive-workstation',
     name: 'The Apex Dual Executive Collaborative Workstation',
@@ -874,14 +821,8 @@ export const PRODUCTS = [
   },
 ]
 
-// =========================================================================
-// FEATURED PRODUCTS (Directly ready for the Featured Section)
-// =========================================================================
 export const FEATURED_PRODUCTS = PRODUCTS.filter((item) => item.isFeatured)
 
-// =========================================================================
-// CATEGORIES METADATA (Derived from company-details.pdf)
-// =========================================================================
 export const PRODUCT_CATEGORIES = [
   {
     id: 'all',
@@ -949,9 +890,6 @@ export const PRODUCT_CATEGORIES = [
   },
 ]
 
-// =========================================================================
-// FILTER & SORT OPTIONS (Matching standard ecommerce catalog standards)
-// =========================================================================
 export const SORT_OPTIONS = [
   { id: 'featured', label: 'Featured Pieces' },
   { id: 'price-asc', label: 'Price: Low to High' },
@@ -968,50 +906,28 @@ export const PRICE_RANGES = [
   { id: 'above-150k', label: 'Above ৳150,000', min: 150000, max: Infinity },
 ]
 
-// =========================================================================
-// HELPER QUERY FUNCTIONS (For shop page & featured section data fetching)
-// =========================================================================
-
-/**
- * Fetch all catalog products.
- */
 export function getAllProducts() {
   return PRODUCTS
 }
 
-/**
- * Fetch products curated for the featured section.
- */
 export function getFeaturedProducts() {
   return FEATURED_PRODUCTS
 }
 
-/**
- * Fetch a single product by its unique slug/ID.
- */
 export function getProductById(id) {
   return PRODUCTS.find((p) => p.id === id) || null
 }
 
-/**
- * Fetch products by category ID ('living-room', 'bedroom', 'dining', 'office-study').
- */
 export function getProductsByCategory(categoryId) {
   if (!categoryId || categoryId === 'all') return PRODUCTS
   return PRODUCTS.filter((p) => p.categoryId === categoryId)
 }
 
-/**
- * Fetch products by subcategory ('beds', 'sofas', 'coffee-tables', etc.).
- */
 export function getProductsBySubcategory(subcategory) {
   if (!subcategory || subcategory === 'all') return PRODUCTS
   return PRODUCTS.filter((p) => p.subcategory === subcategory)
 }
 
-/**
- * Multi-criteria filter function for shop page.
- */
 export function filterProducts({
   categoryId = 'all',
   subcategory = 'all',
@@ -1060,9 +976,6 @@ export function filterProducts({
   })
 }
 
-// =========================================================================
-// BACKWARD COMPATIBILITY — For CartProvider sample products
-// =========================================================================
 export const BESPOKE_PRODUCTS = [
   PRODUCTS.find((p) => p.id === 'sovereign-curved-chesterfield') || PRODUCTS[0],
   PRODUCTS.find((p) => p.id === 'noir-fluted-arch-bed') || PRODUCTS[1],
