@@ -71,7 +71,7 @@ export const Button = forwardRef(
       primary:
         'bg-charcoal-deep text-canvas hover:bg-charcoal-surface shadow-sm active:scale-[0.98]',
       brass:
-        'bg-brass text-charcoal-deep hover:bg-brass-hover font-semibold shadow-sm active:scale-[0.98]',
+        'bg-brass text-charcoal-deep hover:bg-brass-hover hover:text-white font-semibold shadow-sm active:scale-[0.98]',
       outline:
         'border-border-warm text-text-primary bg-transparent hover:bg-surface-muted hover:border-brass/50 active:scale-[0.98]',
       outlineDark:
@@ -85,7 +85,8 @@ export const Button = forwardRef(
       borderBeam: 'text-canvas bg-charcoal-deep hover:shadow-glow-brass',
       liquidBrass:
         'border-brass text-charcoal-deep bg-transparent overflow-hidden',
-      pulseGlow: 'bg-brass text-charcoal-deep font-semibold shadow-glow-brass',
+      pulseGlow:
+        'bg-brass text-charcoal-deep hover:bg-brass-hover hover:text-white font-semibold shadow-glow-brass',
     }
 
     // Height comes from the shared control scale, not from padding, so a
@@ -110,8 +111,8 @@ export const Button = forwardRef(
 
     const resolvedRollColor =
       rollColor ||
-      (resolvedVariant === 'brass'
-        ? 'text-charcoal-deep font-bold'
+      (resolvedVariant === 'brass' || resolvedVariant === 'pulseGlow'
+        ? 'text-white font-semibold'
         : resolvedVariant === 'whatsapp'
           ? 'text-white'
           : 'text-brass font-semibold')
@@ -281,7 +282,14 @@ export const Button = forwardRef(
         <span
           className={cn(
             'relative z-10 inline-flex items-center justify-center gap-2 select-none',
-            'group-hover:[&_svg]:text-brass [&_svg]:transition-all [&_svg]:duration-300 group-hover:[&_svg]:scale-110',
+            resolvedVariant === 'brass' ||
+              resolvedVariant === 'pulseGlow' ||
+              resolvedVariant === 'whatsapp'
+              ? 'group-hover:[&_svg]:text-white'
+              : resolvedVariant === 'ghost' || resolvedVariant === 'liquidBrass'
+                ? 'group-hover:[&_svg]:text-charcoal-deep'
+                : 'group-hover:[&_svg]:text-brass',
+            '[&_svg]:transition-all [&_svg]:duration-300 group-hover:[&_svg]:scale-110',
             animation === 'liquid-fill' &&
               'group-hover:text-charcoal-deep font-semibold transition-colors duration-300',
             animation === 'slide-arrow' && 'group-hover:[&_svg]:translate-x-1.5'
