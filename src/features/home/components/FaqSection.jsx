@@ -34,7 +34,7 @@ export const FaqSection = () => {
   return (
     <section
       id="faq"
-      className="bg-charcoal-deep text-canvas border-charcoal-border/60 relative border-t py-20 sm:py-24 lg:py-28"
+      className="bg-charcoal-deep text-canvas border-charcoal-border/60 section-y relative border-t"
       aria-labelledby="faq-heading"
     >
       <div
@@ -45,7 +45,7 @@ export const FaqSection = () => {
         <div className="bg-atelier-rules absolute inset-0 mask-[linear-gradient(180deg,transparent_0%,#000_20%,#000_80%,transparent_100%)] opacity-20" />
       </div>
 
-      <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div className="container-page relative z-10">
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-16">
           <div className="relative lg:col-span-5">
             <div className="flex flex-col gap-6 lg:sticky lg:top-28">
@@ -151,7 +151,7 @@ export const FaqSection = () => {
                           <span className="text-brass/70 font-mono text-xs font-medium">
                             {String(index + 1).padStart(2, '0')}
                           </span>
-                          <span className="text-brass text-[11px] font-semibold tracking-widest uppercase">
+                          <span className="text-brass text-label-sm font-semibold tracking-widest uppercase">
                             {faq.categoryLabel}
                           </span>
                         </div>
