@@ -186,30 +186,35 @@ export const COMPANY_INFO = {
       title: 'Studio Founded',
       description:
         'Founded in Chattogram by Managing Director Abul Kalam Bhuiyan with a vision for uncompromising bespoke artistry.',
+      image: 'studio-founded',
     },
     {
       year: '2021',
       title: 'Agrabad Showroom Launch',
       description:
         'Inauguration of the expansive physical design showroom along Agrabad Access Road.',
+      image: 'showroom-launch',
     },
     {
       year: '2024–2025',
       title: "Int'l Furniture Fair Exhibition",
       description:
         'Exhibited showcase bespoke collections at the International Furniture Fair, Chattogram.',
+      image: 'furniture-fair',
     },
     {
       year: '2025',
       title: 'Chamber of Commerce',
       description:
         'Inducted as an esteemed member of the Chattogram Chamber of Commerce.',
+      image: 'chamber-of-commerce',
     },
     {
       year: '2026',
       title: 'Nationwide BFIOA Recognition',
       description:
         'Honored with nationwide industry recognition by the Bangladesh Furniture Industry Owners Association (BFIOA).',
+      image: 'bfioa-recognition',
     },
   ],
 
