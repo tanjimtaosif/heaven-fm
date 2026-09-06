@@ -1,2 +1,10 @@
-export { useMediaQuery, useIsDesktop } from './useMediaQuery'
-export { useProducts } from './useProducts'
+export {
+  useMediaQuery,
+  useIsDesktop,
+  useIsMobile,
+  useIsCompact,
+  usePrefersReducedMotion,
+  BREAKPOINTS,
+  above,
+  below,
+} from './useMediaQuery'
