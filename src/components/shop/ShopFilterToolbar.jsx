@@ -29,11 +29,9 @@ export const ShopFilterToolbar = ({
   const sortRef = useRef(null)
   const priceRef = useRef(null)
 
-  // Current active category object
   const activeCategory = categories.find((c) => c.id === filters.categoryId)
   const subcategories = activeCategory?.subcategories || []
 
-  // Close dropdowns when clicking outside
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (sortRef.current && !sortRef.current.contains(e.target)) {
@@ -47,7 +45,6 @@ export const ShopFilterToolbar = ({
     return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [])
 
-  // Identify selected sort and price labels
   const currentSort =
     sortOptions.find((s) => s.id === filters.sortBy) || sortOptions[0]
   const currentPrice =
@@ -55,7 +52,6 @@ export const ShopFilterToolbar = ({
       (p) => p.min === filters.minPrice && p.max === filters.maxPrice
     ) || priceRanges[0]
 
-  // Count active non-default filters
   const hasActiveFilters =
     filters.categoryId !== 'all' ||
     filters.subcategory !== 'all' ||
@@ -73,11 +69,8 @@ export const ShopFilterToolbar = ({
 
   return (
     <div className="mb-8 space-y-4">
-      {/* Primary Toolbar: Sort Pill, Price Pill, Search Input, Mobile Filter Drawer Button */}
       <div className="border-border-subtle/80 flex flex-wrap items-center justify-between gap-3 border-y py-3">
-        {/* Desktop Filter Pills */}
         <div className="hidden items-center gap-2.5 sm:flex">
-          {/* Sort Dropdown Pill */}
           <div className="relative" ref={sortRef}>
             <button
               type="button"
@@ -130,7 +123,6 @@ export const ShopFilterToolbar = ({
             )}
           </div>
 
-          {/* Price Range Dropdown Pill */}
           <div className="relative" ref={priceRef}>
             <button
               type="button"
@@ -191,7 +183,6 @@ export const ShopFilterToolbar = ({
             )}
           </div>
 
-          {/* Reset Filters Quick Button */}
           {hasActiveFilters && (
             <button
               type="button"
@@ -205,7 +196,6 @@ export const ShopFilterToolbar = ({
           )}
         </div>
 
-        {/* Mobile Filter Button */}
         <div className="flex items-center gap-2 sm:hidden">
           <button
             type="button"
@@ -233,7 +223,6 @@ export const ShopFilterToolbar = ({
           )}
         </div>
 
-        {/* Instant Search Box */}
         <div className="relative max-w-xs min-w-50 grow sm:grow-0">
           <Search className="text-text-muted pointer-events-none absolute top-1/2 left-3.5 h-3.5 w-3.5 -translate-y-1/2" />
           <input
@@ -258,7 +247,6 @@ export const ShopFilterToolbar = ({
         </div>
       </div>
 
-      {/* Subcategories Secondary Pill Row (Visible when category has subcategories, e.g. Bedroom) */}
       {subcategories.length > 0 && (
         <div className="flex flex-wrap items-center gap-2 pt-1 pb-2">
           <span className="text-text-muted mr-1 text-xs font-semibold tracking-wider uppercase">
@@ -297,11 +285,9 @@ export const ShopFilterToolbar = ({
         </div>
       )}
 
-      {/* Mobile Filters Bottom Sheet Drawer */}
       {isMobileFiltersOpen && (
         <div className="fixed inset-0 z-50 flex flex-col justify-end bg-black/60 backdrop-blur-xs sm:hidden">
           <div className="animate-slide-up border-border-subtle bg-surface max-h-[85vh] overflow-y-auto rounded-t-3xl border-t p-5 shadow-2xl">
-            {/* Drawer Header */}
             <div className="border-border-subtle flex items-center justify-between border-b pb-4">
               <div>
                 <h3 className="text-text-primary font-serif text-lg font-bold">
@@ -320,7 +306,6 @@ export const ShopFilterToolbar = ({
               </button>
             </div>
 
-            {/* Sort Options */}
             <div className="py-4">
               <span className="text-text-muted mb-2.5 block text-xs font-bold tracking-wider uppercase">
                 Sort By
@@ -347,7 +332,6 @@ export const ShopFilterToolbar = ({
               </div>
             </div>
 
-            {/* Price Ranges */}
             <div className="border-border-subtle border-t py-4">
               <span className="text-text-muted mb-2.5 block text-xs font-bold tracking-wider uppercase">
                 Price Range
@@ -380,7 +364,6 @@ export const ShopFilterToolbar = ({
               </div>
             </div>
 
-            {/* Drawer Actions */}
             <div className="border-border-subtle bg-surface sticky bottom-0 -mx-5 -mb-5 flex items-center gap-3 border-t p-5">
               {hasActiveFilters && (
                 <button
