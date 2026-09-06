@@ -15,7 +15,6 @@ export const FaqSection = () => {
   const [faqsList, setFaqsList] = useState(FAQS)
   const [openId, setOpenId] = useState(FAQS[0]?.id || null)
 
-  // Fetch FAQs using the async loader from faq.js
   useEffect(() => {
     let isMounted = true
     fetchFaqs().then((data) => {
@@ -38,7 +37,6 @@ export const FaqSection = () => {
       className="bg-charcoal-deep text-canvas border-charcoal-border/60 relative border-t py-20 sm:py-24 lg:py-28"
       aria-labelledby="faq-heading"
     >
-      {/* Ambient Atelier Lighting & Background Accents */}
       <div
         className="pointer-events-none absolute inset-0 overflow-hidden"
         aria-hidden="true"
@@ -49,12 +47,6 @@ export const FaqSection = () => {
 
       <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-16">
-          {/* =================================================================
-              LEFT COLUMN: STICKY FLOATING ATELIER PANEL (DESKTOP)
-              Pins at top-28 on desktop while FAQs scroll smoothly up & down.
-              Parent column matches height of right column; sticky container
-              aligns with bottom of Question 08 at the end of scroll.
-             ================================================================= */}
           <div className="relative lg:col-span-5">
             <div className="flex flex-col gap-6 lg:sticky lg:top-28">
               <div className="space-y-3">
@@ -77,13 +69,11 @@ export const FaqSection = () => {
                 showroom, materials, and white-glove delivery.
               </p>
 
-              {/* Quick Stat / Reading Indicator */}
               <div className="text-text-inverse-muted flex items-center gap-3 pt-1 text-xs">
                 <span className="bg-brass flex h-2 w-2 animate-pulse rounded-full" />
                 <span>{faqsList.length} Curated Questions Available</span>
               </div>
 
-              {/* Desktop Concierge Callout Box */}
               <div className="border-charcoal-border/80 bg-charcoal-surface/70 hidden space-y-4 rounded-2xl border p-6 backdrop-blur-md lg:block">
                 <div className="text-brass flex items-center gap-2">
                   <Sparkles className="h-4 w-4" />
@@ -127,10 +117,6 @@ export const FaqSection = () => {
             </div>
           </div>
 
-          {/* =================================================================
-              RIGHT COLUMN: INTERACTIVE ACCORDION LIST
-              Scrolls smoothly alongside the sticky left column on desktop.
-             ================================================================= */}
           <div
             className="flex flex-col gap-3.5 lg:col-span-7"
             role="region"
@@ -181,7 +167,6 @@ export const FaqSection = () => {
                         </p>
                       </div>
 
-                      {/* Rotating Satin Brass Chevron Indicator */}
                       <div
                         className={cn(
                           'mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full border transition-all duration-300 sm:h-9 sm:w-9',
@@ -196,7 +181,6 @@ export const FaqSection = () => {
                     </button>
                   </h3>
 
-                  {/* Smooth Expandable Answer Body (CSS Grid 0fr -> 1fr) */}
                   <div
                     id={accordionPanelId}
                     role="region"
@@ -233,7 +217,6 @@ export const FaqSection = () => {
           </div>
         </div>
 
-        {/* Mobile Concierge Card: Positioned beneath FAQs on mobile for fluid conversion */}
         <div className="border-charcoal-border/80 bg-charcoal-surface/70 mt-8 space-y-4 rounded-2xl border p-5 backdrop-blur-md sm:p-6 lg:hidden">
           <div className="text-brass flex items-center gap-2">
             <Sparkles className="h-4 w-4" />
