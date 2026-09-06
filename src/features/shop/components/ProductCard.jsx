@@ -9,6 +9,10 @@ export const ProductCard = ({ product, onQuickView }) => {
   const [isAdded, setIsAdded] = useState(false)
   const touchStartXRef = useRef(null)
 
+  const isOutOfStock = !product.stock || product.stock <= 0
+  const isLowStock =
+    product.stock > 0 && product.stock <= (product.lowStockThreshold || 3)
+
   const images =
     product.images && product.images.length > 0
       ? product.images
@@ -18,6 +22,7 @@ export const ProductCard = ({ product, onQuickView }) => {
 
   const handleAddToCart = (e) => {
     e.stopPropagation()
+    if (isOutOfStock) return
     addItem(product)
     setIsAdded(true)
     setTimeout(() => setIsAdded(false), 2000)
@@ -46,9 +51,12 @@ export const ProductCard = ({ product, onQuickView }) => {
 
   return (
     <article
-      className="group border-border-subtle/80 bg-surface hover:border-brass/40 relative flex flex-col justify-between rounded-2xl border p-3 transition-all duration-300 hover:shadow-lg sm:p-4"
+      className={cn(
+        'group border-border-subtle/80 bg-surface hover:border-brass/40 relative flex flex-col justify-between rounded-2xl border p-3 transition-all duration-300 hover:shadow-lg sm:p-4',
+        isOutOfStock && 'opacity-95'
+      )}
       tabIndex={0}
-      aria-label={`${product.name}, ${product.priceFormatted}`}
+      aria-label={`${product.name}, ${product.priceFormatted}${isOutOfStock ? ' (Out of Stock)' : ''}`}
     >
       <div>
         <div
@@ -60,18 +68,31 @@ export const ProductCard = ({ product, onQuickView }) => {
           <img
             src={currentImage}
             alt={`${product.name} angle view ${activeImageIndex + 1}`}
-            className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+            className={cn(
+              'h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]',
+              isOutOfStock && 'opacity-85 grayscale-15'
+            )}
             loading="lazy"
           />
 
           <div className="absolute top-2.5 left-2.5 z-10 flex flex-wrap gap-1.5">
-            {product.isNew && (
-              <span className="bg-charcoal-surface/90 text-brass rounded-full px-2.5 py-0.5 text-[10px] font-semibold tracking-wider uppercase shadow-xs backdrop-blur-xs">
+            {isOutOfStock ? (
+              <span className="text-label-xs rounded-full border border-rose-800/30 bg-rose-950/85 px-2.5 py-0.5 font-bold tracking-wider text-rose-200 uppercase shadow-xs backdrop-blur-xs">
+                Out of Stock
+              </span>
+            ) : isLowStock ? (
+              <span className="text-label-xs rounded-full border border-amber-800/30 bg-amber-950/85 px-2.5 py-0.5 font-bold tracking-wider text-amber-200 uppercase shadow-xs backdrop-blur-xs">
+                Only {product.stock} Left
+              </span>
+            ) : null}
+
+            {product.isNew && !isOutOfStock && (
+              <span className="bg-charcoal-surface/90 text-brass text-label-xs rounded-full px-2.5 py-0.5 font-semibold tracking-wider uppercase shadow-xs backdrop-blur-xs">
                 New
               </span>
             )}
-            {product.isFeatured && (
-              <span className="bg-brass/90 text-charcoal-deep rounded-full px-2 py-0.5 text-[10px] font-bold tracking-wider uppercase shadow-xs backdrop-blur-xs">
+            {product.isFeatured && !isOutOfStock && (
+              <span className="bg-brass/90 text-charcoal-deep text-label-xs rounded-full px-2 py-0.5 font-bold tracking-wider uppercase shadow-xs backdrop-blur-xs">
                 Featured
               </span>
             )}
@@ -91,7 +112,7 @@ export const ProductCard = ({ product, onQuickView }) => {
           </button>
 
           {hasMultipleAngles && (
-            <div className="pointer-events-none absolute right-2.5 bottom-2.5 flex items-center gap-1 rounded-full bg-black/60 px-2 py-0.5 text-[10px] font-medium text-white/90 backdrop-blur-xs sm:hidden">
+            <div className="text-label-xs pointer-events-none absolute right-2.5 bottom-2.5 flex items-center gap-1 rounded-full bg-black/60 px-2 py-0.5 font-medium text-white/90 backdrop-blur-xs sm:hidden">
               <span>
                 {activeImageIndex + 1}/{images.length}
               </span>
@@ -133,22 +154,29 @@ export const ProductCard = ({ product, onQuickView }) => {
                 </button>
               )
             })}
-            <span className="text-text-muted ml-auto hidden text-[10px] font-medium sm:inline-block">
+            <span className="text-text-muted text-label-xs ml-auto hidden font-medium sm:inline-block">
               {images.length} angles
             </span>
           </div>
         )}
 
         <div className="mt-3">
-          <span className="text-text-muted text-[11px] font-medium tracking-wide uppercase">
-            {product.subcategoryLabel || product.category}
-          </span>
+          <div className="flex items-center justify-between gap-2">
+            <span className="text-text-muted text-label-sm font-medium tracking-wide uppercase">
+              {product.subcategoryLabel || product.category}
+            </span>
+            {product.sku && (
+              <span className="bg-surface-muted text-text-muted border-border-subtle/70 text-label-xs rounded border px-1.5 py-0.5 font-mono font-semibold tracking-wider">
+                {product.sku}
+              </span>
+            )}
+          </div>
 
           <h2
             onClick={() =>
               onQuickView && onQuickView(product, activeImageIndex)
             }
-            className="text-text-primary hover:text-brass-dark mt-0.5 line-clamp-1 cursor-pointer font-serif text-base font-medium transition-colors sm:text-lg"
+            className="text-text-primary hover:text-brass-dark mt-1 line-clamp-1 cursor-pointer font-serif text-base font-medium transition-colors sm:text-lg"
           >
             {product.name}
           </h2>
@@ -157,7 +185,7 @@ export const ProductCard = ({ product, onQuickView }) => {
             {product.shortDescription}
           </p>
 
-          <div className="text-text-muted mt-2 flex items-center gap-1.5 text-[11px]">
+          <div className="text-text-muted text-label-sm mt-2 flex items-center justify-between gap-1.5">
             <span className="truncate">{product.material}</span>
           </div>
         </div>
@@ -165,7 +193,7 @@ export const ProductCard = ({ product, onQuickView }) => {
 
       <div className="border-border-subtle/80 mt-4 flex items-center justify-between border-t pt-3">
         <div>
-          <span className="text-text-muted block text-[10px] tracking-wider uppercase">
+          <span className="text-text-muted text-label-xs block tracking-wider uppercase">
             {product.pricePrefix || 'from'}
           </span>
           <span className="text-text-primary font-sans text-sm font-bold sm:text-base">
@@ -173,29 +201,40 @@ export const ProductCard = ({ product, onQuickView }) => {
           </span>
         </div>
 
-        <button
-          type="button"
-          onClick={handleAddToCart}
-          className={cn(
-            'inline-flex cursor-pointer items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-semibold shadow-xs transition-all duration-200 sm:px-4 sm:py-2',
-            isAdded
-              ? 'bg-emerald-700 text-white'
-              : 'bg-charcoal-surface text-brass hover:bg-charcoal-deep active:scale-95'
-          )}
-          aria-label={`Add ${product.name} to cart`}
-        >
-          {isAdded ? (
-            <>
-              <Check className="h-3.5 w-3.5" />
-              <span>Added</span>
-            </>
-          ) : (
-            <>
-              <ShoppingBag className="h-3.5 w-3.5" />
-              <span>Add to Bag</span>
-            </>
-          )}
-        </button>
+        {isOutOfStock ? (
+          <button
+            type="button"
+            disabled
+            className="border-border-subtle bg-surface-muted/80 text-text-muted inline-flex cursor-not-allowed items-center gap-1 rounded-full border px-3 py-1.5 text-xs font-semibold tracking-wide sm:px-3.5 sm:py-2"
+            aria-label={`${product.name} is out of stock`}
+          >
+            <span>Out of Stock</span>
+          </button>
+        ) : (
+          <button
+            type="button"
+            onClick={handleAddToCart}
+            className={cn(
+              'inline-flex cursor-pointer items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-semibold shadow-xs transition-all duration-200 sm:px-4 sm:py-2',
+              isAdded
+                ? 'bg-emerald-700 text-white'
+                : 'bg-charcoal-surface text-brass hover:bg-charcoal-deep active:scale-95'
+            )}
+            aria-label={`Add ${product.name} to cart`}
+          >
+            {isAdded ? (
+              <>
+                <Check className="h-3.5 w-3.5" />
+                <span>Added</span>
+              </>
+            ) : (
+              <>
+                <ShoppingBag className="h-3.5 w-3.5" />
+                <span>Add to Bag</span>
+              </>
+            )}
+          </button>
+        )}
       </div>
     </article>
   )
