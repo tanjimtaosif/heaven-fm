@@ -25,7 +25,6 @@ export const ProductDetailModal = ({
   const [quantity, setQuantity] = useState(1)
   const [isAdded, setIsAdded] = useState(false)
 
-  // ESC key listener to close modal
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.key === 'Escape') onClose()
@@ -68,7 +67,6 @@ export const ProductDetailModal = ({
         className="animate-scale-in border-border-subtle bg-surface relative flex max-h-[92vh] w-full max-w-4xl flex-col overflow-y-auto rounded-3xl border shadow-2xl md:flex-row md:overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Close Button */}
         <button
           type="button"
           onClick={onClose}
@@ -78,9 +76,7 @@ export const ProductDetailModal = ({
           <X className="h-5 w-5" />
         </button>
 
-        {/* Left: Angle Gallery View */}
         <div className="bg-surface-muted/40 flex flex-col p-4 sm:p-6 md:w-1/2">
-          {/* Main Large Photograph */}
           <div className="bg-surface-muted relative aspect-3/4 w-full overflow-hidden rounded-2xl">
             <img
               src={currentImage}
@@ -88,7 +84,6 @@ export const ProductDetailModal = ({
               className="h-full w-full object-cover transition-all duration-300"
             />
 
-            {/* Navigation Arrows for Angles */}
             {images.length > 1 && (
               <div className="pointer-events-none absolute inset-x-2 top-1/2 flex -translate-y-1/2 justify-between">
                 <button
@@ -117,7 +112,6 @@ export const ProductDetailModal = ({
             )}
           </div>
 
-          {/* Thumbnail Angle Strip */}
           {images.length > 1 && (
             <div className="mt-3 flex items-center justify-center gap-2 overflow-x-auto pb-1">
               {images.map((img, idx) => (
@@ -144,10 +138,8 @@ export const ProductDetailModal = ({
           )}
         </div>
 
-        {/* Right: Product Specification & Actions */}
         <div className="flex flex-col justify-between p-6 md:w-1/2 md:overflow-y-auto md:p-8">
           <div>
-            {/* Category / Department */}
             <div className="flex items-center gap-2">
               <span className="text-brass-dark text-xs font-semibold tracking-wider uppercase">
                 {product.category} • {product.subcategoryLabel}
@@ -159,12 +151,10 @@ export const ProductDetailModal = ({
               )}
             </div>
 
-            {/* Title */}
             <h2 className="text-text-primary mt-2 font-serif text-2xl font-normal sm:text-3xl">
               {product.name}
             </h2>
 
-            {/* Price */}
             <div className="mt-3 flex items-baseline gap-2">
               <span className="text-text-muted text-xs uppercase">
                 {product.pricePrefix || 'from'}
@@ -174,12 +164,10 @@ export const ProductDetailModal = ({
               </span>
             </div>
 
-            {/* Description */}
             <p className="text-text-secondary mt-4 text-xs leading-relaxed sm:text-sm">
               {product.shortDescription}
             </p>
 
-            {/* Specifications Grid */}
             <div className="border-border-subtle bg-surface-muted/30 mt-6 space-y-2.5 rounded-2xl border p-4 text-xs">
               <div className="text-text-secondary flex items-center gap-2">
                 <Ruler className="text-brass h-4 w-4 shrink-0" />
@@ -210,9 +198,7 @@ export const ProductDetailModal = ({
             </div>
           </div>
 
-          {/* Action Footer */}
           <div className="border-border-subtle mt-6 space-y-3 border-t pt-4">
-            {/* Quantity Selector & Add to Bag */}
             <div className="flex items-center gap-3">
               <div className="border-border-subtle bg-surface-muted/40 flex items-center rounded-full border p-1">
                 <button
@@ -260,7 +246,6 @@ export const ProductDetailModal = ({
               </button>
             </div>
 
-            {/* Direct Bespoke WhatsApp Concierge */}
             <a
               href={whatsappUrl}
               target="_blank"
