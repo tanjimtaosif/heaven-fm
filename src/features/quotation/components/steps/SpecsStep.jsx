@@ -14,9 +14,8 @@ import {
 } from '../QuotationFields'
 
 export const SpecsStep = ({ form, errors, updateForm, toggleInArray }) => (
-  <div className="space-y-7">
+  <div className="space-y-6">
     <StepIntro
-      eyebrow="Step 2 of 5"
       title="Tell us about the space"
       description="A rough idea of the room, the finish you lean toward, and your budget is enough for us to price it accurately."
     />

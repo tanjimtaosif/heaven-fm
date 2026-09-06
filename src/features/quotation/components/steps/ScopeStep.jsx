@@ -47,9 +47,8 @@ export const ScopeStep = ({
   }
 
   return (
-    <div className="space-y-7">
+    <div className="space-y-6">
       <StepIntro
-        eyebrow="Step 1 of 5"
         title="What would you like us to build?"
         description="Choose every collection you are considering — you can pick more than one, and narrow down to specific pieces below."
       />
@@ -133,7 +132,7 @@ export const ScopeStep = ({
           />
 
           {form.includeBagItems && (
-            <ul className="border-border-subtle bg-surface-muted/40 animate-fade-in space-y-1.5 rounded-2xl border p-3.5">
+            <ul className="border-border-subtle bg-surface-muted/40 animate-fade-in space-y-1.5 rounded-xl border p-3.5">
               {bagItems.map((item) => (
                 <li
                   key={item.id}

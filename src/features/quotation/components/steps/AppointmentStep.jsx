@@ -12,6 +12,7 @@ import {
   OptionCard,
   StepIntro,
   TextAreaField,
+  DatePickerField,
 } from '../QuotationFields'
 import {
   formatLongDate,
@@ -43,9 +44,8 @@ export const AppointmentStep = ({ form, errors, updateForm }) => {
   }
 
   return (
-    <div className="space-y-7">
+    <div className="space-y-6">
       <StepIntro
-        eyebrow="Step 4 of 5"
         title="A call, or shall we meet?"
         description="Pick how you would like to talk it through, then a day and a window that suits you. We confirm on WhatsApp."
       />
@@ -70,41 +70,29 @@ export const AppointmentStep = ({ form, errors, updateForm }) => {
       </FieldShell>
 
       {form.consultationMode === 'showroom-visit' && (
-        <p className="border-brass-border bg-brass-light/60 text-wood-walnut animate-fade-in text-label-sm flex items-start gap-2 rounded-2xl border p-3.5 leading-relaxed">
+        <p className="border-brass-border bg-brass-light/60 text-wood-walnut animate-fade-in text-label-sm flex items-start gap-2 rounded-xl border p-3.5 leading-relaxed">
           <MapPin className="mt-px h-4 w-4 shrink-0" />
           {COMPANY_INFO.location} — ask for the design desk when you arrive.
         </p>
       )}
 
-      <FieldShell
+      <DatePickerField
         label="Preferred date"
         hint="Up to 45 days ahead"
         error={errors.preferredDate}
         required
-      >
-        <input
-          type="date"
-          min={min}
-          max={max}
-          value={form.preferredDate}
-          onChange={(e) => handleDateChange(e.target.value)}
-          aria-invalid={!!errors.preferredDate}
-          className={cn(
-            'bg-surface text-text-primary focus:ring-brass/35 w-full cursor-pointer rounded-xl border px-3.5 py-2.5 text-sm transition-colors focus:ring-2 focus:outline-none',
-            errors.preferredDate
-              ? 'border-destructive/60'
-              : 'border-border-subtle focus:border-brass'
-          )}
-        />
-        {form.preferredDate && !errors.preferredDate && (
-          <p className="text-text-muted text-label-sm">
-            {formatLongDate(form.preferredDate)}
-          </p>
-        )}
-      </FieldShell>
+        min={min}
+        max={max}
+        value={form.preferredDate}
+        onChange={(e) => {
+          const val = typeof e === 'string' ? e : e?.target?.value || e?.value
+          handleDateChange(val)
+        }}
+        formatDate={formatLongDate}
+      />
 
       {dayNote && (
-        <p className="border-border-subtle bg-surface-muted/60 text-text-secondary text-label-sm flex items-start gap-2 rounded-2xl border p-3">
+        <p className="border-border-subtle bg-surface-muted/60 text-text-secondary text-label-sm flex items-start gap-2 rounded-xl border p-3">
           <Info className="text-brass mt-px h-3.5 w-3.5 shrink-0" />
           {dayNote}
         </p>

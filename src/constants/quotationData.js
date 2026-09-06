@@ -26,7 +26,7 @@ const EXTRA_PIECES = {
     { id: 'wall-paneling', name: 'Wall Paneling' },
     { id: 'walk-in-closet', name: 'Walk-in Closet' },
     { id: 'staircase-railing', name: 'Staircase & Railing' },
-    { id: 'other-custom', name: 'Something Else Entirely' },
+    { id: 'other-custom', name: 'Something Else' },
   ],
 }
 
@@ -97,22 +97,22 @@ export const FINISH_PREFERENCES = [
   { id: 'leather', label: 'Leather Upholstery' },
   { id: 'marble', label: 'Marble Top' },
   { id: 'glass', label: 'Glass & Metal' },
-  { id: 'guide-me', label: 'Guide me — I am open' },
+  { id: 'guide-me', label: 'Not sure yet, guide me' },
 ]
 
 export const BUDGET_RANGES = [
   { id: 'under-50k', label: 'Under ৳50,000' },
-  { id: '50k-1l', label: '৳50,000 – ৳1,00,000' },
-  { id: '1l-3l', label: '৳1,00,000 – ৳3,00,000' },
-  { id: '3l-5l', label: '৳3,00,000 – ৳5,00,000' },
+  { id: '50k-1l', label: '৳50,000 to ৳1,00,000' },
+  { id: '1l-3l', label: '৳1,00,000 to ৳3,00,000' },
+  { id: '3l-5l', label: '৳3,00,000 to ৳5,00,000' },
   { id: 'above-5l', label: 'Above ৳5,00,000' },
-  { id: 'not-sure', label: 'Not sure yet — advise me' },
+  { id: 'not-sure', label: 'Not sure yet, advise me' },
 ]
 
 export const TIMELINES = [
-  { id: 'asap', label: 'Urgent — within 2 weeks' },
+  { id: 'asap', label: 'Within 2 weeks (urgent)' },
   { id: 'one-month', label: 'Within 1 month' },
-  { id: 'one-three-months', label: '1 – 3 months' },
+  { id: 'one-three-months', label: '1 to 3 months' },
   { id: 'planning', label: 'Just planning ahead' },
 ]
 
@@ -144,11 +144,11 @@ export const CONSULTATION_MODES = [
 ]
 
 export const TIME_SLOTS = [
-  { id: '10-12', label: '10:00 AM – 12:00 PM', startHour: 10 },
-  { id: '12-14', label: '12:00 PM – 2:00 PM', startHour: 12 },
-  { id: '14-16', label: '2:00 PM – 4:00 PM', startHour: 14 },
-  { id: '16-18', label: '4:00 PM – 6:00 PM', startHour: 16 },
-  { id: '18-20', label: '6:00 PM – 8:00 PM', startHour: 18 },
+  { id: '10-12', label: '10:00 AM to 12:00 PM', startHour: 10 },
+  { id: '12-14', label: '12:00 PM to 2:00 PM', startHour: 12 },
+  { id: '14-16', label: '2:00 PM to 4:00 PM', startHour: 14 },
+  { id: '16-18', label: '4:00 PM to 6:00 PM', startHour: 16 },
+  { id: '18-20', label: '6:00 PM to 8:00 PM', startHour: 18 },
 ]
 
 // Day index follows Date.getDay() — 0 Sunday through 6 Saturday.
@@ -159,7 +159,10 @@ export const SHOWROOM_HOURS = {
   2: { earliestHour: 10 },
   3: { earliestHour: 10 },
   4: { earliestHour: 10 },
-  5: { earliestHour: 15, note: 'Friday — afternoon shift only (3 PM onward)' },
+  5: {
+    earliestHour: 15,
+    note: 'Friday opens for the afternoon shift only, from 3 PM.',
+  },
   6: { earliestHour: 10 },
 }
 
@@ -181,41 +184,16 @@ export const REFERRAL_SOURCES = [
   { id: 'google', label: 'Google Search' },
   { id: 'youtube', label: 'YouTube' },
   { id: 'referral', label: 'Friend / Family' },
-  { id: 'showroom', label: 'Passed the showroom' },
+  { id: 'showroom', label: 'Walked past the showroom' },
   { id: 'other-source', label: 'Somewhere else' },
 ]
 
 export const QUOTATION_STEPS = [
-  {
-    id: 'scope',
-    title: 'Your Project',
-    caption: 'What are we building?',
-    icon: 'Layers',
-  },
-  {
-    id: 'specs',
-    title: 'The Details',
-    caption: 'Space, finish, budget',
-    icon: 'Palette',
-  },
-  {
-    id: 'contact',
-    title: 'Your Details',
-    caption: 'Where we reach you',
-    icon: 'User',
-  },
-  {
-    id: 'appointment',
-    title: 'Call or Meeting',
-    caption: 'Pick a day and time',
-    icon: 'CalendarDays',
-  },
-  {
-    id: 'review',
-    title: 'Review & Send',
-    caption: 'Check, then send',
-    icon: 'Send',
-  },
+  { id: 'scope', title: 'Your project', caption: 'What are we building' },
+  { id: 'specs', title: 'The details', caption: 'Space, finish, budget' },
+  { id: 'contact', title: 'Your details', caption: 'Where we reach you' },
+  { id: 'appointment', title: 'Call or visit', caption: 'A day and a time' },
+  { id: 'review', title: 'Review', caption: 'Check, then send' },
 ]
 
 export const QUOTATION_PROMISE = [

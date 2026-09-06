@@ -12,8 +12,6 @@ import {
 } from '@/constants/quotationData'
 import { formatLongDate, normalisePhone } from './quotationSchema'
 
-const RULE = '━━━━━━━━━━━━━━━━━━━━'
-
 function labelOf(collection, id, key = 'label') {
   return collection.find((entry) => entry.id === id)?.[key] || ''
 }
@@ -64,17 +62,40 @@ export function getFinishLabels(ids) {
   return labelsOf(FINISH_PREFERENCES, ids)
 }
 
-function formatTaka(amount) {
-  return `৳${amount.toLocaleString('en-US')}`
+/**
+ * Amounts are written as "BDT 45,000" rather than with the taka sign, which
+ * some Android keyboards and desktop WhatsApp fonts render as a blank box.
+ */
+function formatAmount(amount) {
+  return `BDT ${amount.toLocaleString('en-US')}`
+}
+
+/** Budget labels carry the taka sign for the web UI; the brief spells it out. */
+function plainAmountText(label) {
+  return label.replace(/৳\s?/g, 'BDT ')
+}
+
+function formatSentAt(date) {
+  return date.toLocaleString('en-GB', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+  })
 }
 
 /**
- * Renders the whole brief as one WhatsApp message. Ordered the way the studio
- * reads it: who, what, how it should look, then when to meet.
+ * Renders the whole brief as one WhatsApp message. Plain sentences and simple
+ * "Label: value" lines only — no emoji, rules, or bullet glyphs, so it reads
+ * as a professional enquiry in the studio inbox and stays legible if a phone
+ * strips the formatting. Ordered the way the studio reads it: who, what, how
+ * it should look, then when to meet.
  */
 export function buildQuotationMessage({ form, reference, bagItems = [] }) {
   const lines = []
   const push = (...entries) => lines.push(...entries)
+  const section = (title) => push('', `*${title}*`)
 
   const includedBagItems = form.includeBagItems ? bagItems : []
   const bagSubtotal = includedBagItems.reduce(
@@ -83,86 +104,74 @@ export function buildQuotationMessage({ form, reference, bagItems = [] }) {
   )
 
   push(
-    '🪑 *HEAVEN FURNITURE MART — QUOTATION REQUEST*',
-    RULE,
-    `*Ref:* ${reference}`,
-    `*Sent:* ${new Date().toLocaleString('en-GB', {
-      day: 'numeric',
-      month: 'short',
-      year: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit',
-    })}`,
+    `*Quotation Request | ${COMPANY_INFO.name}*`,
+    `Reference: ${reference}`,
+    `Sent: ${formatSentAt(new Date())}`,
     '',
-    'Assalamu Alaikum / Hello Heaven Furniture Mart,',
-    'I would like a quotation for the following.',
-    ''
+    'Assalamu Alaikum. I would like a quotation for the following.'
   )
 
-  push('👤 *CLIENT*', `• Name: ${form.fullName.trim()}`)
-  push(`• Phone: ${normalisePhone(form.phone)}`)
+  section('Client')
+  push(`Name: ${form.fullName.trim()}`)
+  push(`Phone: ${normalisePhone(form.phone)}`)
   if (!form.whatsappSameAsPhone && form.whatsappNumber.trim()) {
-    push(`• WhatsApp: ${normalisePhone(form.whatsappNumber)}`)
+    push(`WhatsApp: ${normalisePhone(form.whatsappNumber)}`)
   }
-  if (form.email.trim()) push(`• Email: ${form.email.trim()}`)
-  push(`• Address: ${form.address.trim()}, ${form.city}`, '')
+  if (form.email.trim()) push(`Email: ${form.email.trim()}`)
+  push(`Address: ${form.address.trim()}, ${form.city}`)
 
-  push('🛋️ *PROJECT SCOPE*')
-  push(`• Scale: ${getProjectTypeLabel(form.projectType)}`)
-  push(`• Collections: ${getCategoryLabels(form.categories).join(', ')}`)
+  section('Project')
+  push(`Scale: ${getProjectTypeLabel(form.projectType)}`)
+  push(`Collections: ${getCategoryLabels(form.categories).join(', ')}`)
   const pieceLabels = getPieceLabels(form.pieces)
-  if (pieceLabels.length) push(`• Pieces: ${pieceLabels.join(', ')}`)
-  push(`• Space: ${getSpaceTypeLabel(form.spaceType)}`)
+  if (pieceLabels.length) push(`Pieces: ${pieceLabels.join(', ')}`)
+  push(`Space: ${getSpaceTypeLabel(form.spaceType)}`)
   if (form.roomDimensions.trim()) {
-    push(`• Room size: ${form.roomDimensions.trim()}`)
+    push(`Room size: ${form.roomDimensions.trim()}`)
   }
-  push('')
 
   if (includedBagItems.length) {
-    push(`🛍️ *PIECES SAVED IN MY BAG* (${includedBagItems.length})`)
+    section(`Pieces saved in my bag (${includedBagItems.length})`)
     includedBagItems.forEach((item, index) => {
-      const lineTotal = formatTaka(item.price * item.quantity)
       push(
-        `${index + 1}. ${item.name}${item.sku ? ` (${item.sku})` : ''} — Qty ${item.quantity} × ${formatTaka(item.price)} = ${lineTotal}`
+        `${index + 1}. ${item.name}${item.sku ? ` (${item.sku})` : ''}`,
+        `   Quantity ${item.quantity} at ${formatAmount(item.price)} each, total ${formatAmount(item.price * item.quantity)}`
       )
       if (item.notes && item.notes.trim()) {
-        push(`   ↳ Note: ${item.notes.trim()}`)
+        push(`   Note: ${item.notes.trim()}`)
       }
     })
-    push(`*Bag subtotal:* ${formatTaka(bagSubtotal)}`, '')
+    push(`Subtotal: ${formatAmount(bagSubtotal)}`)
   }
 
-  push('🎨 *PREFERENCES*')
+  section('Preferences')
   const finishes = getFinishLabels(form.finishes)
   push(
-    `• Finish / timber: ${finishes.length ? finishes.join(', ') : 'Open to suggestions'}`
+    `Finish and timber: ${finishes.length ? finishes.join(', ') : 'Open to suggestions'}`
   )
-  push(`• Budget: ${getBudgetLabel(form.budget)}`)
-  push(`• Timeline: ${getTimelineLabel(form.timeline)}`)
+  push(`Budget: ${plainAmountText(getBudgetLabel(form.budget))}`)
+  push(`Timeline: ${getTimelineLabel(form.timeline)}`)
   push(
-    `• Delivery & installation: ${form.needsInstallation ? 'Yes, please handle it' : 'Not required'}`,
-    ''
+    `Delivery and installation: ${form.needsInstallation ? 'Required' : 'Not required'}`
   )
 
-  push('📅 *CALL / MEETING REQUEST*')
-  push(`• Preferred: ${getConsultationLabel(form.consultationMode)}`)
-  push(`• Date: ${formatLongDate(form.preferredDate)}`)
-  push(`• Time: ${getSlotLabel(form.timeSlot)}`, '')
+  section('Preferred appointment')
+  push(`Format: ${getConsultationLabel(form.consultationMode)}`)
+  push(`Date: ${formatLongDate(form.preferredDate)}`)
+  push(`Time: ${getSlotLabel(form.timeSlot)}`)
 
   if (form.notes.trim()) {
-    push('📝 *NOTES*', form.notes.trim(), '')
+    section('Notes')
+    push(form.notes.trim())
   }
 
   if (form.referralSource) {
-    push(
-      `• Found you via: ${labelOf(REFERRAL_SOURCES, form.referralSource)}`,
-      ''
-    )
+    push('', `Found you via: ${labelOf(REFERRAL_SOURCES, form.referralSource)}`)
   }
 
   push(
-    RULE,
-    'Please confirm this slot and share an itemised estimate with the lead time.',
+    '',
+    'Please confirm this appointment and share an itemised estimate with the lead time.',
     'Thank you.'
   )
 
@@ -175,7 +184,7 @@ export function buildWhatsappUrl(message) {
 }
 
 export function buildMailtoUrl(message, reference) {
-  const subject = `Quotation Request ${reference} — Heaven Furniture Mart`
+  const subject = `Quotation Request ${reference} | ${COMPANY_INFO.name}`
   return `mailto:${COMPANY_INFO.contact.email}?subject=${encodeURIComponent(
     subject
   )}&body=${encodeURIComponent(message.replace(/\*/g, ''))}`

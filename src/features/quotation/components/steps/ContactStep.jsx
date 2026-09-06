@@ -1,4 +1,4 @@
-import { ShieldCheck } from 'lucide-react'
+import { ShieldCheck, MapPin } from 'lucide-react'
 import { SERVICE_CITIES } from '@/constants/quotationData'
 import {
   SelectField,
@@ -9,9 +9,8 @@ import {
 } from '../QuotationFields'
 
 export const ContactStep = ({ form, errors, updateForm }) => (
-  <div className="space-y-7">
+  <div className="space-y-6">
     <StepIntro
-      eyebrow="Step 3 of 5"
       title="Where should we reach you?"
       description="Your quote and appointment confirmation go straight to this number on WhatsApp."
     />
@@ -77,6 +76,7 @@ export const ContactStep = ({ form, errors, updateForm }) => (
       <SelectField
         label="City / district"
         required
+        icon={MapPin}
         options={SERVICE_CITIES}
         value={form.city}
         error={errors.city}
@@ -85,18 +85,19 @@ export const ContactStep = ({ form, errors, updateForm }) => (
     </div>
 
     <TextAreaField
-      label="Delivery address"
-      hint="Area, road, building — as detailed as you can"
+      label="Area or address"
+      hint="Area and road is enough for now"
       required
-      placeholder="House 12, Road 4, Agrabad Access Road, Chattogram"
+      rows={2}
+      placeholder="Agrabad Access Road, Chattogram"
       value={form.address}
       error={errors.address}
       onChange={(e) => updateForm({ address: e.target.value })}
     />
 
-    <p className="text-text-muted border-border-subtle bg-surface-muted/50 text-label-sm flex items-start gap-2 rounded-2xl border p-3.5 leading-relaxed">
-      <ShieldCheck className="text-brass mt-px h-4 w-4 shrink-0" />
-      Your details travel only to our studio WhatsApp — we never share or sell
+    <p className="text-text-muted text-label-sm flex items-start gap-2 leading-relaxed">
+      <ShieldCheck className="text-brass mt-px h-3.5 w-3.5 shrink-0" />
+      Your details travel only to our studio WhatsApp. We never share or sell
       them, and nothing is stored on this website beyond your own browser.
     </p>
   </div>

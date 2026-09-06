@@ -9,6 +9,7 @@ export {
   TextField,
   SelectField,
   TextAreaField,
+  DatePickerField,
 } from '@/components/ui'
 
 /** Pill toggle used for every multi-select list of tags. */
@@ -17,9 +18,9 @@ export const Chip = ({ selected, className, children, ...props }) => (
     type="button"
     aria-pressed={selected}
     className={cn(
-      'cursor-pointer rounded-full border px-3.5 py-1.5 text-xs font-medium transition-all duration-200 active:scale-[0.97]',
+      'cursor-pointer rounded-full border px-3.5 py-1.5 text-xs font-medium transition-colors duration-200 active:scale-[0.97]',
       selected
-        ? 'border-brass bg-brass-light text-wood-walnut shadow-xs'
+        ? 'border-brass bg-brass-light text-wood-walnut'
         : 'border-border-subtle bg-surface text-text-secondary hover:border-brass/50 hover:bg-surface-muted',
       className
     )}
@@ -42,25 +43,21 @@ export const OptionCard = ({
     type="button"
     aria-pressed={selected}
     className={cn(
-      'group relative flex cursor-pointer items-start gap-3 rounded-2xl border p-3.5 text-left transition-all duration-200 active:scale-[0.99]',
-      compact && 'p-3',
+      'group relative flex cursor-pointer items-start gap-3 rounded-xl border p-3.5 text-left transition-colors duration-200 active:scale-[0.99]',
+      compact && 'items-center p-3',
       selected
-        ? 'border-brass bg-brass-light/70 shadow-xs'
-        : 'border-border-subtle bg-surface hover:border-brass/45 hover:bg-surface-muted/60'
+        ? 'border-brass bg-brass-light/50'
+        : 'border-border-subtle bg-surface hover:border-brass/45'
     )}
     {...props}
   >
     {Icon && (
-      <span
+      <Icon
         className={cn(
-          'flex h-9 w-9 shrink-0 items-center justify-center rounded-xl transition-colors',
-          selected
-            ? 'bg-charcoal-deep text-brass'
-            : 'bg-surface-muted text-text-secondary group-hover:text-brass-dark'
+          'mt-0.5 h-4 w-4 shrink-0 transition-colors',
+          selected ? 'text-brass-dark' : 'text-text-muted'
         )}
-      >
-        <Icon className="h-4.5 w-4.5" />
-      </span>
+      />
     )}
 
     <span className="min-w-0 grow">
@@ -76,13 +73,14 @@ export const OptionCard = ({
 
     <span
       className={cn(
-        'mt-0.5 flex h-4.5 w-4.5 shrink-0 items-center justify-center rounded-full border transition-all',
+        'mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full border transition-colors',
+        compact && 'mt-0',
         selected
           ? 'border-brass bg-brass text-charcoal-deep'
           : 'border-border-warm bg-transparent'
       )}
     >
-      {selected && <Check className="h-3 w-3" strokeWidth={3} />}
+      {selected && <Check className="h-2.5 w-2.5" strokeWidth={3.5} />}
     </span>
   </button>
 )
@@ -93,7 +91,7 @@ export const SwitchRow = ({ checked, onChange, title, hint }) => (
     role="switch"
     aria-checked={checked}
     onClick={() => onChange(!checked)}
-    className="border-border-subtle bg-surface hover:border-brass/40 flex w-full cursor-pointer items-center gap-3 rounded-2xl border p-3.5 text-left transition-colors"
+    className="border-border-subtle bg-surface hover:border-brass/40 flex w-full cursor-pointer items-center gap-3 rounded-xl border p-3.5 text-left transition-colors"
   >
     <span className="min-w-0 grow">
       <span className="text-text-primary text-label-md block font-semibold">
@@ -121,12 +119,9 @@ export const SwitchRow = ({ checked, onChange, title, hint }) => (
   </button>
 )
 
-export const StepIntro = ({ eyebrow, title, description }) => (
+export const StepIntro = ({ title, description }) => (
   <header className="space-y-1.5">
-    <p className="text-brass-dark text-label-sm font-semibold tracking-[0.18em] uppercase">
-      {eyebrow}
-    </p>
-    <h3 className="text-text-primary font-serif text-xl sm:text-2xl">
+    <h3 className="text-text-primary font-serif text-xl leading-snug sm:text-2xl">
       {title}
     </h3>
     <p className="text-text-secondary text-label-md leading-relaxed">
