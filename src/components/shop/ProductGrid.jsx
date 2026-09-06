@@ -4,7 +4,7 @@ import { BespokeCalloutCard } from './BespokeCalloutCard'
 import { ChevronLeft, ChevronRight, SearchX, RotateCcw } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
-const ITEMS_PER_PAGE = 11 // 11 items + 1 Bespoke card = 12 grid items (multiple of 4, 3, 2)
+const ITEMS_PER_PAGE = 11
 
 export const ProductGrid = ({
   products = [],
@@ -14,10 +14,8 @@ export const ProductGrid = ({
 }) => {
   const [currentPage, setCurrentPage] = useState(1)
 
-  // Reset to page 1 if product list length or filters change
   const totalPages = Math.max(1, Math.ceil(products.length / ITEMS_PER_PAGE))
 
-  // Handle page change and smooth scroll to top of catalog
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage)
     if (gridTopRef && gridTopRef.current) {
@@ -25,13 +23,11 @@ export const ProductGrid = ({
     }
   }
 
-  // Get current page slice of products
   const currentProducts = useMemo(() => {
     const start = (currentPage - 1) * ITEMS_PER_PAGE
     return products.slice(start, start + ITEMS_PER_PAGE)
   }, [products, currentPage])
 
-  // Empty state when search or filters yield no results
   if (products.length === 0) {
     return (
       <div className="border-border-subtle bg-surface-muted/30 my-16 flex flex-col items-center justify-center rounded-3xl border border-dashed p-12 text-center">
@@ -57,28 +53,23 @@ export const ProductGrid = ({
     )
   }
 
-  // Insert BespokeCalloutCard at index 5 on page 1, or end of grid
   const bespokeIndex = 5
 
   return (
     <div className="space-y-10">
-      {/* 4-Column Responsive Product Grid (matching reference UI) */}
       <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {currentProducts.map((product, index) => {
           return (
             <div key={product.id} className="contents">
-              {/* Inject editorial Bespoke Card at position 5 (or matching reference placement) */}
               {index === bespokeIndex && <BespokeCalloutCard />}
               <ProductCard product={product} onQuickView={onQuickView} />
             </div>
           )
         })}
 
-        {/* If fewer than 5 items, still render Bespoke card at the end */}
         {currentProducts.length <= bespokeIndex && <BespokeCalloutCard />}
       </div>
 
-      {/* Pagination Bar (< 1 2 3 >) matching reference design */}
       {totalPages > 1 && (
         <nav
           aria-label="Catalog Pagination"
