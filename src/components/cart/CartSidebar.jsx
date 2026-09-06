@@ -36,7 +36,6 @@ export const CartSidebar = () => {
   const [showClientForm, setShowClientForm] = useState(false)
   const [activeNoteId, setActiveNoteId] = useState(null)
 
-  // Pause Lenis smooth scroll and prevent body scroll when drawer is open
   useEffect(() => {
     if (!lenis) return
     if (isCartOpen) {
@@ -52,7 +51,6 @@ export const CartSidebar = () => {
     }
   }, [isCartOpen, lenis])
 
-  // Keyboard accessibility: ESC to close
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.key === 'Escape' && isCartOpen) {
@@ -76,7 +74,6 @@ export const CartSidebar = () => {
     window.open(url, '_blank', 'noopener,noreferrer')
   }
 
-  // Close the drawer and glide down to the collections gallery
   const handleBrowseClick = () => {
     closeCart()
     const target = document.getElementById('collections')
@@ -105,14 +102,12 @@ export const CartSidebar = () => {
       aria-modal="true"
       aria-label="Shopping cart"
     >
-      {/* Soft veil over the page */}
       <div
         className="bg-charcoal-deep/35 animate-fade-in fixed inset-0 backdrop-blur-[2px]"
         onClick={handleBackdropClick}
         aria-hidden="true"
       />
 
-      {/* Drawer — full width on mobile, a slim column from tablet up */}
       <div className="pointer-events-none fixed inset-y-0 right-0 flex max-w-full">
         <aside
           ref={drawerRef}
@@ -123,7 +118,6 @@ export const CartSidebar = () => {
             'sm:w-105 lg:w-115'
           )}
         >
-          {/* Header */}
           <header className="flex items-start justify-between gap-4 px-5 pt-6 pb-5 sm:px-7 sm:pt-7">
             <div>
               <p className="text-text-muted text-[10.5px] tracking-[0.2em] uppercase">
@@ -146,13 +140,11 @@ export const CartSidebar = () => {
             </button>
           </header>
 
-          {/* Body */}
           <div
             data-lenis-prevent
             className="flex-1 overflow-y-auto overscroll-contain px-5 sm:px-7"
           >
             {items.length === 0 ? (
-              /* Empty state */
               <div className="flex h-full flex-col items-center justify-center py-16 text-center">
                 <div className="border-border-warm text-text-muted flex h-16 w-16 items-center justify-center rounded-full border">
                   <ShoppingBag className="h-6 w-6" strokeWidth={1.25} />
@@ -175,7 +167,6 @@ export const CartSidebar = () => {
                 </Button>
               </div>
             ) : (
-              /* Item list — hairline rows, no boxes */
               <ul>
                 {items.map((item) => {
                   const isNoteOpen = activeNoteId === item.id
@@ -188,7 +179,7 @@ export const CartSidebar = () => {
                       <div className="flex gap-4">
                         <div className="bg-surface-muted border-border-subtle h-20 w-20 shrink-0 overflow-hidden rounded-lg border sm:h-22 sm:w-22">
                           <img
-                            src={item.image}
+                            src={item.image || null}
                             alt={item.name}
                             loading="lazy"
                             className="h-full w-full object-cover"
@@ -210,7 +201,6 @@ export const CartSidebar = () => {
                             {formatBdt(item.price)}
                           </p>
 
-                          {/* Stepper + line total */}
                           <div className="mt-3 flex items-center justify-between gap-3">
                             <div className="border-border-subtle bg-surface flex items-center rounded-full border p-0.5">
                               <button
@@ -258,7 +248,6 @@ export const CartSidebar = () => {
                         </div>
                       </div>
 
-                      {/* Bespoke note */}
                       <div className="mt-3 pl-24 sm:pl-26">
                         <button
                           type="button"
@@ -352,7 +341,6 @@ export const CartSidebar = () => {
             )}
           </div>
 
-          {/* Footer */}
           <footer className="border-border-subtle border-t px-5 pt-4 pb-[calc(1rem+env(safe-area-inset-bottom))] sm:px-7 sm:pt-5 sm:pb-[calc(1.5rem+env(safe-area-inset-bottom))]">
             <div className="flex items-baseline justify-between gap-4">
               <span className="text-text-secondary text-sm">Subtotal</span>
