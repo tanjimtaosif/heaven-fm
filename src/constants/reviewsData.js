@@ -1,11 +1,3 @@
-/**
- * Heaven Furniture Mart — Master Customer Reviews & Project Gallery Data
- *
- * Sourced directly from src/assets/reviews/
- * Loops seamlessly so the last review connects right back to the first.
- * Each quote is concisely crafted (20–26 words) for optimal card legibility.
- */
-
 import royalBlueSofaSet from '@/assets/reviews/royal-blue-sofa-set.webp'
 import luxuryPosterBed from '@/assets/reviews/luxury-poster-bed.webp'
 import teakDiningSet from '@/assets/reviews/teak-dining-set.webp'
