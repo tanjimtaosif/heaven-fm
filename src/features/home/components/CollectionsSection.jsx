@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { COMPANY_INFO } from '@/constants/companyData'
 import { Badge } from '@/components/ui'
+import { usePrefersReducedMotion } from '@/hooks'
 import { cn } from '@/lib/utils'
 import { ArrowRight, Sparkles } from 'lucide-react'
 
@@ -38,15 +39,7 @@ const BespokeVideo = ({ hostRef }) => {
   const videoRefs = useRef([])
   const [active, setActive] = useState(0)
   const [inView, setInView] = useState(false)
-  const [reducedMotion, setReducedMotion] = useState(false)
-
-  useEffect(() => {
-    const query = window.matchMedia('(prefers-reduced-motion: reduce)')
-    const sync = () => setReducedMotion(query.matches)
-    sync()
-    query.addEventListener('change', sync)
-    return () => query.removeEventListener('change', sync)
-  }, [])
+  const reducedMotion = usePrefersReducedMotion()
 
   useEffect(() => {
     const host = hostRef.current
@@ -147,12 +140,12 @@ const CategoryCard = ({ category }) => {
       >
         <div className="flex items-center gap-2">
           {category.highlight ? (
-            <span className="border-brass/40 bg-brass/20 text-brass-light inline-flex items-center gap-1.5 rounded-full border px-2.5 py-0.5 text-[10px] font-semibold tracking-[0.2em] uppercase backdrop-blur-xs">
+            <span className="border-brass/40 bg-brass/20 text-brass-light text-label-xs inline-flex items-center gap-1.5 rounded-full border px-2.5 py-0.5 font-semibold tracking-[0.2em] uppercase backdrop-blur-xs">
               <Sparkles className="text-brass h-2.5 w-2.5" />
               Atelier Signature
             </span>
           ) : (
-            <span className="text-brass text-[11px] font-semibold tracking-[0.24em] uppercase">
+            <span className="text-brass text-label-sm font-semibold tracking-[0.24em] uppercase">
               {category.title}
             </span>
           )}
@@ -162,8 +155,8 @@ const CategoryCard = ({ category }) => {
           className={cn(
             'text-canvas mt-2 font-serif leading-[1.2] font-medium tracking-tight text-balance',
             isHero
-              ? 'text-2xl sm:text-3xl lg:text-[2.15rem]'
-              : 'text-xl sm:text-2xl lg:text-[1.65rem]'
+              ? 'text-2xl sm:text-3xl lg:text-4xl'
+              : 'text-xl sm:text-2xl lg:text-3xl'
           )}
         >
           {category.subtitle}
@@ -174,7 +167,7 @@ const CategoryCard = ({ category }) => {
         </p>
 
         <div className="mt-4 flex items-center pt-1">
-          <span className="text-canvas/95 group-hover:text-brass inline-flex items-center gap-2 text-xs font-semibold tracking-[0.14em] uppercase transition-colors duration-300 sm:text-[13px]">
+          <span className="text-canvas/95 group-hover:text-brass sm:text-label-md inline-flex items-center gap-2 text-xs font-semibold tracking-[0.14em] uppercase transition-colors duration-300">
             <span>{category.ctaLabel || `Explore ${category.title}`}</span>
             <ArrowRight className="text-brass h-3.5 w-3.5 transition-transform duration-300 ease-out group-hover:translate-x-1.5" />
           </span>
@@ -191,10 +184,10 @@ const CategoryCard = ({ category }) => {
 
 export const CollectionsSection = () => {
   return (
-    <section id="collections" className="bg-canvas py-20 sm:py-24 lg:py-28">
-      <div className="mx-auto max-w-7xl space-y-4 px-4 text-center sm:px-6 lg:px-8">
+    <section id="collections" className="bg-canvas section-y">
+      <div className="container-page space-y-4 text-center">
         <Badge variant="brass">Curated Spaces</Badge>
-        <h2 className="text-charcoal-deep font-serif text-3xl font-bold sm:text-4xl lg:text-[2.65rem]">
+        <h2 className="text-charcoal-deep text-display-sm font-serif font-bold">
           Architectural Portfolios
         </h2>
         <p className="text-text-secondary mx-auto max-w-2xl text-sm leading-relaxed text-pretty sm:text-base">
@@ -206,7 +199,7 @@ export const CollectionsSection = () => {
 
       <div
         className={cn(
-          'mx-auto mt-12 grid max-w-7xl grid-cols-1 gap-4 px-4 sm:mt-14 sm:px-6 lg:mt-16 lg:px-8',
+          'container-page mt-12 grid grid-cols-1 gap-4 sm:mt-14 lg:mt-16',
           'sm:grid-cols-2 sm:gap-4',
           'lg:grid-cols-12 lg:gap-4'
         )}
