@@ -1,39 +1,29 @@
 import { useEffect, useRef, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useCart } from '@/context'
 import { useLenis } from '@/components/providers'
 import { Button } from '@/components/ui'
-import {
-  X,
-  ShoppingBag,
-  Plus,
-  Minus,
-  Trash2,
-  MessageCircle,
-  ChevronDown,
-} from 'lucide-react'
+import { X, ShoppingBag, Plus, Minus, Trash2, ChevronRight } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 const formatBdt = (value) => `৳${value.toLocaleString('en-US')}`
 
 export const CartSidebar = () => {
+  const navigate = useNavigate()
   const {
     items,
     isCartOpen,
     totalCount,
     subtotalFormatted,
-    clientInfo,
-    setClientInfo,
     closeCart,
     removeItem,
     updateQuantity,
     updateItemNotes,
     clearCart,
-    generateWhatsAppUrl,
   } = useCart()
 
   const lenis = useLenis()
   const drawerRef = useRef(null)
-  const [showClientForm, setShowClientForm] = useState(false)
   const [activeNoteId, setActiveNoteId] = useState(null)
 
   useEffect(() => {
@@ -70,8 +60,13 @@ export const CartSidebar = () => {
   }
 
   const handleOrderClick = () => {
-    const url = generateWhatsAppUrl()
-    window.open(url, '_blank', 'noopener,noreferrer')
+    closeCart()
+    try {
+      sessionStorage.removeItem('heaven_buy_now_item')
+    } catch {
+      // Ignore storage errors if sessionStorage is unavailable
+    }
+    navigate('/checkout')
   }
 
   const handleBrowseClick = () => {
@@ -120,10 +115,10 @@ export const CartSidebar = () => {
         >
           <header className="flex items-start justify-between gap-4 px-5 pt-6 pb-5 sm:px-7 sm:pt-7">
             <div>
-              <p className="text-text-muted text-[10.5px] tracking-[0.2em] uppercase">
+              <p className="text-text-muted text-label-xs tracking-[0.2em] uppercase">
                 Shopping Cart
               </p>
-              <h2 className="text-text-primary mt-1.5 font-serif text-2xl leading-none font-normal tracking-tight sm:text-[28px]">
+              <h2 className="text-text-primary mt-1.5 font-serif text-2xl leading-none font-normal tracking-tight sm:text-3xl">
                 {totalCount === 0
                   ? 'Empty'
                   : `${totalCount} ${totalCount === 1 ? 'item' : 'items'}`}
@@ -187,9 +182,15 @@ export const CartSidebar = () => {
                         </div>
 
                         <div className="flex min-w-0 flex-1 flex-col">
-                          <h3 className="text-text-primary font-serif text-[15px] leading-snug font-normal sm:text-base">
+                          <h3 className="text-text-primary font-serif text-base leading-snug font-normal sm:text-base">
                             {item.name}
                           </h3>
+
+                          {item.sku && (
+                            <p className="text-brass-dark text-label-xs mt-0.5 font-mono tracking-wider uppercase">
+                              SKU: {item.sku}
+                            </p>
+                          )}
 
                           {item.finish && (
                             <p className="text-text-muted mt-0.5 line-clamp-1 text-xs">
@@ -202,41 +203,59 @@ export const CartSidebar = () => {
                           </p>
 
                           <div className="mt-3 flex items-center justify-between gap-3">
-                            <div className="border-border-subtle bg-surface flex items-center rounded-full border p-0.5">
-                              <button
-                                type="button"
-                                onClick={() => updateQuantity(item.id, -1)}
-                                className={stepperButtonClass}
-                                aria-label={`Decrease quantity of ${item.name}`}
-                              >
-                                <Minus className="h-3.5 w-3.5" />
-                              </button>
-                              <span className="text-text-primary min-w-6 text-center text-sm tabular-nums">
-                                {item.quantity}
-                              </span>
-                              <button
-                                type="button"
-                                onClick={() => updateQuantity(item.id, 1)}
-                                className={stepperButtonClass}
-                                aria-label={`Increase quantity of ${item.name}`}
-                              >
-                                <Plus className="h-3.5 w-3.5" />
-                              </button>
-                              <span
-                                className="bg-border-subtle mx-0.5 h-4 w-px"
-                                aria-hidden="true"
-                              />
-                              <button
-                                type="button"
-                                onClick={() => removeItem(item.id)}
-                                className={cn(
-                                  stepperButtonClass,
-                                  'hover:text-destructive'
+                            <div className="flex items-center gap-2">
+                              <div className="border-border-subtle bg-surface flex items-center rounded-full border p-0.5">
+                                <button
+                                  type="button"
+                                  onClick={() => updateQuantity(item.id, -1)}
+                                  className={stepperButtonClass}
+                                  aria-label={`Decrease quantity of ${item.name}`}
+                                >
+                                  <Minus className="h-3.5 w-3.5" />
+                                </button>
+                                <span className="text-text-primary min-w-6 text-center text-sm tabular-nums">
+                                  {item.quantity}
+                                </span>
+                                <button
+                                  type="button"
+                                  onClick={() => updateQuantity(item.id, 1)}
+                                  disabled={
+                                    item.stock !== undefined &&
+                                    item.quantity >= item.stock
+                                  }
+                                  className={cn(
+                                    stepperButtonClass,
+                                    item.stock !== undefined &&
+                                      item.quantity >= item.stock &&
+                                      'hover:text-text-secondary cursor-not-allowed opacity-35 hover:bg-transparent'
+                                  )}
+                                  aria-label={`Increase quantity of ${item.name}`}
+                                >
+                                  <Plus className="h-3.5 w-3.5" />
+                                </button>
+                                <span
+                                  className="bg-border-subtle mx-0.5 h-4 w-px"
+                                  aria-hidden="true"
+                                />
+                                <button
+                                  type="button"
+                                  onClick={() => removeItem(item.id)}
+                                  className={cn(
+                                    stepperButtonClass,
+                                    'hover:text-destructive'
+                                  )}
+                                  aria-label={`Remove ${item.name}`}
+                                >
+                                  <Trash2 className="h-3.5 w-3.5" />
+                                </button>
+                              </div>
+
+                              {item.stock !== undefined &&
+                                item.quantity >= item.stock && (
+                                  <span className="text-label-xs font-medium text-amber-800 dark:text-amber-400">
+                                    Max stock
+                                  </span>
                                 )}
-                                aria-label={`Remove ${item.name}`}
-                              >
-                                <Trash2 className="h-3.5 w-3.5" />
-                              </button>
                             </div>
 
                             {item.quantity > 1 && (
@@ -254,7 +273,7 @@ export const CartSidebar = () => {
                           onClick={() =>
                             setActiveNoteId(isNoteOpen ? null : item.id)
                           }
-                          className="text-text-muted hover:text-brass-dark cursor-pointer text-[11px] tracking-wide underline underline-offset-4 transition-colors"
+                          className="text-text-muted hover:text-brass-dark text-label-sm cursor-pointer tracking-wide underline underline-offset-4 transition-colors"
                         >
                           {item.notes
                             ? 'Edit note'
@@ -274,7 +293,7 @@ export const CartSidebar = () => {
                         )}
 
                         {item.notes && !isNoteOpen && (
-                          <p className="text-text-secondary mt-1 line-clamp-2 text-[11px] italic">
+                          <p className="text-text-secondary text-label-sm mt-1 line-clamp-2 italic">
                             &ldquo;{item.notes}&rdquo;
                           </p>
                         )}
@@ -286,57 +305,18 @@ export const CartSidebar = () => {
             )}
 
             {items.length > 0 && (
-              <div className="border-border-subtle flex items-center justify-between border-t py-4">
-                <button
-                  type="button"
-                  onClick={() => setShowClientForm(!showClientForm)}
-                  className="text-text-secondary hover:text-text-primary flex cursor-pointer items-center gap-1.5 text-xs tracking-wide transition-colors"
-                  aria-expanded={showClientForm}
-                >
-                  Delivery details
-                  <ChevronDown
-                    className={cn(
-                      'h-3.5 w-3.5 transition-transform duration-200',
-                      showClientForm && 'rotate-180'
-                    )}
-                  />
-                </button>
+              <div className="border-border-subtle flex items-center justify-between border-t py-3">
+                <span className="text-text-muted text-label-sm">
+                  Bespoke pieces handcrafted to order
+                </span>
 
                 <button
                   type="button"
                   onClick={clearCart}
                   className="text-text-muted hover:text-destructive cursor-pointer text-xs tracking-wide transition-colors"
                 >
-                  Clear cart
+                  Clear bag
                 </button>
-              </div>
-            )}
-
-            {items.length > 0 && showClientForm && (
-              <div className="animate-fade-in space-y-2.5 pb-5">
-                <input
-                  type="text"
-                  value={clientInfo.name}
-                  onChange={(e) =>
-                    setClientInfo((prev) => ({ ...prev, name: e.target.value }))
-                  }
-                  placeholder="Your name"
-                  className={inputClass}
-                  aria-label="Your name"
-                />
-                <input
-                  type="text"
-                  value={clientInfo.location}
-                  onChange={(e) =>
-                    setClientInfo((prev) => ({
-                      ...prev,
-                      location: e.target.value,
-                    }))
-                  }
-                  placeholder="Delivery area — Agrabad, Khulshi, GEC"
-                  className={inputClass}
-                  aria-label="Delivery area"
-                />
               </div>
             )}
           </div>
@@ -348,7 +328,7 @@ export const CartSidebar = () => {
                 {subtotalFormatted}
               </span>
             </div>
-            <p className="text-text-muted mt-1 text-right text-[11px]">
+            <p className="text-text-muted text-label-sm mt-1 text-right">
               Delivery &amp; 3D consultation included across Chattogram
             </p>
 
@@ -371,8 +351,8 @@ export const CartSidebar = () => {
                 disabled={items.length === 0}
                 className="order-1 w-full sm:order-2"
               >
-                <MessageCircle className="h-4 w-4 shrink-0" strokeWidth={1.5} />
-                Order on WhatsApp
+                <span>Proceed to Checkout</span>
+                <ChevronRight className="h-4 w-4 shrink-0" strokeWidth={1.5} />
               </Button>
             </div>
           </footer>
