@@ -75,7 +75,7 @@ export const ScrollVideoRevealSection = () => {
           className="pointer-events-none absolute inset-y-0 left-6 hidden items-center 2xl:flex"
         >
           <div className="flex h-[45vh] flex-col items-center gap-5">
-            <span className="text-text-muted/60 text-[10px] tracking-[0.4em] uppercase [writing-mode:vertical-rl]">
+            <span className="text-text-muted/60 text-label-xs tracking-[0.4em] uppercase [writing-mode:vertical-rl]">
               Atelier Showcase · Motion
             </span>
             <span className="from-brass/30 h-16 w-px bg-linear-to-b to-transparent" />
@@ -87,7 +87,7 @@ export const ScrollVideoRevealSection = () => {
           className="pointer-events-none absolute inset-y-0 right-6 hidden items-center 2xl:flex"
         >
           <div className="flex h-[45vh] flex-col items-center gap-5">
-            <span className="text-text-muted/60 text-[10px] tracking-[0.4em] uppercase [writing-mode:vertical-rl]">
+            <span className="text-text-muted/60 text-label-xs tracking-[0.4em] uppercase [writing-mode:vertical-rl]">
               Agrabad Access Road · Chattogram
             </span>
             <span className="from-brass/30 h-16 w-px bg-linear-to-b to-transparent" />
@@ -131,7 +131,7 @@ export const ScrollVideoRevealSection = () => {
             />
 
             <div className="pointer-events-none absolute inset-x-0 top-0 z-20 flex items-center justify-between p-5 sm:p-7">
-              <div className="bg-charcoal-deep/75 text-canvas inline-flex items-center gap-2 rounded-full border border-white/20 px-3.5 py-1.5 text-[10px] font-medium tracking-[0.25em] uppercase shadow-lg backdrop-blur-md sm:text-[11px]">
+              <div className="bg-charcoal-deep/75 text-canvas text-label-xs sm:text-label-sm inline-flex items-center gap-2 rounded-full border border-white/20 px-3.5 py-1.5 font-medium tracking-[0.25em] uppercase shadow-lg backdrop-blur-md">
                 <span className="bg-brass h-2 w-2 animate-pulse rounded-full" />
                 <span>Atelier Reel</span>
               </div>
@@ -161,14 +161,14 @@ export const ScrollVideoRevealSection = () => {
                   {isMuted ? (
                     <>
                       <VolumeX className="text-brass h-3.5 w-3.5 transition-colors" />
-                      <span className="text-[11px] font-medium tracking-wide uppercase">
+                      <span className="text-label-sm font-medium tracking-wide uppercase">
                         Click to Unmute
                       </span>
                     </>
                   ) : (
                     <>
                       <Volume2 className="h-3.5 w-3.5 text-emerald-400 transition-colors" />
-                      <span className="text-[11px] font-medium tracking-wide text-emerald-300 uppercase">
+                      <span className="text-label-sm font-medium tracking-wide text-emerald-300 uppercase">
                         Sound On
                       </span>
                     </>
