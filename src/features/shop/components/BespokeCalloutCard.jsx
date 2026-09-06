@@ -62,11 +62,11 @@ export const BespokeCalloutCard = () => {
               projectType: 'single-piece',
             })
           }
-          className="bg-brass text-charcoal-deep hover:bg-brass-hover inline-flex w-full cursor-pointer items-center justify-center gap-2 rounded-full py-3 text-xs font-semibold tracking-wider uppercase shadow-md transition-all duration-200 active:scale-98"
+          className="bg-brass text-charcoal-deep hover:bg-brass-hover hover:text-white group inline-flex w-full cursor-pointer items-center justify-center gap-2 rounded-full py-3 text-xs font-semibold tracking-wider uppercase shadow-md transition-all duration-200 active:scale-98"
         >
-          <ClipboardList className="h-4 w-4" />
+          <ClipboardList className="h-4 w-4 transition-transform duration-200 group-hover:scale-110" />
           <span>Request Custom Build</span>
-          <ArrowRight className="h-3.5 w-3.5" />
+          <ArrowRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-1" />
         </button>
 
         <a
