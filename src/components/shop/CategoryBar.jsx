@@ -57,7 +57,6 @@ export const CategoryBar = ({ activeCategoryId = 'all', onSelectCategory }) => {
 
   return (
     <div className="relative mb-6">
-      {/* Scroll Arrow Buttons (desktop visible on overflow) */}
       <div className="pointer-events-none absolute -top-11 right-0 hidden items-center gap-1 sm:flex">
         <button
           type="button"
@@ -77,7 +76,6 @@ export const CategoryBar = ({ activeCategoryId = 'all', onSelectCategory }) => {
         </button>
       </div>
 
-      {/* Horizontal Carousel Track */}
       <div
         ref={scrollContainerRef}
         className="no-scrollbar -mx-4 flex snap-x items-center gap-3 overflow-x-auto scroll-smooth px-4 py-2 sm:mx-0 sm:gap-4 sm:px-0"
@@ -98,7 +96,6 @@ export const CategoryBar = ({ activeCategoryId = 'all', onSelectCategory }) => {
               )}
               aria-pressed={isActive}
             >
-              {/* Card Thumbnail / Icon Avatar */}
               <div
                 className={cn(
                   'bg-surface-muted relative h-12 w-12 overflow-hidden rounded-xl transition-transform duration-300 group-hover:scale-105 sm:h-13 sm:w-13',
@@ -123,7 +120,6 @@ export const CategoryBar = ({ activeCategoryId = 'all', onSelectCategory }) => {
                 )}
               </div>
 
-              {/* Category Title */}
               <div className="text-left">
                 <span
                   className={cn(
@@ -144,7 +140,6 @@ export const CategoryBar = ({ activeCategoryId = 'all', onSelectCategory }) => {
                 </span>
               </div>
 
-              {/* Active Underline Pip */}
               {isActive && (
                 <span className="bg-brass absolute bottom-1 left-1/2 h-0.5 w-6 -translate-x-1/2 rounded-full" />
               )}
