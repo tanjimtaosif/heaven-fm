@@ -5,6 +5,8 @@ import {
   PRODUCT_CATEGORIES,
   SORT_OPTIONS,
   PRICE_RANGES,
+  STOCK_FILTER_OPTIONS,
+  BESPOKE_PRODUCTS,
   filterProducts,
   getProductById,
   getProductsByCategory,
@@ -18,10 +20,17 @@ export function useProducts(initialFilters = {}) {
     maxPrice: Infinity,
     sortBy: 'featured',
     searchQuery: '',
+    stockFilter: 'all',
     ...initialFilters,
   })
 
   const filteredProducts = useMemo(() => {
+    if (
+      filters.categoryId === 'bespoke' ||
+      filters.categoryId === 'bespoke-commissions'
+    ) {
+      return BESPOKE_PRODUCTS
+    }
     return filterProducts(filters)
   }, [filters])
 
@@ -45,6 +54,10 @@ export function useProducts(initialFilters = {}) {
     setFilters((prev) => ({ ...prev, searchQuery }))
   }
 
+  const setStockFilter = (stockFilter) => {
+    setFilters((prev) => ({ ...prev, stockFilter }))
+  }
+
   const resetFilters = () => {
     setFilters({
       categoryId: 'all',
@@ -53,6 +66,7 @@ export function useProducts(initialFilters = {}) {
       maxPrice: Infinity,
       sortBy: 'featured',
       searchQuery: '',
+      stockFilter: 'all',
     })
   }
 
@@ -63,6 +77,7 @@ export function useProducts(initialFilters = {}) {
     categories: PRODUCT_CATEGORIES,
     sortOptions: SORT_OPTIONS,
     priceRanges: PRICE_RANGES,
+    stockFilterOptions: STOCK_FILTER_OPTIONS,
     filters,
     setFilters,
     setCategory,
@@ -70,6 +85,7 @@ export function useProducts(initialFilters = {}) {
     setSortBy,
     setPriceRange,
     setSearchQuery,
+    setStockFilter,
     resetFilters,
     totalCount: filteredProducts.length,
     getProductById,
