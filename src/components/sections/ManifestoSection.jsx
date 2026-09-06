@@ -28,7 +28,6 @@ export const ManifestoSection = () => {
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-12">
-          {/* Brand Manifesto & Founder Quote */}
           <div className="space-y-6 lg:col-span-6">
             <Badge variant="brass">{COMPANY_INFO.brandIntro.label}</Badge>
             <h2 className="text-charcoal-deep font-serif text-3xl leading-tight font-bold sm:text-4xl">
@@ -48,7 +47,6 @@ export const ManifestoSection = () => {
             </div>
           </div>
 
-          {/* Trust Points Grid */}
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:col-span-6">
             {COMPANY_INFO.trustPoints.slice(0, 4).map((point) => {
               const Icon = iconMap[point.icon] || Sparkles
