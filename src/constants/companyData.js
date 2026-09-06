@@ -196,7 +196,7 @@ export const COMPANY_INFO = {
       image: 'showroom-launch',
     },
     {
-      year: '2024–2025',
+      year: '2024',
       title: "Int'l Furniture Fair Exhibition",
       description:
         'Exhibited showcase bespoke collections at the International Furniture Fair, Chattogram.',
