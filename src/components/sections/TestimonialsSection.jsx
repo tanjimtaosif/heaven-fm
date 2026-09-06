@@ -1,34 +1,14 @@
-/**
- * TestimonialsSection — Customer Reviews & Project Gallery
- *
- * Silky-Smooth Continuous Sliding Track Architecture:
- *   - Zero Poppiness: Driven by a continuous multi-set sliding track where every
- *     card maintains a permanent, stable position. No DOM mounting/unmounting,
- *     no key swapping, and no visual flashes.
- *   - True Left-Collapse & Right-Expansion:
- *       When moving forward, the active card smoothly shrinks from dominant (58%)
- *       to narrow (14%) and glides off the left edge, while the next card
- *       smoothly expands from 14% to 58% into the active spotlight.
- *       When moving backward, the previous card expands in from the left.
- *   - Directional Text Slide: Review text slides out in the direction of travel
- *     and slides in gracefully from the opposing side with smooth blur resolution.
- *   - Concise 20–26 word quotes fit comfortably within the locked card height
- *     with generous, luxurious whitespace and zero crowding.
- *   - Infinite Circular Loop: Uses seamless boundary wrapping across sets.
- */
-
 import { useState, useEffect, useRef, useCallback, useId } from 'react'
 import { ChevronLeft, ChevronRight, Sparkles, CheckCircle2 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { Badge, Button } from '@/components/ui'
 import { TESTIMONIALS } from '@/constants/reviewsData'
 
-const TOTAL = TESTIMONIALS.length // 11
-const TRANSITION_MS = 520 // animation duration
-const AUTOPLAY_MS = 6500 // dwell time per review
+const TOTAL = TESTIMONIALS.length
+const TRANSITION_MS = 520
+const AUTOPLAY_MS = 6500
 const EASE = 'cubic-bezier(0.22, 1, 0.36, 1)'
 
-// Three sets of testimonials for seamless boundary wrapping (33 items total)
 const ALL_CARDS = [
   ...TESTIMONIALS.map((t, i) => ({ ...t, trackKey: `set0-${t.id}-${i}` })),
   ...TESTIMONIALS.map((t, i) => ({ ...t, trackKey: `set1-${t.id}-${i}` })),
@@ -52,9 +32,6 @@ const useReducedMotion = () => {
   return reduced
 }
 
-// ---------------------------------------------------------------------------
-// ReviewCard — Left Panel
-// ---------------------------------------------------------------------------
 const ReviewCard = ({ testimonial, textAnimStyle }) => {
   return (
     <div
@@ -66,13 +43,11 @@ const ReviewCard = ({ testimonial, textAnimStyle }) => {
         'hover:border-brass/40 transition-colors duration-300'
       )}
     >
-      {/* Satin brass hairline accent bar */}
       <span
         className="from-brass via-brass/70 absolute top-0 left-8 h-[2.5px] w-16 rounded-full bg-linear-to-r to-transparent sm:left-10"
         aria-hidden="true"
       />
 
-      {/* Top row: quote icon & project category tag */}
       <div>
         <div className="flex items-center justify-between">
           <div className="flex items-center" aria-hidden="true">
@@ -97,7 +72,6 @@ const ReviewCard = ({ testimonial, textAnimStyle }) => {
           </span>
         </div>
 
-        {/* Testimonial Quote text with smooth directional slide & crossfade */}
         <div className="mt-5 overflow-hidden sm:mt-6">
           <div
             style={textAnimStyle}
@@ -113,7 +87,6 @@ const ReviewCard = ({ testimonial, textAnimStyle }) => {
         </div>
       </div>
 
-      {/* Bottom section: Reviewer metadata & Project details */}
       <div
         className="border-border-subtle mt-6 border-t pt-5 sm:mt-7 sm:pt-6"
         style={textAnimStyle}
@@ -149,21 +122,16 @@ const ReviewCard = ({ testimonial, textAnimStyle }) => {
   )
 }
 
-// ---------------------------------------------------------------------------
-// ImageGallery — Right Panel
-// ---------------------------------------------------------------------------
 const ImageGallery = ({ currentIndex, isTransitioning, onSelectCard }) => {
   return (
     <div
       className={cn(
         'relative h-full w-full overflow-hidden rounded-3xl',
-        // Responsive CSS custom property definitions
         '[--active-w:76%] [--gap:10px] [--inactive-w:20%]',
         'sm:[--active-w:64%] sm:[--gap:12px] sm:[--inactive-w:16%]',
         'lg:[--active-w:58%] lg:[--gap:12px] lg:[--inactive-w:14%]'
       )}
     >
-      {/* Sliding Track */}
       <div
         className="flex h-full items-stretch"
         style={{
@@ -227,7 +195,6 @@ const ImageGallery = ({ currentIndex, isTransitioning, onSelectCard }) => {
                 )}
               />
 
-              {/* Gradient Scrim */}
               <div
                 className={cn(
                   'absolute inset-0 transition-opacity duration-300',
@@ -237,7 +204,6 @@ const ImageGallery = ({ currentIndex, isTransitioning, onSelectCard }) => {
                 )}
               />
 
-              {/* Active Commission Overlay info */}
               {isActive && (
                 <div className="absolute right-5 bottom-5 left-5 sm:right-6 sm:bottom-6 sm:left-6">
                   <div className="flex items-center gap-2">
@@ -255,7 +221,6 @@ const ImageGallery = ({ currentIndex, isTransitioning, onSelectCard }) => {
                 </div>
               )}
 
-              {/* Inactive Shrinked Card Tag */}
               {!isActive && (
                 <div className="absolute inset-x-0 bottom-3 flex flex-col items-center justify-end px-1 sm:bottom-4">
                   <span className="bg-charcoal-deep/80 text-canvas rounded-full px-2 py-0.5 text-[9px] font-semibold tracking-widest uppercase backdrop-blur-xs">
@@ -274,12 +239,8 @@ const ImageGallery = ({ currentIndex, isTransitioning, onSelectCard }) => {
   )
 }
 
-// ---------------------------------------------------------------------------
-// TestimonialsSection — Main Component
-// ---------------------------------------------------------------------------
 export const TestimonialsSection = () => {
-  // Start at the middle set (index 11) for seamless bidirectional wrapping
-  const [trackIndex, setTrackIndex] = useState(TOTAL) // 11
+  const [trackIndex, setTrackIndex] = useState(TOTAL)
   const [isTransitioning, setIsTransitioning] = useState(true)
   const [textAnimStyle, setTextAnimStyle] = useState({
     opacity: 1,
@@ -295,17 +256,11 @@ export const TestimonialsSection = () => {
 
   const prefersReducedMotion = useReducedMotion()
 
-  // Real active review (modulo TOTAL)
   const activeReviewIndex = trackIndex % TOTAL
   const currentTestimonial = TESTIMONIALS[activeReviewIndex]
 
-  // -------------------------------------------------------------------------
-  // Handle Seamless Loop Boundary Wrapping
-  // When trackIndex reaches set 2 (>= 22) or set 0 (< 11), wrap back to set 1 (11..21)
-  // -------------------------------------------------------------------------
   const checkBoundaryWrap = useCallback((idx) => {
     if (idx >= TOTAL * 2) {
-      // Reached set 2: snap seamlessly back to set 1 without animation
       setIsTransitioning(false)
       const wrapped = idx - TOTAL
       setTrackIndex(wrapped)
@@ -316,7 +271,6 @@ export const TestimonialsSection = () => {
         })
       })
     } else if (idx < TOTAL) {
-      // Reached set 0: snap seamlessly to set 1
       setIsTransitioning(false)
       const wrapped = idx + TOTAL
       setTrackIndex(wrapped)
@@ -331,9 +285,6 @@ export const TestimonialsSection = () => {
     }
   }, [])
 
-  // -------------------------------------------------------------------------
-  // Forward Navigation
-  // -------------------------------------------------------------------------
   const stepForward = useCallback(
     (stepCount = 1) => {
       if (isLockedRef.current) return
@@ -349,7 +300,6 @@ export const TestimonialsSection = () => {
 
       setIsTransitioning(true)
 
-      // 1. Text slides out to the left
       setTextAnimStyle({
         opacity: 0,
         transform: 'translateX(-22px)',
@@ -358,10 +308,8 @@ export const TestimonialsSection = () => {
           'opacity 190ms ease-in, transform 190ms ease-in, filter 190ms ease-in',
       })
 
-      // 2. Track translates & card widths animate simultaneously
       setTrackIndex(nextTrack)
 
-      // 3. Mid-point: swap text off-stage right, then slide into center
       setTimeout(() => {
         setTextAnimStyle({
           opacity: 0,
@@ -382,7 +330,6 @@ export const TestimonialsSection = () => {
         })
       }, 200)
 
-      // 4. End of transition: check boundary wrap
       setTimeout(() => {
         checkBoundaryWrap(nextTrack)
       }, TRANSITION_MS + 20)
@@ -390,9 +337,6 @@ export const TestimonialsSection = () => {
     [checkBoundaryWrap, prefersReducedMotion, trackIndex]
   )
 
-  // -------------------------------------------------------------------------
-  // Backward Navigation
-  // -------------------------------------------------------------------------
   const stepBackward = useCallback(() => {
     if (isLockedRef.current) return
     isLockedRef.current = true
@@ -407,7 +351,6 @@ export const TestimonialsSection = () => {
 
     setIsTransitioning(true)
 
-    // 1. Text slides out to the right
     setTextAnimStyle({
       opacity: 0,
       transform: 'translateX(22px)',
@@ -416,10 +359,8 @@ export const TestimonialsSection = () => {
         'opacity 190ms ease-in, transform 190ms ease-in, filter 190ms ease-in',
     })
 
-    // 2. Track translates & card widths animate
     setTrackIndex(prevTrack)
 
-    // 3. Mid-point: swap text off-stage left, then slide into center
     setTimeout(() => {
       setTextAnimStyle({
         opacity: 0,
@@ -440,13 +381,11 @@ export const TestimonialsSection = () => {
       })
     }, 200)
 
-    // 4. End of transition: check boundary wrap
     setTimeout(() => {
       checkBoundaryWrap(prevTrack)
     }, TRANSITION_MS + 20)
   }, [checkBoundaryWrap, prefersReducedMotion, trackIndex])
 
-  // Direct Card Click Jump
   const handleSelectCard = useCallback(
     (targetTrackIdx) => {
       if (isLockedRef.current || targetTrackIdx === trackIndex) return
@@ -460,7 +399,6 @@ export const TestimonialsSection = () => {
     [stepBackward, stepForward, trackIndex]
   )
 
-  // Dot Click Jump
   const handleDotClick = useCallback(
     (targetDotIdx) => {
       if (isLockedRef.current) return
@@ -472,9 +410,6 @@ export const TestimonialsSection = () => {
     [stepForward, trackIndex]
   )
 
-  // -------------------------------------------------------------------------
-  // Autoplay
-  // -------------------------------------------------------------------------
   useEffect(() => {
     if (prefersReducedMotion || isPaused || !isInView) return
     const timer = setInterval(() => {
@@ -483,7 +418,6 @@ export const TestimonialsSection = () => {
     return () => clearInterval(timer)
   }, [prefersReducedMotion, isPaused, isInView, stepForward])
 
-  // Viewport Observer
   useEffect(() => {
     const el = sectionRef.current
     if (!el || typeof IntersectionObserver === 'undefined') {
@@ -498,7 +432,6 @@ export const TestimonialsSection = () => {
     return () => obs.disconnect()
   }, [])
 
-  // Keyboard navigation
   useEffect(() => {
     const el = sectionRef.current
     if (!el) return
@@ -529,7 +462,6 @@ export const TestimonialsSection = () => {
       onTouchStart={() => setIsPaused(true)}
       onTouchEnd={() => setIsPaused(false)}
     >
-      {/* Atmospheric backdrop */}
       <div
         className="pointer-events-none absolute inset-0 overflow-hidden"
         aria-hidden="true"
@@ -542,7 +474,6 @@ export const TestimonialsSection = () => {
         <div className="bg-grain absolute inset-0 mask-[linear-gradient(180deg,transparent_0%,#000_5%,#000_94%,transparent_100%)] opacity-[0.05] mix-blend-multiply" />
       </div>
 
-      {/* Section Header */}
       <div className="relative mx-auto max-w-7xl space-y-4 px-4 text-center sm:px-6 lg:px-8">
         <Badge variant="brass">Client Stories & Portfolios</Badge>
         <h2
@@ -559,10 +490,8 @@ export const TestimonialsSection = () => {
         </p>
       </div>
 
-      {/* Main Two-Column Composition */}
       <div className="relative mx-auto mt-12 max-w-7xl px-4 sm:mt-16 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 items-stretch gap-6 lg:grid-cols-12 lg:gap-8 xl:gap-10">
-          {/* LEFT SIDE: Review Information Card */}
           <div className="h-107.5 sm:h-117.5 lg:col-span-5 lg:h-127.5">
             <ReviewCard
               testimonial={currentTestimonial}
@@ -570,7 +499,6 @@ export const TestimonialsSection = () => {
             />
           </div>
 
-          {/* RIGHT SIDE: Expanding Image Gallery */}
           <div className="h-107.5 sm:h-117.5 lg:col-span-7 lg:h-127.5">
             <ImageGallery
               currentIndex={trackIndex}
@@ -580,9 +508,7 @@ export const TestimonialsSection = () => {
           </div>
         </div>
 
-        {/* Navigation Controls & Pagination Indicators */}
         <div className="mt-8 flex items-center justify-between gap-4 sm:mt-10">
-          {/* Previous Button */}
           <Button
             variant="outline"
             size="sm"
@@ -594,7 +520,6 @@ export const TestimonialsSection = () => {
             <span className="hidden sm:inline">Previous</span>
           </Button>
 
-          {/* Carousel Pagination Dots */}
           <div
             className="flex items-center gap-1.5 sm:gap-2"
             role="tablist"
@@ -622,7 +547,6 @@ export const TestimonialsSection = () => {
             })}
           </div>
 
-          {/* Next Button */}
           <Button
             variant="outline"
             size="sm"
@@ -635,7 +559,6 @@ export const TestimonialsSection = () => {
           </Button>
         </div>
 
-        {/* Margin annotation */}
         <div
           className="pointer-events-none absolute inset-y-0 -right-6 hidden min-[1400px]:block"
           aria-hidden="true"
@@ -649,7 +572,6 @@ export const TestimonialsSection = () => {
         </div>
       </div>
 
-      {/* Autoplay Progress Bar Indicator */}
       <div
         className="pointer-events-none absolute right-0 bottom-0 left-0 h-0.5 overflow-hidden"
         aria-hidden="true"
