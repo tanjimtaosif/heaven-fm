@@ -124,7 +124,7 @@ export const Marquee = ({
                         <div
                           key={`item-${repeatIdx}-${itemIdx}`}
                           className={cn(
-                            'text-charcoal-deep flex shrink-0 items-center gap-3 text-xs font-medium tracking-wide sm:text-[13px]',
+                            'text-charcoal-deep sm:text-label-md flex shrink-0 items-center gap-3 text-xs font-medium tracking-wide',
                             itemClassName
                           )}
                         >
@@ -140,7 +140,7 @@ export const Marquee = ({
                       <div
                         key={`item-${repeatIdx}-${itemIdx}`}
                         className={cn(
-                          'text-text-secondary group flex shrink-0 items-center gap-3 text-xs transition-colors duration-200 sm:text-[13px]',
+                          'text-text-secondary group sm:text-label-md flex shrink-0 items-center gap-3 text-xs transition-colors duration-200',
                           itemClassName
                         )}
                       >
