@@ -15,10 +15,8 @@ import {
   CalendarCheck,
 } from 'lucide-react'
 
-// Exponential ease-out matching the studio Lenis configuration
 const easeOutExpo = (x) => (x === 1 ? 1 : 1 - Math.pow(2, -10 * x))
 
-// Social Brand Vector Glyphs for luxury dark aesthetics
 const SocialIcon = ({ type }) => {
   if (type === 'facebook') {
     return (
@@ -56,7 +54,6 @@ const SocialIcon = ({ type }) => {
   return null
 }
 
-// Shared presentation primitives keep every column visually consistent
 const columnHeadingClass =
   'text-canvas font-serif text-[13px] font-semibold tracking-[0.16em] uppercase sm:text-base sm:tracking-wide sm:normal-case'
 
@@ -133,7 +130,6 @@ export const Footer = () => {
 
   return (
     <footer className="bg-charcoal-deep text-canvas border-charcoal-border/60 relative overflow-hidden border-t pt-14 pb-8 sm:pt-16 sm:pb-10">
-      {/* Architectural Ambient Lighting & Gold Gradient Accent */}
       <div
         aria-hidden="true"
         className="via-brass/45 pointer-events-none absolute top-0 left-1/2 h-px w-3/4 max-w-4xl -translate-x-1/2 bg-linear-to-r from-transparent to-transparent"
@@ -144,11 +140,8 @@ export const Footer = () => {
       />
 
       <div className="relative mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
-        {/* Main Footer Grid */}
         <div className="grid grid-cols-2 gap-x-6 gap-y-10 pb-10 sm:gap-x-8 sm:gap-y-12 lg:grid-cols-12 lg:gap-8 lg:pb-12">
-          {/* Column 1: Brand Atelier & Official Logo (Span 4) */}
           <div className="col-span-2 space-y-5 lg:col-span-4">
-            {/* Official SVG Logo */}
             <div>
               <a
                 href="#"
@@ -163,20 +156,17 @@ export const Footer = () => {
                 />
               </a>
 
-              {/* Tagline */}
               <p className="text-brass mt-2.5 text-[10px] font-medium tracking-[0.22em] uppercase sm:text-xs sm:tracking-[0.28em]">
                 {COMPANY_INFO.tagline}
               </p>
             </div>
 
-            {/* Atelier Descriptor */}
             <p className="text-text-inverse-muted max-w-md text-[13px] leading-relaxed sm:text-sm">
               Chattogram&apos;s premier bespoke interior atelier. We
               conceptualize, tailor, and handcraft architectural furniture
               pieces designed around your space, proportions, and lifestyle.
             </p>
 
-            {/* Curated Trust & Heritage Badges */}
             <div className="flex flex-wrap items-center gap-2">
               <span className={`${badgeBaseClass} text-brass-border`}>
                 <Award className="text-brass h-3.5 w-3.5 shrink-0" />
@@ -192,7 +182,6 @@ export const Footer = () => {
             </div>
           </div>
 
-          {/* Column 2: Bespoke Collections (Span 2) */}
           <div className="col-span-1 space-y-4 lg:col-span-2">
             <h4 className={columnHeadingClass}>Collections</h4>
             <ul className="space-y-2.5">
@@ -211,7 +200,6 @@ export const Footer = () => {
             </ul>
           </div>
 
-          {/* Column 3: The Atelier & Discovery (Span 3) */}
           <div className="col-span-1 space-y-4 lg:col-span-3">
             <h4 className={columnHeadingClass}>The Studio</h4>
             <ul className="space-y-2.5">
@@ -230,11 +218,9 @@ export const Footer = () => {
             </ul>
           </div>
 
-          {/* Column 4: Studio Location & Inquiries (Span 3) */}
           <div className="col-span-2 space-y-4 lg:col-span-3">
             <h4 className={columnHeadingClass}>Visit Our Studio</h4>
             <div className="text-text-inverse-muted space-y-3.5 text-[13px] sm:text-sm">
-              {/* Studio Address */}
               <div className="flex items-start gap-2.5">
                 <MapPin className="text-brass mt-0.5 h-4 w-4 shrink-0" />
                 <div className="min-w-0">
@@ -253,7 +239,6 @@ export const Footer = () => {
                 </div>
               </div>
 
-              {/* Direct Phone */}
               <div className="flex items-center gap-2.5">
                 <Phone className="text-brass h-4 w-4 shrink-0" />
                 <a
@@ -264,7 +249,6 @@ export const Footer = () => {
                 </a>
               </div>
 
-              {/* Direct Email */}
               <div className="flex min-w-0 items-center gap-2.5">
                 <Mail className="text-brass h-4 w-4 shrink-0" />
                 <a
@@ -275,7 +259,6 @@ export const Footer = () => {
                 </a>
               </div>
 
-              {/* WhatsApp Concierge */}
               <div className="flex items-start gap-2.5">
                 <MessageSquare className="text-brass mt-0.5 h-4 w-4 shrink-0" />
                 <a
@@ -290,7 +273,6 @@ export const Footer = () => {
               </div>
             </div>
 
-            {/* Consultation Action — anchors the column and closes the gap */}
             <a
               href="#contact"
               onClick={(e) => handleSmoothScroll(e, '#contact')}
@@ -302,7 +284,6 @@ export const Footer = () => {
           </div>
         </div>
 
-        {/* Signature Atelier Pillars Bar */}
         <div className="border-charcoal-border/50 border-t py-7">
           <div className="grid grid-cols-1 gap-5 sm:grid-cols-3 sm:gap-8">
             {ATELIER_PILLARS.map(({ icon: Icon, title, detail }) => (
@@ -323,11 +304,8 @@ export const Footer = () => {
           </div>
         </div>
 
-        {/* Bottom Bar: Copyright, Social Presence & Back to Top */}
         <div className="border-charcoal-border/50 border-t pt-7">
-          {/* Equal thirds on desktop keep the social row optically dead-centred */}
           <div className="grid grid-cols-1 items-center gap-6 sm:grid-cols-3 sm:gap-4">
-            {/* Left: Copyright & Heritage Seal */}
             <div className="order-2 space-y-1 text-center sm:order-1 sm:text-left">
               <p className="text-text-inverse-muted text-[11px] sm:text-xs">
                 © {new Date().getFullYear()} {COMPANY_INFO.name}. All rights
@@ -338,7 +316,6 @@ export const Footer = () => {
               </p>
             </div>
 
-            {/* Center: Luxury Social Media Links */}
             <div className="order-1 flex items-center justify-center gap-3 sm:order-2">
               <a
                 href={COMPANY_INFO.socialLinks.facebook}
@@ -369,7 +346,6 @@ export const Footer = () => {
               </a>
             </div>
 
-            {/* Right: Smooth Back to Top Action */}
             <div className="order-3 flex justify-center sm:justify-end">
               <button
                 type="button"
