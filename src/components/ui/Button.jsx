@@ -8,10 +8,10 @@ export const Button = forwardRef(
       variant = 'primary',
       size = 'md',
       as = 'button',
-      animation = 'none', // 'none' | 'shimmer' | 'border-beam' | 'liquid-fill' | 'pulse-halo' | 'magnetic' | 'slide-arrow' | 'underglow'
-      textRoll = true, // Enables text rolling effect on hover (no transform on container)
-      rollType = 'stagger', // 'stagger' (letter cascade roll) | 'phrase' (full line roll)
-      rollColor, // Optional custom color for the rolled duplicate text
+      animation = 'none',
+      textRoll = true,
+      rollType = 'stagger',
+      rollColor,
       children,
       onMouseMove,
       onMouseLeave,
@@ -23,7 +23,6 @@ export const Button = forwardRef(
     const internalRef = useRef(null)
     const resolvedRef = ref || internalRef
 
-    // State for 3D magnetic tilt and reflection spotlight
     const [tiltStyle, setTiltStyle] = useState({})
     const [spotlight, setSpotlight] = useState({ x: 50, y: 50, opacity: 0 })
 
@@ -101,14 +100,12 @@ export const Button = forwardRef(
           ? 'text-white'
           : 'text-brass font-semibold')
 
-    // Render children with smooth Text Rolling animation on hover
     const renderContent = () => {
       return Children.map(children, (child) => {
         if (typeof child === 'string' || typeof child === 'number') {
           const text = String(child)
 
           if (textRoll) {
-            // Option 1: Staggered Letter Cascade Roll
             if (rollType === 'stagger') {
               return (
                 <span className="inline-flex items-center align-middle font-medium select-none">
@@ -139,7 +136,6 @@ export const Button = forwardRef(
               )
             }
 
-            // Option 2: Full Phrase Roll
             return (
               <span className="inline-flex h-[1.35em] flex-col overflow-hidden align-middle leading-[1.35em] font-medium select-none">
                 <span className="inline-block transition-transform duration-350 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:-translate-y-full">
@@ -165,7 +161,6 @@ export const Button = forwardRef(
       })
     }
 
-    // Border beam requires an outer container setup
     if (animation === 'border-beam' || variant === 'borderBeam') {
       return (
         <Component
@@ -176,17 +171,14 @@ export const Button = forwardRef(
           )}
           {...props}
         >
-          {/* Rotating conic gradient beam */}
           <span
             className="animate-spin-slow pointer-events-none absolute inset-[-150%] bg-[conic-gradient(from_0deg,transparent_0_300deg,#c49f66_360deg)] opacity-90 group-hover:opacity-100"
             aria-hidden="true"
           />
-          {/* Subtle outer glow on hover */}
           <span
             className="bg-brass/25 pointer-events-none absolute inset-0 rounded-full opacity-0 blur-md transition-opacity duration-500 group-hover:opacity-100"
             aria-hidden="true"
           />
-          {/* Inner content button pill */}
           <span
             className={cn(
               'bg-charcoal-deep text-canvas group-hover:bg-charcoal-surface relative z-10 inline-flex h-full w-full items-center justify-center rounded-full font-medium transition-colors duration-200',
@@ -209,7 +201,6 @@ export const Button = forwardRef(
           baseStyles,
           variants[variant],
           sizes[size],
-          // Conditional styling based on animation
           animation === 'liquid-fill' &&
             'border-brass text-text-primary overflow-hidden border',
           animation === 'shimmer' &&
@@ -219,7 +210,6 @@ export const Button = forwardRef(
         )}
         {...props}
       >
-        {/* 1. Shimmer Light Sweep Layer */}
         {animation === 'shimmer' && (
           <>
             <span
@@ -233,7 +223,6 @@ export const Button = forwardRef(
           </>
         )}
 
-        {/* 2. Liquid Fill Background Sheet */}
         {animation === 'liquid-fill' && (
           <span
             className="bg-brass pointer-events-none absolute inset-0 translate-y-[102%] transition-transform duration-300 ease-[cubic-bezier(0.19,1,0.22,1)] group-hover:translate-y-0"
@@ -241,7 +230,6 @@ export const Button = forwardRef(
           />
         )}
 
-        {/* 3. Pulse Halo concentric wave */}
         {animation === 'pulse-halo' && (
           <>
             <span
@@ -255,7 +243,6 @@ export const Button = forwardRef(
           </>
         )}
 
-        {/* 4. Under-Glow Bloom Backdrop */}
         {animation === 'underglow' && (
           <span
             className="bg-brass/40 pointer-events-none absolute -inset-1 rounded-full opacity-40 blur-lg transition-all duration-300 group-hover:scale-105 group-hover:opacity-90"
@@ -263,7 +250,6 @@ export const Button = forwardRef(
           />
         )}
 
-        {/* 5. 3D Magnetic Spotlight Glint */}
         {animation === 'magnetic' && spotlight.opacity > 0 && (
           <span
             className="pointer-events-none absolute inset-0 rounded-full transition-opacity duration-300"
@@ -274,11 +260,9 @@ export const Button = forwardRef(
           />
         )}
 
-        {/* Inner Content with rolling text and clean icon hover */}
         <span
           className={cn(
             'relative z-10 inline-flex items-center justify-center gap-2 select-none',
-            // Icon smooth transition without container displacement
             'group-hover:[&_svg]:text-brass [&_svg]:transition-all [&_svg]:duration-300 group-hover:[&_svg]:scale-110',
             animation === 'liquid-fill' &&
               'group-hover:text-charcoal-deep font-semibold transition-colors duration-300',
