@@ -1,8 +1,16 @@
-import { Sparkles, ArrowRight, MessageCircle } from 'lucide-react'
+import {
+  Sparkles,
+  ArrowRight,
+  MessageCircle,
+  ClipboardList,
+} from 'lucide-react'
 import { COMPANY_INFO } from '@/constants/companyData'
+import { useQuotation } from '@/features/quotation'
 
 export const BespokeCalloutCard = () => {
-  const whatsappUrl = `https://wa.me/${COMPANY_INFO.contact.whatsappRaw}?text=${encodeURIComponent(
+  const { openQuotation } = useQuotation()
+
+  const whatsappUrl = `https://wa.me/${COMPANY_INFO.contact.phoneClean.replace(/[^0-9]/g, '')}?text=${encodeURIComponent(
     'Hello Heaven Furniture Mart atelier, I would like to inquire about a custom bespoke furniture piece with custom dimensions.'
   )}`
 
@@ -11,7 +19,7 @@ export const BespokeCalloutCard = () => {
       <div className="bg-brass/10 pointer-events-none absolute -top-12 -right-12 h-44 w-44 rounded-full blur-3xl" />
 
       <div>
-        <div className="border-brass/30 bg-brass/10 text-brass inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-[11px] font-semibold tracking-wider uppercase">
+        <div className="border-brass/30 bg-brass/10 text-brass text-label-sm inline-flex items-center gap-1.5 rounded-full border px-3 py-1 font-semibold tracking-wider uppercase">
           <Sparkles className="h-3 w-3" />
           <span>Bespoke Atelier</span>
         </div>
@@ -43,15 +51,29 @@ export const BespokeCalloutCard = () => {
       </div>
 
       <div className="border-charcoal-border/80 mt-6 border-t pt-5">
+        <button
+          type="button"
+          onClick={() =>
+            openQuotation({
+              categories: ['bespoke-commissions'],
+              projectType: 'single-piece',
+            })
+          }
+          className="bg-brass text-charcoal-deep hover:bg-brass-hover inline-flex w-full cursor-pointer items-center justify-center gap-2 rounded-full py-3 text-xs font-semibold tracking-wider uppercase shadow-md transition-all duration-200 active:scale-98"
+        >
+          <ClipboardList className="h-4 w-4" />
+          <span>Request Custom Build</span>
+          <ArrowRight className="h-3.5 w-3.5" />
+        </button>
+
         <a
           href={whatsappUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="bg-brass text-charcoal-deep hover:bg-brass-hover inline-flex w-full items-center justify-center gap-2 rounded-full py-3 text-xs font-semibold tracking-wider uppercase shadow-md transition-all duration-200 active:scale-98"
+          className="text-text-inverse-muted hover:text-brass text-label-sm mt-2.5 inline-flex w-full items-center justify-center gap-1.5 font-medium transition-colors"
         >
-          <MessageCircle className="h-4 w-4" />
-          <span>Request Custom Build</span>
-          <ArrowRight className="h-3.5 w-3.5" />
+          <MessageCircle className="h-3.5 w-3.5" />
+          <span>Or ask a quick question on WhatsApp</span>
         </a>
       </div>
     </div>
