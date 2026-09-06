@@ -3,20 +3,10 @@ import { useLenis } from '@/components/providers'
 import promoVideo from '@/assets/promo/promo.mp4'
 import { Volume2, VolumeX } from 'lucide-react'
 
-/**
- * Clamp a value between min and max.
- */
 function clamp(value, min, max) {
   return Math.min(Math.max(value, min), max)
 }
 
-/**
- * Scroll-driven video reveal that peeks at the bottom of the hero
- * and expands into a refined, cinematic luxury atelier frame as the user scrolls.
- *
- * Uses direct DOM ref updating on clip-path: inset() —
- * fully GPU-composited, zero React re-render overhead, 120fps silkiness.
- */
 export const ScrollVideoRevealSection = () => {
   const sectionRef = useRef(null)
   const cardRef = useRef(null)
@@ -31,7 +21,6 @@ export const ScrollVideoRevealSection = () => {
     setIsMuted(nextMuted)
   }
 
-  // Enforce 1.5x playback speed
   useEffect(() => {
     if (videoRef.current) {
       videoRef.current.playbackRate = 1.5
@@ -58,7 +47,6 @@ export const ScrollVideoRevealSection = () => {
     cardRef.current.style.clipPath = `inset(${insetY}% ${insetX}% ${insetY}% ${insetX}% round ${borderRadius}px)`
   }, [])
 
-  // Sync directly with Lenis RAF loop for 120Hz micro-jank-free interpolation
   useLenis(updateClipPath)
 
   useEffect(() => {
@@ -74,9 +62,7 @@ export const ScrollVideoRevealSection = () => {
       style={{ height: '180vh' }}
       aria-label="Heaven Atelier Film Showcase"
     >
-      {/* Sticky container — pins to viewport */}
       <div className="sticky top-0 flex h-dvh w-full items-center justify-center overflow-hidden px-4 sm:px-6 lg:px-8">
-        {/* Atmospheric warm radial glow behind the video frame */}
         <div
           aria-hidden="true"
           className="pointer-events-none absolute inset-0 flex items-center justify-center"
@@ -84,7 +70,6 @@ export const ScrollVideoRevealSection = () => {
           <div className="from-brass/25 via-brass/4 h-[70vh] w-[85vw] max-w-6xl rounded-full bg-[radial-gradient(ellipse_at_center,var(--tw-gradient-stops))] to-transparent blur-3xl" />
         </div>
 
-        {/* Subtle Vertical Flank Guides (Editorial touches on wide viewports) */}
         <div
           aria-hidden="true"
           className="pointer-events-none absolute inset-y-0 left-6 hidden items-center 2xl:flex"
@@ -109,9 +94,7 @@ export const ScrollVideoRevealSection = () => {
           </div>
         </div>
 
-        {/* Centered max-width container */}
         <div className="relative h-[88vh] w-full max-w-7xl">
-          {/* Video with clip-path card effect — clicking anywhere toggles mute/unmute */}
           <div
             ref={cardRef}
             onClick={toggleMute}
@@ -120,19 +103,16 @@ export const ScrollVideoRevealSection = () => {
               clipPath: 'inset(8% 10% 8% 10% round 20px)',
             }}
           >
-            {/* Top Vignette Overlay */}
             <div
               aria-hidden="true"
               className="from-charcoal-deep/75 via-charcoal-deep/20 pointer-events-none absolute inset-x-0 top-0 z-10 h-28 bg-linear-to-b to-transparent"
             />
 
-            {/* Bottom Vignette Overlay */}
             <div
               aria-hidden="true"
               className="from-charcoal-deep/85 via-charcoal-deep/25 pointer-events-none absolute inset-x-0 bottom-0 z-10 h-36 bg-linear-to-t to-transparent"
             />
 
-            {/* Architectural Viewfinder Corner Accents */}
             <div
               aria-hidden="true"
               className="border-brass/70 pointer-events-none absolute top-4 left-4 z-20 h-4 w-4 border-t-2 border-l-2 sm:top-6 sm:left-6 sm:h-5 sm:w-5"
@@ -150,7 +130,6 @@ export const ScrollVideoRevealSection = () => {
               className="border-brass/70 pointer-events-none absolute right-4 bottom-4 z-20 h-4 w-4 border-r-2 border-b-2 sm:right-6 sm:bottom-6 sm:h-5 sm:w-5"
             />
 
-            {/* Top Bar: Live Status Pill */}
             <div className="pointer-events-none absolute inset-x-0 top-0 z-20 flex items-center justify-between p-5 sm:p-7">
               <div className="bg-charcoal-deep/75 text-canvas inline-flex items-center gap-2 rounded-full border border-white/20 px-3.5 py-1.5 text-[10px] font-medium tracking-[0.25em] uppercase shadow-lg backdrop-blur-md sm:text-[11px]">
                 <span className="bg-brass h-2 w-2 animate-pulse rounded-full" />
@@ -158,9 +137,7 @@ export const ScrollVideoRevealSection = () => {
               </div>
             </div>
 
-            {/* Bottom Bar: Editorial Caption & Audio Toggle Status */}
             <div className="pointer-events-none absolute inset-x-0 bottom-0 z-20 flex flex-col justify-between gap-4 p-5 sm:flex-row sm:items-end sm:p-7">
-              {/* Left: Editorial Narrative */}
               <div className="space-y-1">
                 <p className="font-serif text-lg font-medium tracking-tight text-white drop-shadow-md sm:text-2xl">
                   Crafted Around You
@@ -171,7 +148,6 @@ export const ScrollVideoRevealSection = () => {
                 </p>
               </div>
 
-              {/* Right: Sound Toggle Button */}
               <div className="pointer-events-auto self-start sm:self-auto">
                 <button
                   type="button"
@@ -201,7 +177,6 @@ export const ScrollVideoRevealSection = () => {
               </div>
             </div>
 
-            {/* Video element — seamless autoplay, loop, playsInline at 1.5x speed */}
             <video
               ref={videoRef}
               src={promoVideo}
