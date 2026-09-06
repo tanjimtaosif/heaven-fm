@@ -6,9 +6,9 @@ import { TESTIMONIALS } from '@/constants/reviewsData'
 import { usePrefersReducedMotion } from '@/hooks'
 
 const TOTAL = TESTIMONIALS.length
-const TRANSITION_MS = 520
-const AUTOPLAY_MS = 6500
-const EASE = 'cubic-bezier(0.22, 1, 0.36, 1)'
+const TRANSITION_MS = 360
+const AUTOPLAY_MS = 6000
+const EASE = 'cubic-bezier(0.16, 1, 0.3, 1)'
 
 const ALL_CARDS = [
   ...TESTIMONIALS.map((t, i) => ({ ...t, trackKey: `set0-${t.id}-${i}` })),
@@ -16,6 +16,7 @@ const ALL_CARDS = [
   ...TESTIMONIALS.map((t, i) => ({ ...t, trackKey: `set2-${t.id}-${i}` })),
 ]
 
+/* ─── Desktop Review Card (5-column layout) ─────────────────────────── */
 const ReviewCard = ({ testimonial, textAnimStyle }) => {
   return (
     <div
@@ -27,11 +28,6 @@ const ReviewCard = ({ testimonial, textAnimStyle }) => {
         'hover:border-brass/40 transition-colors duration-300'
       )}
     >
-      <span
-        className="from-brass via-brass/70 absolute top-0 left-8 h-[2.5px] w-16 rounded-full bg-linear-to-r to-transparent sm:left-10"
-        aria-hidden="true"
-      />
-
       <div>
         <div className="flex items-center justify-between">
           <div className="flex items-center" aria-hidden="true">
@@ -106,14 +102,14 @@ const ReviewCard = ({ testimonial, textAnimStyle }) => {
   )
 }
 
+/* ─── Desktop Image Gallery (7-column layout) ───────────────────────── */
 const ImageGallery = ({ currentIndex, isTransitioning, onSelectCard }) => {
   return (
     <div
       className={cn(
         'relative h-full w-full overflow-hidden rounded-3xl',
-        '[--active-w:76%] [--gap:10px] [--inactive-w:20%]',
-        'sm:[--active-w:64%] sm:[--gap:12px] sm:[--inactive-w:16%]',
-        'lg:[--active-w:58%] lg:[--gap:12px] lg:[--inactive-w:14%]'
+        'lg:[--active-w:58%] lg:[--gap:12px] lg:[--inactive-w:14%]',
+        'xl:[--active-w:60%] xl:[--gap:14px] xl:[--inactive-w:13%]'
       )}
     >
       <div
@@ -223,25 +219,162 @@ const ImageGallery = ({ currentIndex, isTransitioning, onSelectCard }) => {
   )
 }
 
+/* ─── Mobile Unified Showcase Card (< lg view) ───────────────────────── */
+const MobileTestimonialCard = ({
+  testimonial,
+  textAnimStyle,
+  imageAnimStyle,
+  onTouchStart,
+  onTouchMove,
+  onTouchEnd,
+  currentIndex,
+  total,
+}) => {
+  return (
+    <div
+      className={cn(
+        'relative overflow-hidden rounded-3xl',
+        'border-border-warm bg-surface bg-paper-grain border',
+        'shadow-[0_20px_45px_-20px_rgba(15,30,33,0.18),0_2px_10px_-6px_rgba(15,30,33,0.05)]'
+      )}
+      onTouchStart={onTouchStart}
+      onTouchMove={onTouchMove}
+      onTouchEnd={onTouchEnd}
+    >
+      {/* Project Image Header */}
+      <div className="bg-charcoal-deep relative aspect-16/10 w-full overflow-hidden sm:aspect-video">
+        <img
+          src={testimonial.image.src}
+          alt={testimonial.image.alt}
+          className="h-full w-full object-cover"
+          style={imageAnimStyle}
+        />
+        <div className="from-charcoal-deep/90 via-charcoal-deep/35 absolute inset-0 bg-linear-to-t to-transparent" />
+
+        {/* Top Badges */}
+        <div className="absolute top-3.5 right-3.5 left-3.5 flex items-center justify-between">
+          <span className="bg-charcoal-deep/75 text-canvas text-label-xs inline-flex items-center gap-1.5 rounded-full border border-white/20 px-2.5 py-1 font-semibold backdrop-blur-md">
+            <Sparkles className="text-brass h-3 w-3" />
+            {testimonial.reviewer.category}
+          </span>
+          <span className="text-canvas/90 bg-charcoal-deep/65 text-label-xs rounded-full border border-white/15 px-2.5 py-0.5 font-mono font-medium tracking-widest backdrop-blur-xs">
+            {String(currentIndex + 1).padStart(2, '0')} /{' '}
+            {String(total).padStart(2, '0')}
+          </span>
+        </div>
+
+        {/* Image Caption: Project Title & Location */}
+        <div
+          className="text-canvas absolute right-4 bottom-3.5 left-4"
+          style={textAnimStyle}
+        >
+          <div className="flex items-center gap-2">
+            <span className="bg-brass text-charcoal-deep text-label-xs inline-flex items-center gap-1 rounded-full px-2 py-0.5 font-semibold tracking-wider uppercase">
+              Commission
+            </span>
+            <span className="text-canvas/80 text-label-xs line-clamp-1 font-medium tracking-wide">
+              {testimonial.reviewer.location}
+            </span>
+          </div>
+          <h4 className="text-canvas mt-1 line-clamp-1 font-serif text-base leading-snug font-medium tracking-tight sm:text-lg">
+            {testimonial.image.title}
+          </h4>
+        </div>
+      </div>
+
+      {/* Review Content */}
+      <div className="p-5 sm:p-7">
+        <div className="flex items-center justify-between">
+          <svg
+            width="28"
+            height="20"
+            viewBox="0 0 38 28"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            className="text-brass/40 shrink-0"
+            aria-hidden="true"
+          >
+            <path
+              d="M0 28V17.0667C0 13.9556 0.644444 11.0667 1.93333 8.4C3.28889 5.66667 5.15556 3.42222 7.53333 1.66667C9.97778 -0.0888889 12.7778 -0.444444 15.9333 0.666667L14.4667 4.26667C12.8444 3.73333 11.2 3.82222 9.53333 4.53333C7.86667 5.24444 6.46667 6.37778 5.33333 7.93333C4.26667 9.42222 3.73333 11.1556 3.73333 13.1333V14.6667H14V28H0ZM22.6667 28V17.0667C22.6667 13.9556 23.3111 11.0667 24.6 8.4C25.9556 5.66667 27.8222 3.42222 30.2 1.66667C32.6444 -0.0888889 35.4444 -0.444444 38.6 0.666667L37.1333 4.26667C35.5111 3.73333 33.8667 3.82222 32.2 4.53333C30.5333 5.24444 29.1333 6.37778 28 7.93333C26.9333 9.42222 26.4 11.1556 26.4 13.1333V14.6667H36.6667V28H22.6667Z"
+              fill="currentColor"
+            />
+          </svg>
+          <div className="border-brass-border bg-brass-light text-wood-walnut text-label-xs inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 font-semibold tracking-widest uppercase">
+            <CheckCircle2 className="text-brass h-3 w-3" />
+            Verified Client
+          </div>
+        </div>
+
+        <div className="mt-3.5 overflow-hidden">
+          <div
+            style={textAnimStyle}
+            aria-live="polite"
+            className="flex min-h-[96px] items-center sm:min-h-27.5"
+          >
+            <blockquote>
+              <p className="text-text-primary font-serif text-base leading-[1.62] font-normal tracking-tight text-pretty sm:text-lg">
+                &ldquo;{testimonial.quote}&rdquo;
+              </p>
+            </blockquote>
+          </div>
+        </div>
+
+        <div
+          className="border-border-subtle mt-4 border-t pt-4 sm:mt-5 sm:pt-5"
+          style={textAnimStyle}
+        >
+          <div className="flex items-center justify-between gap-3">
+            <div className="flex items-center gap-3">
+              <div className="bg-brass-light ring-brass/45 ring-offset-surface relative flex h-10 w-10 shrink-0 items-center justify-center rounded-full ring-1 ring-offset-2">
+                <span className="text-wood-walnut font-serif text-xs font-semibold">
+                  {testimonial.reviewer.initials}
+                </span>
+              </div>
+              <div className="min-w-0">
+                <h3 className="text-charcoal-deep truncate font-serif text-sm leading-snug font-semibold sm:text-base">
+                  {testimonial.reviewer.name}
+                </h3>
+                <p className="text-brass text-label-sm line-clamp-1 font-medium">
+                  {testimonial.reviewer.project}
+                </p>
+              </div>
+            </div>
+
+            <span className="text-text-muted text-label-xs font-medium tracking-wider uppercase">
+              Swipe &larr;&rarr;
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+/* ─── Main TestimonialsSection Component ────────────────────────────── */
 export const TestimonialsSection = () => {
   const [trackIndex, setTrackIndex] = useState(TOTAL)
+  const [displayedReviewIndex, setDisplayedReviewIndex] = useState(0)
   const [isTransitioning, setIsTransitioning] = useState(true)
   const [textAnimStyle, setTextAnimStyle] = useState({
     opacity: 1,
-    transform: 'translateX(0)',
-    filter: 'blur(0px)',
+    transform: 'translate3d(0, 0, 0)',
+  })
+  const [imageAnimStyle, setImageAnimStyle] = useState({
+    opacity: 1,
+    transform: 'scale(1)',
   })
   const [isPaused, setIsPaused] = useState(false)
   const [isInView, setIsInView] = useState(false)
 
   const sectionRef = useRef(null)
   const isLockedRef = useRef(false)
+  const resumeTimerRef = useRef(null)
+  const touchStartRef = useRef({ x: 0, y: 0 })
+  const touchDeltaRef = useRef({ x: 0, y: 0 })
   const labelId = useId()
 
   const prefersReducedMotion = usePrefersReducedMotion()
-
-  const activeReviewIndex = trackIndex % TOTAL
-  const currentTestimonial = TESTIMONIALS[activeReviewIndex]
+  const currentTestimonial = TESTIMONIALS[displayedReviewIndex]
 
   const checkBoundaryWrap = useCallback((idx) => {
     if (idx >= TOTAL * 2) {
@@ -269,51 +402,72 @@ export const TestimonialsSection = () => {
     }
   }, [])
 
+  /* Snappy, seamless forward transition */
   const stepForward = useCallback(
     (stepCount = 1) => {
       if (isLockedRef.current) return
       isLockedRef.current = true
 
       const nextTrack = trackIndex + stepCount
+      const nextReviewIndex = ((nextTrack % TOTAL) + TOTAL) % TOTAL
 
       if (prefersReducedMotion) {
         setTrackIndex(nextTrack)
+        setDisplayedReviewIndex(nextReviewIndex)
         checkBoundaryWrap(nextTrack)
+        isLockedRef.current = false
         return
       }
 
+      // 1. Move desktop track immediately (360ms)
       setIsTransitioning(true)
-
-      setTextAnimStyle({
-        opacity: 0,
-        transform: 'translateX(-22px)',
-        filter: 'blur(2px)',
-        transition:
-          'opacity 190ms ease-in, transform 190ms ease-in, filter 190ms ease-in',
-      })
-
       setTrackIndex(nextTrack)
 
+      // 2. Fast exit: quick 80ms fade & micro-drift
+      setTextAnimStyle({
+        opacity: 0,
+        transform: 'translate3d(-10px, 0, 0)',
+        transition: 'opacity 80ms ease-out, transform 80ms ease-out',
+      })
+      setImageAnimStyle({
+        opacity: 0.88,
+        transform: 'scale(0.99)',
+        transition: 'opacity 80ms ease-out, transform 80ms ease-out',
+      })
+
+      // 3. Seamless swap: instant reposition while invisible
       setTimeout(() => {
+        setDisplayedReviewIndex(nextReviewIndex)
+
         setTextAnimStyle({
           opacity: 0,
-          transform: 'translateX(22px)',
-          filter: 'blur(2px)',
+          transform: 'translate3d(10px, 0, 0)',
+          transition: 'none',
+        })
+        setImageAnimStyle({
+          opacity: 0.88,
+          transform: 'scale(1.01)',
           transition: 'none',
         })
 
+        // 4. Smooth, fast glide-in (200ms)
         requestAnimationFrame(() => {
           requestAnimationFrame(() => {
             setTextAnimStyle({
               opacity: 1,
-              transform: 'translateX(0)',
-              filter: 'blur(0px)',
-              transition: `opacity 300ms ${EASE}, transform 300ms ${EASE}, filter 300ms ${EASE}`,
+              transform: 'translate3d(0, 0, 0)',
+              transition: `opacity 200ms ${EASE}, transform 200ms ${EASE}`,
+            })
+            setImageAnimStyle({
+              opacity: 1,
+              transform: 'scale(1)',
+              transition: `opacity 220ms ${EASE}, transform 240ms ${EASE}`,
             })
           })
         })
-      }, 200)
+      }, 80)
 
+      // 5. Wrap infinite boundaries and release lock
       setTimeout(() => {
         checkBoundaryWrap(nextTrack)
       }, TRANSITION_MS + 20)
@@ -321,35 +475,47 @@ export const TestimonialsSection = () => {
     [checkBoundaryWrap, prefersReducedMotion, trackIndex]
   )
 
+  /* Snappy, seamless backward transition */
   const stepBackward = useCallback(() => {
     if (isLockedRef.current) return
     isLockedRef.current = true
 
     const prevTrack = trackIndex - 1
+    const prevReviewIndex = ((prevTrack % TOTAL) + TOTAL) % TOTAL
 
     if (prefersReducedMotion) {
       setTrackIndex(prevTrack)
+      setDisplayedReviewIndex(prevReviewIndex)
       checkBoundaryWrap(prevTrack)
+      isLockedRef.current = false
       return
     }
 
     setIsTransitioning(true)
+    setTrackIndex(prevTrack)
 
     setTextAnimStyle({
       opacity: 0,
-      transform: 'translateX(22px)',
-      filter: 'blur(2px)',
-      transition:
-        'opacity 190ms ease-in, transform 190ms ease-in, filter 190ms ease-in',
+      transform: 'translate3d(10px, 0, 0)',
+      transition: 'opacity 80ms ease-out, transform 80ms ease-out',
+    })
+    setImageAnimStyle({
+      opacity: 0.88,
+      transform: 'scale(0.99)',
+      transition: 'opacity 80ms ease-out, transform 80ms ease-out',
     })
 
-    setTrackIndex(prevTrack)
-
     setTimeout(() => {
+      setDisplayedReviewIndex(prevReviewIndex)
+
       setTextAnimStyle({
         opacity: 0,
-        transform: 'translateX(-22px)',
-        filter: 'blur(2px)',
+        transform: 'translate3d(-10px, 0, 0)',
+        transition: 'none',
+      })
+      setImageAnimStyle({
+        opacity: 0.88,
+        transform: 'scale(1.01)',
         transition: 'none',
       })
 
@@ -357,13 +523,17 @@ export const TestimonialsSection = () => {
         requestAnimationFrame(() => {
           setTextAnimStyle({
             opacity: 1,
-            transform: 'translateX(0)',
-            filter: 'blur(0px)',
-            transition: `opacity 300ms ${EASE}, transform 300ms ${EASE}, filter 300ms ${EASE}`,
+            transform: 'translate3d(0, 0, 0)',
+            transition: `opacity 200ms ${EASE}, transform 200ms ${EASE}`,
+          })
+          setImageAnimStyle({
+            opacity: 1,
+            transform: 'scale(1)',
+            transition: `opacity 220ms ${EASE}, transform 240ms ${EASE}`,
           })
         })
       })
-    }, 200)
+    }, 80)
 
     setTimeout(() => {
       checkBoundaryWrap(prevTrack)
@@ -386,14 +556,15 @@ export const TestimonialsSection = () => {
   const handleDotClick = useCallback(
     (targetDotIdx) => {
       if (isLockedRef.current) return
-      const currentMod = trackIndex % TOTAL
+      const currentMod = displayedReviewIndex
       if (targetDotIdx === currentMod) return
       const forwardDiff = (targetDotIdx - currentMod + TOTAL) % TOTAL
       stepForward(forwardDiff)
     },
-    [stepForward, trackIndex]
+    [displayedReviewIndex, stepForward]
   )
 
+  /* Autoplay timer with configured delay */
   useEffect(() => {
     if (prefersReducedMotion || isPaused || !isInView) return
     const timer = setInterval(() => {
@@ -402,6 +573,7 @@ export const TestimonialsSection = () => {
     return () => clearInterval(timer)
   }, [prefersReducedMotion, isPaused, isInView, stepForward])
 
+  /* Viewport visibility observer */
   useEffect(() => {
     const el = sectionRef.current
     if (!el || typeof IntersectionObserver === 'undefined') {
@@ -410,12 +582,13 @@ export const TestimonialsSection = () => {
     }
     const obs = new IntersectionObserver(
       ([entry]) => setIsInView(entry.isIntersecting),
-      { threshold: 0.2 }
+      { threshold: 0.15 }
     )
     obs.observe(el)
     return () => obs.disconnect()
   }, [])
 
+  /* Keyboard arrows navigation */
   useEffect(() => {
     const el = sectionRef.current
     if (!el) return
@@ -432,6 +605,54 @@ export const TestimonialsSection = () => {
     return () => el.removeEventListener('keydown', onKey)
   }, [stepForward, stepBackward])
 
+  /* Cleanup timeout on unmount */
+  useEffect(() => {
+    return () => {
+      if (resumeTimerRef.current) clearTimeout(resumeTimerRef.current)
+    }
+  }, [])
+
+  /* Mobile touch swipe handlers with auto-resume */
+  const handleTouchStart = (e) => {
+    if (!e.touches || e.touches.length === 0) return
+    touchStartRef.current = {
+      x: e.touches[0].clientX,
+      y: e.touches[0].clientY,
+    }
+    touchDeltaRef.current = { x: 0, y: 0 }
+    setIsPaused(true)
+    if (resumeTimerRef.current) clearTimeout(resumeTimerRef.current)
+  }
+
+  const handleTouchMove = (e) => {
+    if (!e.touches || e.touches.length === 0) return
+    touchDeltaRef.current = {
+      x: e.touches[0].clientX - touchStartRef.current.x,
+      y: e.touches[0].clientY - touchStartRef.current.y,
+    }
+  }
+
+  const handleTouchEnd = () => {
+    const { x: dx, y: dy } = touchDeltaRef.current
+    const absX = Math.abs(dx)
+    const absY = Math.abs(dy)
+
+    // Trigger swipe if horizontal displacement exceeds 40px and is primary direction
+    if (absX > 40 && absX > absY * 1.2) {
+      if (dx < 0) {
+        stepForward(1)
+      } else {
+        stepBackward()
+      }
+    }
+
+    // Auto-resume autoplay after 4 seconds of idle time
+    if (resumeTimerRef.current) clearTimeout(resumeTimerRef.current)
+    resumeTimerRef.current = setTimeout(() => {
+      setIsPaused(false)
+    }, 4000)
+  }
+
   return (
     <section
       id="testimonials"
@@ -443,9 +664,8 @@ export const TestimonialsSection = () => {
       onMouseLeave={() => setIsPaused(false)}
       onFocusCapture={() => setIsPaused(true)}
       onBlurCapture={() => setIsPaused(false)}
-      onTouchStart={() => setIsPaused(true)}
-      onTouchEnd={() => setIsPaused(false)}
     >
+      {/* Ambient background atmosphere */}
       <div
         className="pointer-events-none absolute inset-0 overflow-hidden"
         aria-hidden="true"
@@ -458,7 +678,8 @@ export const TestimonialsSection = () => {
         <div className="bg-grain absolute inset-0 mask-[linear-gradient(180deg,transparent_0%,#000_5%,#000_94%,transparent_100%)] opacity-[0.05] mix-blend-multiply" />
       </div>
 
-      <div className="container-page relative space-y-4 text-center">
+      {/* Section Header */}
+      <div className="container-page relative space-y-3 text-center sm:space-y-4">
         <Badge variant="brass">Client Stories & Portfolios</Badge>
         <h2
           id={labelId}
@@ -474,16 +695,32 @@ export const TestimonialsSection = () => {
         </p>
       </div>
 
-      <div className="container-page relative mt-12 sm:mt-16">
-        <div className="grid grid-cols-1 items-stretch gap-6 lg:grid-cols-12 lg:gap-8 xl:gap-10">
-          <div className="h-107.5 sm:h-117.5 lg:col-span-5 lg:h-127.5">
+      {/* Testimonials Showcase */}
+      <div className="container-page relative mt-8 sm:mt-12 lg:mt-16">
+        {/* Mobile / Tablet (< lg): Unified Luxury Showcase Card */}
+        <div className="block lg:hidden">
+          <MobileTestimonialCard
+            testimonial={currentTestimonial}
+            textAnimStyle={textAnimStyle}
+            imageAnimStyle={imageAnimStyle}
+            onTouchStart={handleTouchStart}
+            onTouchMove={handleTouchMove}
+            onTouchEnd={handleTouchEnd}
+            currentIndex={displayedReviewIndex}
+            total={TOTAL}
+          />
+        </div>
+
+        {/* Desktop (>= lg): Dual-Column Interactive Gallery */}
+        <div className="hidden lg:grid lg:grid-cols-12 lg:items-stretch lg:gap-8 xl:gap-10">
+          <div className="h-127.5 lg:col-span-5">
             <ReviewCard
               testimonial={currentTestimonial}
               textAnimStyle={textAnimStyle}
             />
           </div>
 
-          <div className="h-107.5 sm:h-117.5 lg:col-span-7 lg:h-127.5">
+          <div className="h-127.5 lg:col-span-7">
             <ImageGallery
               currentIndex={trackIndex}
               isTransitioning={isTransitioning}
@@ -492,43 +729,54 @@ export const TestimonialsSection = () => {
           </div>
         </div>
 
-        <div className="mt-8 flex items-center justify-between gap-4 sm:mt-10">
+        {/* Carousel Navigation Controls */}
+        <div className="mt-6 flex items-center justify-between gap-3 sm:mt-8 sm:gap-4 lg:mt-10">
           <Button
             variant="outline"
             size="sm"
             onClick={stepBackward}
             aria-label="Previous client review"
-            className="rounded-full"
+            className="h-9.5 rounded-full px-3.5 sm:h-10 sm:px-4"
           >
             <ChevronLeft className="h-4 w-4" aria-hidden="true" />
             <span className="hidden sm:inline">Previous</span>
           </Button>
 
-          <div
-            className="flex items-center gap-1.5 sm:gap-2"
-            role="tablist"
-            aria-label="Testimonial slides"
-          >
-            {TESTIMONIALS.map((t, idx) => {
-              const isActive = idx === activeReviewIndex
-              return (
-                <button
-                  key={t.id}
-                  type="button"
-                  role="tab"
-                  aria-selected={isActive}
-                  aria-label={`Go to review ${idx + 1} of ${TOTAL}: ${t.reviewer.name}`}
-                  onClick={() => handleDotClick(idx)}
-                  className={cn(
-                    'cursor-pointer rounded-full transition-all duration-300 ease-out',
-                    'focus-visible:ring-brass focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none',
-                    isActive
-                      ? 'bg-brass h-1.5 w-6 sm:w-7'
-                      : 'bg-border-warm hover:bg-brass/50 h-1.5 w-1.5'
-                  )}
-                />
-              )
-            })}
+          {/* Center Indicators */}
+          <div className="flex items-center gap-2">
+            {/* Mobile counter pill */}
+            <span className="border-brass/30 bg-brass-light text-wood-walnut text-label-xs inline-flex rounded-full border px-3 py-1 font-mono font-semibold tracking-wider sm:hidden">
+              {String(displayedReviewIndex + 1).padStart(2, '0')} /{' '}
+              {String(TOTAL).padStart(2, '0')}
+            </span>
+
+            {/* Tablet & Desktop dot indicators */}
+            <div
+              className="hidden items-center gap-1.5 sm:flex sm:gap-2"
+              role="tablist"
+              aria-label="Testimonial slides"
+            >
+              {TESTIMONIALS.map((t, idx) => {
+                const isActive = idx === displayedReviewIndex
+                return (
+                  <button
+                    key={t.id}
+                    type="button"
+                    role="tab"
+                    aria-selected={isActive}
+                    aria-label={`Go to review ${idx + 1} of ${TOTAL}: ${t.reviewer.name}`}
+                    onClick={() => handleDotClick(idx)}
+                    className={cn(
+                      'cursor-pointer rounded-full transition-all duration-300 ease-out',
+                      'focus-visible:ring-brass focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none',
+                      isActive
+                        ? 'bg-brass h-1.5 w-6 sm:w-7'
+                        : 'bg-border-warm hover:bg-brass/50 h-1.5 w-1.5'
+                    )}
+                  />
+                )
+              })}
+            </div>
           </div>
 
           <Button
@@ -536,13 +784,14 @@ export const TestimonialsSection = () => {
             size="sm"
             onClick={() => stepForward(1)}
             aria-label="Next client review"
-            className="rounded-full"
+            className="h-9.5 rounded-full px-3.5 sm:h-10 sm:px-4"
           >
             <span className="hidden sm:inline">Next</span>
             <ChevronRight className="h-4 w-4" aria-hidden="true" />
           </Button>
         </div>
 
+        {/* Decorative Desktop Vertical Label */}
         <div
           className="3xl:block pointer-events-none absolute inset-y-0 -right-6 hidden"
           aria-hidden="true"
@@ -556,18 +805,22 @@ export const TestimonialsSection = () => {
         </div>
       </div>
 
+      {/* Auto-delay Reading Progress Bar */}
       <div
         className="pointer-events-none absolute right-0 bottom-0 left-0 h-0.5 overflow-hidden"
         aria-hidden="true"
       >
         <div
-          key={trackIndex}
-          className="from-brass/50 to-brass/20 h-full w-full origin-left bg-linear-to-r"
+          key={`${displayedReviewIndex}-${isPaused}`}
+          className="from-brass/60 via-brass/40 to-brass/10 h-full w-full origin-left bg-linear-to-r"
           style={{
-            animation:
+            animationName:
               prefersReducedMotion || !isInView
                 ? 'none'
-                : `testimonial-progress ${AUTOPLAY_MS}ms linear forwards`,
+                : 'testimonial-progress',
+            animationDuration: `${AUTOPLAY_MS}ms`,
+            animationTimingFunction: 'linear',
+            animationFillMode: 'forwards',
             animationPlayState: isPaused ? 'paused' : 'running',
           }}
         />

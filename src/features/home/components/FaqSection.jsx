@@ -63,10 +63,8 @@ export const FaqSection = () => {
               </div>
 
               <p className="text-text-inverse-muted max-w-lg text-base leading-relaxed sm:text-lg">
-                Every commission we sculpt is tailored to your spatial layout,
-                lifestyle, and individual taste in Chattogram. Here is clear,
-                uncompromising guidance on our bespoke process, Agrabad
-                showroom, materials, and white-glove delivery.
+                Clear answers on our bespoke process, Agrabad showroom, seasoned
+                timbers, and white-glove delivery.
               </p>
 
               <div className="text-text-inverse-muted flex items-center gap-3 pt-1 text-xs">

@@ -390,7 +390,7 @@ export const PopularFurnituresSection = () => {
           className={cn(
             'flex gap-5 overflow-x-auto px-4 sm:gap-6 sm:px-6 lg:gap-7 lg:px-8',
             'no-scrollbar',
-            'touch-pan-x'
+            'touch-auto'
           )}
           style={{
             scrollbarWidth: 'none',

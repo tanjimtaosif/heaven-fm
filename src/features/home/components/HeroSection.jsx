@@ -75,10 +75,10 @@ export const HeroSection = () => {
             />
             <Badge
               variant="brass"
-              className="border-brass-border/70 text-wood-walnut/90 shadow-subtle text-label-xs bg-white/70 px-4 py-1.5 tracking-[0.28em] backdrop-blur-sm"
+              className="border-brass-border/60 text-wood-walnut/90 shadow-subtle sm:text-label-xs gap-1.5 bg-white/75 px-2.5 py-1 text-[10px] tracking-[0.15em] whitespace-nowrap backdrop-blur-sm sm:px-4 sm:py-1.5 sm:tracking-[0.24em]"
             >
-              <Sparkles className="text-brass h-3 w-3" />
-              {COMPANY_INFO.hero.badge}
+              <Sparkles className="text-brass h-2.5 w-2.5 shrink-0 sm:h-3 sm:w-3" />
+              <span>{COMPANY_INFO.hero.badge}</span>
             </Badge>
             <span
               className="to-brass/45 hidden h-px w-12 bg-linear-to-l from-transparent sm:block lg:w-16"
