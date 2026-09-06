@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { useLenis } from '@/components/providers'
 import { useCart } from '@/context'
 import heavenLogo from '@/assets/logo/heaven_logo.svg'
@@ -16,28 +17,24 @@ import {
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
-// Navigation Links in required sequence: Shop, About Us, Contact Us
-// `mega: true` marks the entry that reveals the collections mega menu.
 const NAV_LINKS = [
-  { label: 'Shop', href: '#/shop', id: 'shop', mega: true },
+  { label: 'Shop', href: '/shop', id: 'shop', mega: true },
   { label: 'About Us', href: '#why-us', id: 'why-us' },
   { label: 'Contact Us', href: '#contact', id: 'contact' },
 ]
 
-// The mega menu is driven by the same category source as the Collections
-// section, so the two can never drift apart.
 const CATEGORIES = COMPANY_INFO.categories
 const ROOM_CATEGORIES = CATEGORIES.filter((c) => c.id !== 'bespoke-commissions')
 const BESPOKE_CATEGORY = CATEGORIES.find((c) => c.id === 'bespoke-commissions')
 
-// In shop mode, category links filter the catalog directly
 const categoryHref = (id) =>
-  id === 'bespoke-commissions' ? '#contact' : `#/shop?category=${id}`
+  id === 'bespoke-commissions' ? '/#contact' : `/shop?category=${id}`
 
-// Shared reveal curve — the same expo-out the rest of the site scrolls with.
 const EASE = 'ease-[cubic-bezier(0.16,1,0.3,1)]'
 
-export const Navbar = ({ isShopView = false, onNavigateHome }) => {
+export const Navbar = ({ onNavigateHome }) => {
+  const location = useLocation()
+  const navigate = useNavigate()
   const lenis = useLenis()
   const { isCartOpen, toggleCart, openCart, closeCart, totalCount } = useCart()
   const [isMobileOpen, setIsMobileOpen] = useState(false)
@@ -51,11 +48,6 @@ export const Navbar = ({ isShopView = false, onNavigateHome }) => {
   const lastScrollYRef = useRef(0)
   const megaTimerRef = useRef(null)
 
-  /* ------------------------------------------------------------------ *
-   * Mega menu open/close with hover intent.
-   * The short close delay keeps the panel alive while the pointer
-   * crosses the gap between the pill and the panel below it.
-   * ------------------------------------------------------------------ */
   const clearMegaTimer = () => {
     if (megaTimerRef.current) {
       clearTimeout(megaTimerRef.current)
@@ -83,8 +75,6 @@ export const Navbar = ({ isShopView = false, onNavigateHome }) => {
 
   useEffect(() => clearMegaTimer, [])
 
-  // Track the phone breakpoint (Tailwind `md`), which governs how the
-  // pill behaves once the hero is behind the reader.
   useEffect(() => {
     const query = window.matchMedia('(max-width: 767.98px)')
     const sync = () => setIsCompactViewport(query.matches)
@@ -93,7 +83,6 @@ export const Navbar = ({ isShopView = false, onNavigateHome }) => {
     return () => query.removeEventListener('change', sync)
   }, [])
 
-  // Detect scroll direction + elevation + active section
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY
@@ -102,23 +91,16 @@ export const Navbar = ({ isShopView = false, onNavigateHome }) => {
       const delta = currentScrollY - lastScrollYRef.current
 
       if (isCompactViewport) {
-        // On phones the pill stands down for good once the hero is behind
-        // the reader — direction no longer matters — and comes back only
-        // when they scroll into the hero again.
         const hero = document.getElementById('hero')
         const heroBottom = hero
           ? hero.offsetTop + hero.offsetHeight
           : window.innerHeight
         setIsNavHidden(currentScrollY + 100 > heroBottom)
       } else if (delta > 10 && currentScrollY > 80) {
-        // Desktop keeps the scroll-direction reveal (10px threshold to
-        // avoid jitter)
         setIsNavHidden(true)
       } else if (delta < -10) {
         setIsNavHidden(false)
       }
-      // A panel anchored to the pill has no business riding the page
-      // down — dismiss it as soon as the reader moves.
       if (Math.abs(delta) > 6) {
         closeMegaMenu()
       }
@@ -142,7 +124,6 @@ export const Navbar = ({ isShopView = false, onNavigateHome }) => {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [closeMegaMenu, isCompactViewport])
 
-  // Close drawer / mega menu on Escape key or outside click
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.key === 'Escape') {
@@ -166,7 +147,6 @@ export const Navbar = ({ isShopView = false, onNavigateHome }) => {
     }
   }, [closeMegaMenu])
 
-  // Lock background scroll when mobile menu is open
   useEffect(() => {
     if (!lenis) return
     if (isMobileOpen) {
@@ -176,15 +156,12 @@ export const Navbar = ({ isShopView = false, onNavigateHome }) => {
     }
   }, [isMobileOpen, isCartOpen, lenis])
 
-  // Collapse the Shop accordion only once the drawer has finished closing,
-  // so the panel never snaps shorter mid-animation.
   useEffect(() => {
     if (isMobileOpen) return
     const timer = setTimeout(() => setIsMobileShopOpen(false), 460)
     return () => clearTimeout(timer)
   }, [isMobileOpen])
 
-  // Keyboard users tabbing out of the header should not strand the panel
   const handleHeaderBlur = (e) => {
     if (!headerRef.current) return
     if (!headerRef.current.contains(e.relatedTarget)) {
@@ -192,7 +169,6 @@ export const Navbar = ({ isShopView = false, onNavigateHome }) => {
     }
   }
 
-  // Smooth scroll handler with offset for floating navbar
   const handleNavClick = (e, href) => {
     e.preventDefault()
     setIsMobileOpen(false)
@@ -201,8 +177,13 @@ export const Navbar = ({ isShopView = false, onNavigateHome }) => {
 
     const easeOutExpo = (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t))
 
-    if (href === '#' || href === '') {
-      if (isShopView && onNavigateHome) {
+    if (href === '#' || href === '' || href === '/') {
+      if (location.pathname !== '/') {
+        navigate('/')
+        window.scrollTo({ top: 0, behavior: 'smooth' })
+        return
+      }
+      if (onNavigateHome) {
         onNavigateHome()
         return
       }
@@ -214,16 +195,23 @@ export const Navbar = ({ isShopView = false, onNavigateHome }) => {
       return
     }
 
-    if (href.startsWith('#/shop') || href === '#shop') {
-      window.location.hash = href
+    if (
+      href.startsWith('/shop') ||
+      href.startsWith('#/shop') ||
+      href === '#shop'
+    ) {
+      const targetUrl = href.replace(/^#/, '')
+      navigate(targetUrl)
       window.scrollTo({ top: 0, behavior: 'smooth' })
       return
     }
 
-    if (isShopView) {
-      window.location.hash = href
+    const hashMatch = href.includes('#') ? href.slice(href.indexOf('#')) : href
+    const targetId = hashMatch.replace('#', '')
+
+    if (location.pathname !== '/') {
+      navigate(`/${hashMatch}`)
       setTimeout(() => {
-        const targetId = href.replace('#', '')
         const targetElement = document.getElementById(targetId)
         if (targetElement) {
           targetElement.scrollIntoView({ behavior: 'smooth' })
@@ -232,7 +220,6 @@ export const Navbar = ({ isShopView = false, onNavigateHome }) => {
       return
     }
 
-    const targetId = href.replace('#', '')
     const targetElement = document.getElementById(targetId)
     if (targetElement) {
       if (lenis) {
@@ -268,7 +255,6 @@ export const Navbar = ({ isShopView = false, onNavigateHome }) => {
         )}
       >
         <div className="mx-auto max-w-5xl">
-          {/* Main Floating Pill Navbar (Noir Atelier Dark Theme) */}
           <div
             className={cn(
               'pointer-events-auto flex items-center justify-between rounded-full border px-3.5 py-2 backdrop-blur-2xl transition-all duration-300 sm:px-5 sm:py-2.5',
@@ -277,7 +263,6 @@ export const Navbar = ({ isShopView = false, onNavigateHome }) => {
                 : 'bg-charcoal-deep/92 border-charcoal-border/80 hover:border-brass/40 shadow-[0_10px_28px_-4px_rgba(0,0,0,0.4),0_2px_8px_-2px_rgba(0,0,0,0.2)] hover:shadow-[0_14px_36px_-6px_rgba(0,0,0,0.55)]'
             )}
           >
-            {/* Left: Heaven Logo Asset */}
             <div className="flex shrink-0 items-center">
               <a
                 href="#"
@@ -293,7 +278,6 @@ export const Navbar = ({ isShopView = false, onNavigateHome }) => {
               </a>
             </div>
 
-            {/* Center: Desktop Nav Links [Shop ⌄] [About Us] [Contact Us] */}
             <nav
               aria-label="Primary Navigation"
               className="hidden items-center gap-1 md:flex lg:gap-2"
@@ -301,8 +285,6 @@ export const Navbar = ({ isShopView = false, onNavigateHome }) => {
               {NAV_LINKS.map((link) => {
                 const isActive = activeSection === link.id
 
-                // Shop — anchor plus a chevron toggle sharing one pill, so
-                // pointer users hover and keyboard users can still open it.
                 if (link.mega) {
                   return (
                     <div
@@ -379,9 +361,7 @@ export const Navbar = ({ isShopView = false, onNavigateHome }) => {
               })}
             </nav>
 
-            {/* Right: [Cart Icon] — [Get Quote CTA] + Mobile Hamburger */}
             <div className="flex items-center gap-2 sm:gap-3">
-              {/* Interactive Cart Icon Button */}
               <button
                 type="button"
                 onClick={() => {
@@ -406,7 +386,6 @@ export const Navbar = ({ isShopView = false, onNavigateHome }) => {
                 )}
               </button>
 
-              {/* Primary CTA: Get Quote (Satin Brass Button) */}
               <Button
                 as="a"
                 href="#contact"
@@ -418,7 +397,6 @@ export const Navbar = ({ isShopView = false, onNavigateHome }) => {
                 Get Quote
               </Button>
 
-              {/* Mobile Menu Toggle Button */}
               <button
                 type="button"
                 onClick={() => {
@@ -433,8 +411,6 @@ export const Navbar = ({ isShopView = false, onNavigateHome }) => {
                 aria-expanded={isMobileOpen}
                 aria-controls="mobile-nav-panel"
               >
-                {/* Both glyphs stay mounted and cross-rotate, so the toggle
-                    turns into its counterpart instead of blinking */}
                 <span className="relative block h-5 w-5">
                   <Menu
                     className={cn(
@@ -459,11 +435,6 @@ export const Navbar = ({ isShopView = false, onNavigateHome }) => {
             </div>
           </div>
 
-          {/* ============================================================ *
-           * Desktop Mega Menu — Collections
-           * The 0fr → 1fr grid row is what lets this open smoothly at
-           * whatever height the content happens to be, with no measuring.
-           * ============================================================ */}
           <div
             className={cn(
               'hidden transition-all duration-500 motion-reduce:transition-none md:grid',
@@ -489,7 +460,6 @@ export const Navbar = ({ isShopView = false, onNavigateHome }) => {
                 )}
               >
                 <div className="grid gap-2 lg:grid-cols-3">
-                  {/* Room categories */}
                   <div className="grid gap-2 sm:grid-cols-2 lg:col-span-2">
                     {ROOM_CATEGORIES.map((category, index) => (
                       <div
@@ -531,7 +501,6 @@ export const Navbar = ({ isShopView = false, onNavigateHome }) => {
                     ))}
                   </div>
 
-                  {/* Bespoke commissions — the signature branch */}
                   {BESPOKE_CATEGORY && (
                     <div
                       style={{ transitionDelay: isMegaOpen ? '290ms' : '0ms' }}
@@ -571,7 +540,6 @@ export const Navbar = ({ isShopView = false, onNavigateHome }) => {
                   )}
                 </div>
 
-                {/* Panel footer: studio line + quote CTA */}
                 <div
                   style={{ transitionDelay: isMegaOpen ? '350ms' : '0ms' }}
                   className={cn(
@@ -606,10 +574,6 @@ export const Navbar = ({ isShopView = false, onNavigateHome }) => {
             </div>
           </div>
 
-          {/* ============================================================ *
-           * Floating Mobile Navigation Drawer (Dark Theme)
-           * Kept mounted so it animates on the way out as well as in.
-           * ============================================================ */}
           <div
             className={cn(
               'grid transition-all duration-500 motion-reduce:transition-none md:hidden',
@@ -637,8 +601,6 @@ export const Navbar = ({ isShopView = false, onNavigateHome }) => {
                   {NAV_LINKS.map((link) => {
                     const isActive = activeSection === link.id
 
-                    // Shop expands into the same collections tree the
-                    // desktop mega menu shows.
                     if (link.mega) {
                       return (
                         <div key={link.label}>
@@ -738,7 +700,6 @@ export const Navbar = ({ isShopView = false, onNavigateHome }) => {
                     )
                   })}
 
-                  {/* Mobile Bespoke Bag Shortcut */}
                   <button
                     type="button"
                     onClick={() => {
@@ -757,7 +718,6 @@ export const Navbar = ({ isShopView = false, onNavigateHome }) => {
                   </button>
                 </div>
 
-                {/* Quick Contact & Action */}
                 <div className="border-charcoal-border space-y-3 border-t pt-3">
                   <a
                     href={`tel:${COMPANY_INFO.contact.phoneClean}`}
