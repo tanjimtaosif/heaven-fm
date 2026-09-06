@@ -3,6 +3,7 @@ import { Outlet, useNavigate, useLocation } from 'react-router-dom'
 import { Navbar } from '@/components/layout/Navbar'
 import { Footer } from '@/components/layout/Footer'
 import { CartSidebar, FloatingCartTrigger } from '@/features/cart'
+import { QuotationModal } from '@/features/quotation'
 
 function LegacyHashRedirector() {
   const navigate = useNavigate()
@@ -34,6 +35,7 @@ export function MainLayout() {
 
       <CartSidebar />
       <FloatingCartTrigger />
+      <QuotationModal />
     </div>
   )
 }
