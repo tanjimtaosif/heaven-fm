@@ -1,11 +1,13 @@
 import { useState, useMemo } from 'react'
 import { useLenis } from '@/components/providers'
+import { useIsMobile } from '@/hooks/useMediaQuery'
 import { ProductCard } from './ProductCard'
 import { BespokeCalloutCard } from './BespokeCalloutCard'
 import { ChevronLeft, ChevronRight, SearchX, RotateCcw } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
-const ITEMS_PER_PAGE = 11
+const DESKTOP_ITEMS_PER_PAGE = 11
+const MOBILE_ITEMS_PER_PAGE = 6
 
 export const ProductGrid = ({
   products = [],
@@ -14,12 +16,26 @@ export const ProductGrid = ({
   gridTopRef,
 }) => {
   const lenis = useLenis()
-  const [currentPage, setCurrentPage] = useState(1)
+  const isMobile = useIsMobile()
+  const itemsPerPage = isMobile ? MOBILE_ITEMS_PER_PAGE : DESKTOP_ITEMS_PER_PAGE
 
-  const totalPages = Math.max(1, Math.ceil(products.length / ITEMS_PER_PAGE))
+  const [requestedPage, setRequestedPage] = useState(1)
+  const [prevCount, setPrevCount] = useState(products.length)
+
+  // Reset to page 1 whenever product list count changes (e.g. category or search filter changed)
+  if (products.length !== prevCount) {
+    setPrevCount(products.length)
+    setRequestedPage(1)
+  }
+
+  const totalPages = Math.max(1, Math.ceil(products.length / itemsPerPage))
+
+  // A narrower filter or responsive switch can leave the viewer stranded on a page
+  // the shortened result set no longer has. Clamping here keeps the page safely valid.
+  const currentPage = Math.min(requestedPage, totalPages)
 
   const handlePageChange = (newPage) => {
-    setCurrentPage(newPage)
+    setRequestedPage(newPage)
     if (gridTopRef && gridTopRef.current) {
       if (lenis) {
         lenis.scrollTo(gridTopRef.current, { offset: -110, duration: 0.9 })
@@ -33,13 +49,40 @@ export const ProductGrid = ({
   }
 
   const currentProducts = useMemo(() => {
-    const start = (currentPage - 1) * ITEMS_PER_PAGE
-    return products.slice(start, start + ITEMS_PER_PAGE)
-  }, [products, currentPage])
+    const start = (currentPage - 1) * itemsPerPage
+    return products.slice(start, start + itemsPerPage)
+  }, [products, currentPage, itemsPerPage])
+
+  const paginationItems = useMemo(() => {
+    if (totalPages <= 5) {
+      return Array.from({ length: totalPages }, (_, i) => i + 1)
+    }
+
+    const items = []
+    items.push(1)
+
+    const start = Math.max(2, currentPage - 1)
+    const end = Math.min(totalPages - 1, currentPage + 1)
+
+    if (start > 2) {
+      items.push('ellipsis-prev')
+    }
+
+    for (let i = start; i <= end; i++) {
+      items.push(i)
+    }
+
+    if (end < totalPages - 1) {
+      items.push('ellipsis-next')
+    }
+
+    items.push(totalPages)
+    return items
+  }, [totalPages, currentPage])
 
   if (products.length === 0) {
     return (
-      <div className="border-border-subtle bg-surface-muted/30 my-16 flex flex-col items-center justify-center rounded-3xl border border-dashed p-12 text-center">
+      <div className="border-border-subtle bg-surface-muted/30 my-10 flex flex-col items-center justify-center rounded-3xl border border-dashed p-8 text-center sm:my-16 sm:p-12">
         <div className="bg-brass-light/80 text-brass-dark flex h-14 w-14 items-center justify-center rounded-full">
           <SearchX className="h-6 w-6" />
         </div>
@@ -62,11 +105,11 @@ export const ProductGrid = ({
     )
   }
 
-  const bespokeIndex = 5
+  const bespokeIndex = isMobile ? 3 : 5
 
   return (
-    <div className="space-y-10">
-      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+    <div className="space-y-8 sm:space-y-10">
+      <div className="grid grid-cols-1 gap-3.5 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3 lg:gap-6">
         {currentProducts.map((product, index) => {
           return (
             <div key={product.id} className="contents">
@@ -82,14 +125,14 @@ export const ProductGrid = ({
       {totalPages > 1 && (
         <nav
           aria-label="Catalog Pagination"
-          className="flex items-center justify-center gap-2 pt-6 pb-4"
+          className="flex flex-wrap items-center justify-center gap-1.5 pt-5 pb-4 sm:gap-2 sm:pt-6"
         >
           <button
             type="button"
             onClick={() => handlePageChange(Math.max(1, currentPage - 1))}
             disabled={currentPage === 1}
             className={cn(
-              'border-border-subtle bg-surface text-text-secondary flex h-9 w-9 cursor-pointer items-center justify-center rounded-full border transition-all',
+              'border-border-subtle bg-surface text-text-secondary flex h-8.5 w-8.5 cursor-pointer items-center justify-center rounded-full border transition-all sm:h-9 sm:w-9',
               currentPage === 1
                 ? 'cursor-not-allowed opacity-40'
                 : 'hover:border-brass hover:text-brass'
@@ -99,22 +142,33 @@ export const ProductGrid = ({
             <ChevronLeft className="h-4 w-4" />
           </button>
 
-          {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => {
-            const isCurrent = page === currentPage
+          {paginationItems.map((item, idx) => {
+            if (typeof item === 'string') {
+              return (
+                <span
+                  key={`ellipsis-${idx}`}
+                  className="text-text-muted flex h-8.5 w-6 items-center justify-center text-xs select-none sm:h-9 sm:w-8"
+                >
+                  &hellip;
+                </span>
+              )
+            }
+
+            const isCurrent = item === currentPage
             return (
               <button
-                key={page}
+                key={item}
                 type="button"
-                onClick={() => handlePageChange(page)}
+                onClick={() => handlePageChange(item)}
                 className={cn(
-                  'flex h-9 w-9 cursor-pointer items-center justify-center rounded-full text-xs font-semibold transition-all',
+                  'flex h-8.5 w-8.5 cursor-pointer items-center justify-center rounded-full text-xs font-semibold transition-all sm:h-9 sm:w-9',
                   isCurrent
                     ? 'bg-brass text-charcoal-deep font-bold shadow-xs'
                     : 'border-border-subtle bg-surface text-text-secondary hover:border-brass/50 hover:text-text-primary border'
                 )}
                 aria-current={isCurrent ? 'page' : undefined}
               >
-                {page}
+                {item}
               </button>
             )
           })}
@@ -126,7 +180,7 @@ export const ProductGrid = ({
             }
             disabled={currentPage === totalPages}
             className={cn(
-              'border-border-subtle bg-surface text-text-secondary flex h-9 w-9 cursor-pointer items-center justify-center rounded-full border transition-all',
+              'border-border-subtle bg-surface text-text-secondary flex h-8.5 w-8.5 cursor-pointer items-center justify-center rounded-full border transition-all sm:h-9 sm:w-9',
               currentPage === totalPages
                 ? 'cursor-not-allowed opacity-40'
                 : 'hover:border-brass hover:text-brass'

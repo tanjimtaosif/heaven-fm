@@ -1,4 +1,4 @@
-import { useRef } from 'react'
+import { useRef, useState, useEffect, useCallback } from 'react'
 import { Sparkles, Layers, ChevronLeft, ChevronRight } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
@@ -48,37 +48,115 @@ const CATEGORY_ITEMS = [
 
 export const CategoryBar = ({ activeCategoryId = 'all', onSelectCategory }) => {
   const scrollContainerRef = useRef(null)
+  const [hasOverflow, setHasOverflow] = useState(false)
+  const [canScrollLeft, setCanScrollLeft] = useState(false)
+  const [canScrollRight, setCanScrollRight] = useState(false)
+
+  const updateScrollState = useCallback(() => {
+    const el = scrollContainerRef.current
+    if (!el) return
+
+    // Tolerance of 2px for browser subpixel rounding
+    const overflow = el.scrollWidth > el.clientWidth + 2
+    setHasOverflow(overflow)
+
+    if (overflow) {
+      setCanScrollLeft(el.scrollLeft > 4)
+      setCanScrollRight(
+        Math.ceil(el.scrollLeft + el.clientWidth) < el.scrollWidth - 4
+      )
+    } else {
+      setCanScrollLeft(false)
+      setCanScrollRight(false)
+    }
+  }, [])
+
+  useEffect(() => {
+    const el = scrollContainerRef.current
+    if (!el) return
+
+    updateScrollState()
+
+    const handleScroll = () => {
+      updateScrollState()
+    }
+
+    el.addEventListener('scroll', handleScroll, { passive: true })
+
+    const resizeObserver = new ResizeObserver(() => {
+      updateScrollState()
+    })
+    resizeObserver.observe(el)
+
+    window.addEventListener('resize', updateScrollState)
+
+    return () => {
+      el.removeEventListener('scroll', handleScroll)
+      resizeObserver.disconnect()
+      window.removeEventListener('resize', updateScrollState)
+    }
+  }, [updateScrollState])
 
   const scroll = (direction) => {
     if (!scrollContainerRef.current) return
-    const offset = direction === 'left' ? -260 : 260
+    const offset = direction === 'left' ? -280 : 280
     scrollContainerRef.current.scrollBy({ left: offset, behavior: 'smooth' })
   }
 
   return (
-    <div className="relative mb-6">
-      <div className="pointer-events-none absolute -top-11 right-0 hidden items-center gap-1 sm:flex">
-        <button
-          type="button"
-          onClick={() => scroll('left')}
-          className="border-border-subtle bg-surface text-text-secondary hover:border-brass hover:text-brass pointer-events-auto flex h-8 w-8 cursor-pointer items-center justify-center rounded-full border transition-colors"
-          aria-label="Scroll categories left"
-        >
-          <ChevronLeft className="h-4 w-4" />
-        </button>
-        <button
-          type="button"
-          onClick={() => scroll('right')}
-          className="border-border-subtle bg-surface text-text-secondary hover:border-brass hover:text-brass pointer-events-auto flex h-8 w-8 cursor-pointer items-center justify-center rounded-full border transition-colors"
-          aria-label="Scroll categories right"
-        >
-          <ChevronRight className="h-4 w-4" />
-        </button>
-      </div>
+    <div className="relative mb-4 sm:mb-6">
+      {/* Navigation buttons appear ONLY when tabs don't fit on screen (and hidden on mobile where users slide with touch) */}
+      {hasOverflow && (
+        <>
+          {/* Left scroll button with soft fade */}
+          <div
+            className={cn(
+              'pointer-events-none absolute top-0 bottom-0 left-0 z-10 hidden items-center pr-6 transition-opacity duration-200 sm:flex',
+              'from-canvas via-canvas/90 bg-linear-to-r to-transparent',
+              canScrollLeft ? 'opacity-100' : 'opacity-0'
+            )}
+          >
+            <button
+              type="button"
+              onClick={() => scroll('left')}
+              disabled={!canScrollLeft}
+              className="border-border-subtle bg-surface text-text-secondary hover:border-brass hover:text-brass flex h-8 w-8 items-center justify-center rounded-full border shadow-sm transition-all active:scale-95 pointer-events-auto cursor-pointer disabled:pointer-events-none"
+              aria-label="Scroll categories left"
+            >
+              <ChevronLeft className="h-4 w-4" />
+            </button>
+          </div>
+
+          {/* Right scroll button with soft fade */}
+          <div
+            className={cn(
+              'pointer-events-none absolute top-0 right-0 bottom-0 z-10 hidden items-center pl-6 transition-opacity duration-200 sm:flex',
+              'from-canvas via-canvas/90 bg-linear-to-l to-transparent',
+              canScrollRight ? 'opacity-100' : 'opacity-0'
+            )}
+          >
+            <button
+              type="button"
+              onClick={() => scroll('right')}
+              disabled={!canScrollRight}
+              className="border-border-subtle bg-surface text-text-secondary hover:border-brass hover:text-brass flex h-8 w-8 items-center justify-center rounded-full border shadow-sm transition-all active:scale-95 pointer-events-auto cursor-pointer disabled:pointer-events-none"
+              aria-label="Scroll categories right"
+            >
+              <ChevronRight className="h-4 w-4" />
+            </button>
+          </div>
+        </>
+      )}
 
       <div
         ref={scrollContainerRef}
-        className="no-scrollbar -mx-4 flex snap-x items-center gap-3 overflow-x-auto scroll-smooth px-4 py-2 sm:mx-0 sm:gap-4 sm:px-0"
+        data-no-scrollbar
+        className="no-scrollbar -mx-4 flex snap-x scroll-pl-4 scrollbar-none items-center gap-2.5 overflow-x-auto scroll-smooth px-4 py-2 sm:-mx-6 sm:scroll-pl-6 sm:gap-3.5 sm:px-6 lg:mx-0 lg:scroll-pl-0 lg:px-0"
+        style={{
+          scrollbarWidth: 'none',
+          msOverflowStyle: 'none',
+          WebkitOverflowScrolling: 'touch',
+        }}
       >
         {CATEGORY_ITEMS.map((item) => {
           const isActive = activeCategoryId === item.id
@@ -89,7 +167,7 @@ export const CategoryBar = ({ activeCategoryId = 'all', onSelectCategory }) => {
               type="button"
               onClick={() => onSelectCategory(item.id)}
               className={cn(
-                'group relative flex shrink-0 cursor-pointer snap-start items-center gap-3 rounded-2xl border p-2 pr-4 transition-all duration-200 select-none',
+                'group relative flex shrink-0 cursor-pointer snap-start items-center gap-2.5 rounded-2xl border p-2 pr-3.5 transition-all duration-200 select-none sm:gap-3 sm:pr-4',
                 isActive
                   ? 'border-brass bg-surface shadow-subtle ring-brass/30 ring-1'
                   : 'border-border-subtle/80 bg-surface hover:border-brass/50 hover:bg-surface-muted/40'
@@ -98,7 +176,7 @@ export const CategoryBar = ({ activeCategoryId = 'all', onSelectCategory }) => {
             >
               <div
                 className={cn(
-                  'bg-surface-muted relative h-12 w-12 overflow-hidden rounded-xl transition-transform duration-300 group-hover:scale-105 sm:h-13 sm:w-13',
+                  'bg-surface-muted relative h-11 w-11 shrink-0 overflow-hidden rounded-xl transition-transform duration-300 group-hover:scale-105 sm:h-13 sm:w-13',
                   isActive ? 'ring-brass/40 ring-1' : ''
                 )}
               >
@@ -120,7 +198,7 @@ export const CategoryBar = ({ activeCategoryId = 'all', onSelectCategory }) => {
                 )}
               </div>
 
-              <div className="text-left">
+              <div className="text-left whitespace-nowrap">
                 <span
                   className={cn(
                     'block text-xs font-semibold tracking-wide transition-colors sm:text-sm',

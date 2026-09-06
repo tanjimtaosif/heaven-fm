@@ -75,7 +75,7 @@ const badgeBaseClass =
 
 const STUDIO_LINKS = [
   { label: 'The Studio Story', target: '#why-us' },
-  { label: 'The Heaven Difference', target: '#why-us' },
+  { label: 'The Heaven Difference', target: '#why-choose-us' },
   { label: 'Bespoke FAQ', target: '#faq' },
   { label: 'Book Consultation', target: '#contact' },
 ]

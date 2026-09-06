@@ -15,7 +15,10 @@ export const BespokeCalloutCard = () => {
   )}`
 
   return (
-    <div className="border-charcoal-border bg-charcoal-deep text-canvas relative flex flex-col justify-between overflow-hidden rounded-2xl border p-6 shadow-xl sm:p-7">
+    <div
+      data-bespoke-card
+      className="border-charcoal-border bg-charcoal-deep text-canvas relative flex flex-col justify-between overflow-hidden rounded-2xl border p-5 shadow-xl sm:p-6 lg:p-7"
+    >
       <div className="bg-brass/10 pointer-events-none absolute -top-12 -right-12 h-44 w-44 rounded-full blur-3xl" />
 
       <div>
@@ -24,7 +27,7 @@ export const BespokeCalloutCard = () => {
           <span>Bespoke Atelier</span>
         </div>
 
-        <h3 className="text-canvas mt-4 font-serif text-2xl leading-snug font-normal sm:text-3xl">
+        <h3 className="text-canvas mt-4 font-serif text-2xl leading-snug font-normal lg:text-3xl">
           Need Custom Dimensions or Grain?
         </h3>
 

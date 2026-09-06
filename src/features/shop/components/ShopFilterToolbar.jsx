@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from 'react'
+import { useLenis } from '@/components/providers'
 import {
   SlidersHorizontal,
   ChevronDown,
@@ -36,6 +37,7 @@ export const ShopFilterToolbar = ({
   const sortRef = useRef(null)
   const priceRef = useRef(null)
   const stockRef = useRef(null)
+  const lenis = useLenis()
 
   const activeCategory = categories.find((c) => c.id === filters.categoryId)
   const subcategories = activeCategory?.subcategories || []
@@ -55,6 +57,23 @@ export const ShopFilterToolbar = ({
     document.addEventListener('mousedown', handleClickOutside)
     return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [])
+
+  useEffect(() => {
+    if (!isMobileFiltersOpen) return
+
+    const handleEscape = (e) => {
+      if (e.key === 'Escape') setIsMobileFiltersOpen(false)
+    }
+    window.addEventListener('keydown', handleEscape)
+    if (lenis) lenis.stop()
+    document.body.style.overflow = 'hidden'
+
+    return () => {
+      window.removeEventListener('keydown', handleEscape)
+      if (lenis) lenis.start()
+      document.body.style.overflow = ''
+    }
+  }, [isMobileFiltersOpen, lenis])
 
   const currentSort =
     sortOptions.find((s) => s.id === filters.sortBy) || sortOptions[0]
@@ -84,8 +103,8 @@ export const ShopFilterToolbar = ({
     (filters.searchQuery?.trim() ? 1 : 0)
 
   return (
-    <div className="mb-8 space-y-4">
-      <div className="border-border-subtle/80 flex flex-wrap items-center justify-between gap-3 border-y py-3">
+    <div className="mb-6 space-y-3 sm:mb-8 sm:space-y-4">
+      <div className="border-border-subtle/80 flex flex-wrap items-center justify-between gap-2.5 border-y py-2.5 sm:gap-3 sm:py-3">
         <div className="hidden items-center gap-2.5 sm:flex">
           <div className="relative" ref={sortRef}>
             <button
@@ -316,7 +335,7 @@ export const ShopFilterToolbar = ({
           )}
         </div>
 
-        <div className="relative max-w-xs min-w-50 grow sm:grow-0">
+        <div className="relative w-full grow sm:w-auto sm:max-w-xs sm:min-w-50 sm:grow-0">
           <Search className="text-text-muted pointer-events-none absolute top-1/2 left-3.5 h-3.5 w-3.5 -translate-y-1/2" />
           <input
             type="text"
@@ -379,131 +398,148 @@ export const ShopFilterToolbar = ({
       )}
 
       {isMobileFiltersOpen && (
-        <div className="fixed inset-0 z-50 flex flex-col justify-end bg-black/60 backdrop-blur-xs sm:hidden">
-          <div className="animate-slide-up border-border-subtle bg-surface max-h-[85vh] overflow-y-auto rounded-t-3xl border-t p-5 shadow-2xl">
-            <div className="border-border-subtle flex items-center justify-between border-b pb-4">
-              <div>
-                <h3 className="text-text-primary font-serif text-lg font-bold">
-                  Filter & Sort Catalog
+        <div
+          className="fixed inset-0 z-50 flex flex-col justify-end bg-black/60 backdrop-blur-xs sm:hidden"
+          onClick={() => setIsMobileFiltersOpen(false)}
+          role="dialog"
+          aria-modal="true"
+          aria-label="Filter and sort catalog"
+        >
+          <div
+            data-lenis-prevent
+            onClick={(e) => e.stopPropagation()}
+            className="animate-slide-up border-border-subtle bg-surface flex max-h-[88dvh] w-full flex-col rounded-t-3xl border-t shadow-2xl"
+          >
+            <div className="flex shrink-0 justify-center pt-2.5 pb-1">
+              <span className="bg-border-subtle h-1 w-10 rounded-full" />
+            </div>
+
+            <div className="border-border-subtle flex shrink-0 items-start justify-between gap-3 border-b px-5 pt-2 pb-4">
+              <div className="min-w-0">
+                <h3 className="text-text-primary font-serif text-base font-bold">
+                  Filter &amp; Sort Catalog
                 </h3>
-                <p className="text-text-muted text-xs">
+                <p className="text-text-muted mt-0.5 text-xs">
                   {totalCount} pieces match current criteria
                 </p>
               </div>
               <button
                 type="button"
                 onClick={() => setIsMobileFiltersOpen(false)}
-                className="text-text-muted hover:bg-surface-muted hover:text-text-primary cursor-pointer rounded-full p-2"
+                aria-label="Close filters"
+                className="text-text-muted hover:bg-surface-muted hover:text-text-primary -mr-1 flex h-9 w-9 shrink-0 cursor-pointer items-center justify-center rounded-full"
               >
                 <X className="h-5 w-5" />
               </button>
             </div>
 
-            <div className="py-4">
-              <span className="text-text-muted mb-2.5 block text-xs font-bold tracking-wider uppercase">
-                Sort By
-              </span>
-              <div className="grid grid-cols-1 gap-1.5">
-                {sortOptions.map((opt) => (
-                  <button
-                    key={opt.id}
-                    type="button"
-                    onClick={() => onSelectSort(opt.id)}
-                    className={cn(
-                      'flex cursor-pointer items-center justify-between rounded-xl px-3 py-2 text-xs transition-colors',
-                      filters.sortBy === opt.id
-                        ? 'bg-brass-light/80 text-brass-dark font-bold'
-                        : 'bg-surface-muted/50 text-text-secondary'
-                    )}
-                  >
-                    <span>{opt.label}</span>
-                    {filters.sortBy === opt.id && (
-                      <span className="bg-brass h-2 w-2 rounded-full" />
-                    )}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            <div className="border-border-subtle border-t py-4">
-              <span className="text-text-muted mb-2.5 block text-xs font-bold tracking-wider uppercase">
-                Stock Availability
-              </span>
-              <div className="grid grid-cols-1 gap-1.5">
-                {stockFilterOptions.map((opt) => {
-                  const isSelected =
-                    filters.stockFilter === opt.id ||
-                    (!filters.stockFilter && opt.id === 'all')
-
-                  return (
+            <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-5">
+              <div className="py-4">
+                <span className="text-text-muted mb-2.5 block text-[11px] font-bold tracking-wider uppercase">
+                  Sort By
+                </span>
+                <div className="grid grid-cols-1 gap-2">
+                  {sortOptions.map((opt) => (
                     <button
                       key={opt.id}
                       type="button"
-                      onClick={() =>
-                        onSelectStockFilter && onSelectStockFilter(opt.id)
-                      }
+                      onClick={() => onSelectSort(opt.id)}
                       className={cn(
-                        'flex cursor-pointer items-center justify-between rounded-xl px-3 py-2 text-xs transition-colors',
-                        isSelected
+                        'flex min-h-11 w-full cursor-pointer items-center justify-between gap-3 rounded-xl px-3.5 py-2.5 text-left text-sm transition-colors',
+                        filters.sortBy === opt.id
                           ? 'bg-brass-light/80 text-brass-dark font-bold'
                           : 'bg-surface-muted/50 text-text-secondary'
                       )}
                     >
-                      <div className="flex items-center gap-2">
-                        <span
-                          className={cn(
-                            'h-2 w-2 rounded-full',
-                            opt.id === 'in-stock'
-                              ? 'bg-emerald-500'
-                              : opt.id === 'out-of-stock'
-                                ? 'bg-rose-500'
-                                : 'bg-brass'
-                          )}
-                        />
-                        <span>{opt.label}</span>
-                      </div>
-                      {isSelected && (
-                        <span className="bg-brass h-2 w-2 rounded-full" />
+                      <span className="min-w-0">{opt.label}</span>
+                      {filters.sortBy === opt.id && (
+                        <span className="bg-brass h-2 w-2 shrink-0 rounded-full" />
                       )}
                     </button>
-                  )
-                })}
+                  ))}
+                </div>
+              </div>
+
+              <div className="border-border-subtle border-t py-4">
+                <span className="text-text-muted mb-2.5 block text-[11px] font-bold tracking-wider uppercase">
+                  Stock Availability
+                </span>
+                <div className="grid grid-cols-1 gap-2">
+                  {stockFilterOptions.map((opt) => {
+                    const isSelected =
+                      filters.stockFilter === opt.id ||
+                      (!filters.stockFilter && opt.id === 'all')
+
+                    return (
+                      <button
+                        key={opt.id}
+                        type="button"
+                        onClick={() =>
+                          onSelectStockFilter && onSelectStockFilter(opt.id)
+                        }
+                        className={cn(
+                          'flex min-h-11 w-full cursor-pointer items-center justify-between gap-3 rounded-xl px-3.5 py-2.5 text-left text-sm transition-colors',
+                          isSelected
+                            ? 'bg-brass-light/80 text-brass-dark font-bold'
+                            : 'bg-surface-muted/50 text-text-secondary'
+                        )}
+                      >
+                        <span className="flex min-w-0 items-center gap-2">
+                          <span
+                            className={cn(
+                              'h-2 w-2 shrink-0 rounded-full',
+                              opt.id === 'in-stock'
+                                ? 'bg-emerald-500'
+                                : opt.id === 'out-of-stock'
+                                  ? 'bg-rose-500'
+                                  : 'bg-brass'
+                            )}
+                          />
+                          <span className="min-w-0">{opt.label}</span>
+                        </span>
+                        {isSelected && (
+                          <span className="bg-brass h-2 w-2 shrink-0 rounded-full" />
+                        )}
+                      </button>
+                    )
+                  })}
+                </div>
+              </div>
+
+              <div className="border-border-subtle border-t py-4">
+                <span className="text-text-muted mb-2.5 block text-[11px] font-bold tracking-wider uppercase">
+                  Price Range
+                </span>
+                <div className="grid grid-cols-1 gap-2">
+                  {priceRanges.map((range) => {
+                    const isSelected =
+                      filters.minPrice === range.min &&
+                      filters.maxPrice === range.max
+
+                    return (
+                      <button
+                        key={range.id}
+                        type="button"
+                        onClick={() => onSelectPriceRange(range.min, range.max)}
+                        className={cn(
+                          'flex min-h-11 w-full cursor-pointer items-center justify-between gap-3 rounded-xl px-3.5 py-2.5 text-left text-sm transition-colors',
+                          isSelected
+                            ? 'bg-brass-light/80 text-brass-dark font-bold'
+                            : 'bg-surface-muted/50 text-text-secondary'
+                        )}
+                      >
+                        <span className="min-w-0">{range.label}</span>
+                        {isSelected && (
+                          <span className="bg-brass h-2 w-2 shrink-0 rounded-full" />
+                        )}
+                      </button>
+                    )
+                  })}
+                </div>
               </div>
             </div>
 
-            <div className="border-border-subtle border-t py-4">
-              <span className="text-text-muted mb-2.5 block text-xs font-bold tracking-wider uppercase">
-                Price Range
-              </span>
-              <div className="grid grid-cols-1 gap-1.5">
-                {priceRanges.map((range) => {
-                  const isSelected =
-                    filters.minPrice === range.min &&
-                    filters.maxPrice === range.max
-
-                  return (
-                    <button
-                      key={range.id}
-                      type="button"
-                      onClick={() => onSelectPriceRange(range.min, range.max)}
-                      className={cn(
-                        'flex cursor-pointer items-center justify-between rounded-xl px-3 py-2 text-xs transition-colors',
-                        isSelected
-                          ? 'bg-brass-light/80 text-brass-dark font-bold'
-                          : 'bg-surface-muted/50 text-text-secondary'
-                      )}
-                    >
-                      <span>{range.label}</span>
-                      {isSelected && (
-                        <span className="bg-brass h-2 w-2 rounded-full" />
-                      )}
-                    </button>
-                  )
-                })}
-              </div>
-            </div>
-
-            <div className="border-border-subtle bg-surface sticky bottom-0 -mx-5 -mb-5 flex items-center gap-3 border-t p-5">
+            <div className="border-border-subtle bg-surface flex shrink-0 items-center gap-3 border-t px-5 pt-4 pb-[max(1.25rem,env(safe-area-inset-bottom))]">
               {hasActiveFilters && (
                 <button
                   type="button"
@@ -511,7 +547,7 @@ export const ShopFilterToolbar = ({
                     onResetFilters()
                     setIsMobileFiltersOpen(false)
                   }}
-                  className="border-border-subtle text-text-secondary hover:bg-surface-muted cursor-pointer rounded-full border px-4 py-2.5 text-xs font-semibold"
+                  className="border-border-subtle text-text-secondary hover:bg-surface-muted shrink-0 cursor-pointer rounded-full border px-5 py-3 text-xs font-semibold"
                 >
                   Reset All
                 </button>
@@ -519,7 +555,7 @@ export const ShopFilterToolbar = ({
               <button
                 type="button"
                 onClick={() => setIsMobileFiltersOpen(false)}
-                className="bg-charcoal-deep text-brass hover:bg-charcoal-surface grow cursor-pointer rounded-full py-2.5 text-xs font-semibold"
+                className="bg-charcoal-deep text-brass hover:bg-charcoal-surface min-w-0 grow cursor-pointer truncate rounded-full px-4 py-3 text-xs font-semibold"
               >
                 Apply Filters ({totalCount} Pieces)
               </button>

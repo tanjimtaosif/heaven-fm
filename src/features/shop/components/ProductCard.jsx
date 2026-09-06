@@ -104,7 +104,7 @@ export const ProductCard = ({ product, onQuickView }) => {
               e.stopPropagation()
               onQuickView && onQuickView(product, activeImageIndex)
             }}
-            className="bg-surface/90 text-text-primary hover:bg-surface hover:text-brass absolute top-2.5 right-2.5 flex h-8 w-8 cursor-pointer items-center justify-center rounded-full opacity-0 shadow-xs backdrop-blur-xs transition-opacity duration-200 group-hover:opacity-100"
+            className="bg-surface/90 text-text-primary hover:bg-surface hover:text-brass absolute top-2.5 right-2.5 flex h-8 w-8 cursor-pointer items-center justify-center rounded-full opacity-100 shadow-xs backdrop-blur-xs transition-opacity duration-200 md:opacity-0 md:group-focus-within:opacity-100 md:group-hover:opacity-100"
             title="Inspect angles & details"
             aria-label="Quick view"
           >
@@ -121,7 +121,15 @@ export const ProductCard = ({ product, onQuickView }) => {
         </div>
 
         {hasMultipleAngles && (
-          <div className="mt-2.5 flex items-center gap-1.5 overflow-x-auto pb-1">
+          <div
+            data-no-scrollbar
+            className="no-scrollbar mt-2.5 flex scrollbar-none items-center gap-1.5 overflow-x-auto pb-1"
+            style={{
+              scrollbarWidth: 'none',
+              msOverflowStyle: 'none',
+              WebkitOverflowScrolling: 'touch',
+            }}
+          >
             {images.map((imgUrl, idx) => {
               const isActive = activeImageIndex === idx
               return (
@@ -162,11 +170,11 @@ export const ProductCard = ({ product, onQuickView }) => {
 
         <div className="mt-3">
           <div className="flex items-center justify-between gap-2">
-            <span className="text-text-muted text-label-sm font-medium tracking-wide uppercase">
+            <span className="text-text-muted text-label-sm truncate font-medium tracking-wide uppercase">
               {product.subcategoryLabel || product.category}
             </span>
             {product.sku && (
-              <span className="bg-surface-muted text-text-muted border-border-subtle/70 text-label-xs rounded border px-1.5 py-0.5 font-mono font-semibold tracking-wider">
+              <span className="bg-surface-muted text-text-muted border-border-subtle/70 text-label-xs shrink-0 rounded border px-1.5 py-0.5 font-mono font-semibold tracking-wider">
                 {product.sku}
               </span>
             )}
@@ -176,7 +184,7 @@ export const ProductCard = ({ product, onQuickView }) => {
             onClick={() =>
               onQuickView && onQuickView(product, activeImageIndex)
             }
-            className="text-text-primary hover:text-brass-dark mt-1 line-clamp-1 cursor-pointer font-serif text-base font-medium transition-colors sm:text-lg"
+            className="text-text-primary hover:text-brass-dark mt-1 line-clamp-2 cursor-pointer font-serif text-base leading-snug font-medium transition-colors sm:text-lg"
           >
             {product.name}
           </h2>
@@ -191,8 +199,8 @@ export const ProductCard = ({ product, onQuickView }) => {
         </div>
       </div>
 
-      <div className="border-border-subtle/80 mt-4 flex items-center justify-between border-t pt-3">
-        <div>
+      <div className="border-border-subtle/80 mt-4 flex items-center justify-between gap-2 border-t pt-3">
+        <div className="min-w-0">
           <span className="text-text-muted text-label-xs block tracking-wider uppercase">
             {product.pricePrefix || 'from'}
           </span>
@@ -205,7 +213,7 @@ export const ProductCard = ({ product, onQuickView }) => {
           <button
             type="button"
             disabled
-            className="border-border-subtle bg-surface-muted/80 text-text-muted inline-flex cursor-not-allowed items-center gap-1 rounded-full border px-3 py-1.5 text-xs font-semibold tracking-wide sm:px-3.5 sm:py-2"
+            className="border-border-subtle bg-surface-muted/80 text-text-muted inline-flex shrink-0 cursor-not-allowed items-center gap-1 rounded-full border px-3 py-1.5 text-xs font-semibold tracking-wide sm:px-3.5 sm:py-2"
             aria-label={`${product.name} is out of stock`}
           >
             <span>Out of Stock</span>
@@ -215,7 +223,7 @@ export const ProductCard = ({ product, onQuickView }) => {
             type="button"
             onClick={handleAddToCart}
             className={cn(
-              'inline-flex cursor-pointer items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-semibold shadow-xs transition-all duration-200 sm:px-4 sm:py-2',
+              'inline-flex shrink-0 cursor-pointer items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-semibold shadow-xs transition-all duration-200 sm:px-4 sm:py-2',
               isAdded
                 ? 'bg-emerald-700 text-white'
                 : 'bg-charcoal-surface text-brass hover:bg-charcoal-deep active:scale-95'

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useCart } from '@/context'
 import { useLenis } from '@/components/providers'
@@ -29,18 +29,22 @@ export const ProductDetailModal = ({
   const [activeAngleIndex, setActiveAngleIndex] = useState(initialAngleIndex)
   const [quantity, setQuantity] = useState(1)
   const [isAdded, setIsAdded] = useState(false)
+  const closeButtonRef = useRef(null)
 
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.key === 'Escape') onClose()
     }
+    const previouslyFocused = document.activeElement
     window.addEventListener('keydown', handleKeyDown)
     if (lenis) lenis.stop()
     document.body.style.overflow = 'hidden'
+    closeButtonRef.current?.focus()
     return () => {
       window.removeEventListener('keydown', handleKeyDown)
       if (lenis) lenis.start()
       document.body.style.overflow = ''
+      if (previouslyFocused instanceof HTMLElement) previouslyFocused.focus()
     }
   }, [onClose, lenis])
 
@@ -88,8 +92,27 @@ export const ProductDetailModal = ({
     navigate('/checkout', { state: { buyNowItem } })
   }
 
+  const outOfStockMessage = [
+    '👑 *HEAVEN FURNITURE MART — BESPOKE COMMISSION INQUIRY*',
+    '',
+    'Hello Heaven Furniture Mart atelier,',
+    '',
+    'This piece is showing as out of stock on your website, and I would like it commissioned to order:',
+    '',
+    `• *Piece:* ${product.name}`,
+    `• *SKU:* ${product.sku || 'N/A'}`,
+    `• *Collection:* ${product.subcategoryLabel || product.category || 'Catalog'}`,
+    `• *Listed Price:* ${product.priceFormatted}`,
+    `• *Dimensions:* ${product.dimensions || 'Customizable to space'}`,
+    `• *Material:* ${product.material || 'To be advised'}`,
+    '',
+    'Could you confirm the commission price, the workshop lead time, and what I can tailor — dimensions, timber and finish?',
+    '',
+    'Thank you.',
+  ].join('\n')
+
   const whatsappMessage = isOutOfStock
-    ? `Hello Heaven Furniture Mart atelier, I am inquiring about the ${product.name} (SKU: ${product.sku || 'N/A'}, ${product.priceFormatted}), which is currently marked Out of Stock. Can I place a custom bespoke order or request an atelier workshop timeline for this piece?`
+    ? outOfStockMessage
     : `Hello Heaven Furniture Mart atelier, I am inquiring about the ${product.name} (SKU: ${product.sku || 'N/A'}, ${product.priceFormatted}). Can you provide more details regarding custom dimensions, stock availability (${product.stock} in stock), and timber options?`
 
   const whatsappUrl = `https://wa.me/${COMPANY_INFO.contact.phoneClean.replace(/[^0-9]/g, '')}?text=${encodeURIComponent(
@@ -106,20 +129,21 @@ export const ProductDetailModal = ({
     >
       <div
         data-lenis-prevent
-        className="animate-scale-in border-border-subtle bg-surface relative flex max-h-[92vh] w-full max-w-4xl flex-col overflow-y-auto rounded-3xl border shadow-2xl md:flex-row md:overflow-hidden"
+        className="animate-scale-in border-border-subtle bg-surface relative flex max-h-[92dvh] w-full max-w-4xl flex-col overflow-y-auto overscroll-contain rounded-3xl border shadow-2xl md:max-h-[88dvh] md:flex-row md:overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
         <button
+          ref={closeButtonRef}
           type="button"
           onClick={onClose}
-          className="bg-surface/90 text-text-primary hover:bg-surface-muted absolute top-4 right-4 z-20 flex h-9 w-9 cursor-pointer items-center justify-center rounded-full shadow-sm backdrop-blur-xs transition-colors"
+          className="bg-surface/90 text-text-primary hover:bg-surface-muted focus-visible:ring-brass absolute top-4 right-4 z-20 flex h-9 w-9 cursor-pointer items-center justify-center rounded-full shadow-sm backdrop-blur-xs transition-colors focus-visible:ring-2 focus-visible:outline-none"
           aria-label="Close dialog"
         >
           <X className="h-5 w-5" />
         </button>
 
-        <div className="bg-surface-muted/40 flex flex-col p-4 sm:p-6 md:w-1/2">
-          <div className="bg-surface-muted relative aspect-3/4 w-full overflow-hidden rounded-2xl">
+        <div className="bg-surface-muted/40 flex shrink-0 flex-col p-4 sm:p-6 md:min-h-0 md:w-1/2 md:shrink md:overflow-y-auto md:overscroll-contain">
+          <div className="bg-surface-muted relative aspect-3/4 max-h-[42dvh] w-full overflow-hidden rounded-2xl md:max-h-none">
             <img
               src={currentImage}
               alt={`${product.name} view ${activeAngleIndex + 1}`}
@@ -174,7 +198,15 @@ export const ProductDetailModal = ({
           </div>
 
           {images.length > 1 && (
-            <div className="mt-3 flex items-center justify-center gap-2 overflow-x-auto pb-1">
+            <div
+              data-no-scrollbar
+              className="no-scrollbar mt-3 flex scrollbar-none items-center justify-center gap-2 overflow-x-auto pb-1"
+              style={{
+                scrollbarWidth: 'none',
+                msOverflowStyle: 'none',
+                WebkitOverflowScrolling: 'touch',
+              }}
+            >
               {images.map((img, idx) => (
                 <button
                   key={idx}
@@ -201,7 +233,7 @@ export const ProductDetailModal = ({
 
         <div
           data-lenis-prevent
-          className="flex flex-col justify-between p-6 md:w-1/2 md:overflow-y-auto md:p-8"
+          className="flex flex-col justify-between px-5 pt-5 sm:px-6 sm:pt-6 md:min-h-0 md:w-1/2 md:overflow-y-auto md:overscroll-contain md:px-8 md:pt-8"
         >
           <div>
             <div className="flex flex-wrap items-center gap-2">
@@ -220,7 +252,7 @@ export const ProductDetailModal = ({
               )}
             </div>
 
-            <h2 className="text-text-primary mt-2 font-serif text-2xl font-normal sm:text-3xl">
+            <h2 className="text-text-primary mt-2 pr-10 font-serif text-xl leading-snug font-normal sm:text-2xl md:pr-0 md:text-3xl">
               {product.name}
             </h2>
 
@@ -235,26 +267,28 @@ export const ProductDetailModal = ({
 
             <div className="mt-3.5">
               {isOutOfStock ? (
-                <div className="flex items-center gap-2 rounded-xl border border-rose-800/30 bg-rose-950/20 px-3 py-2 text-xs font-medium text-rose-300">
-                  <span className="h-2 w-2 rounded-full bg-rose-500" />
+                <div className="flex items-start gap-2.5 rounded-xl border border-rose-200 bg-rose-50 px-3 py-2.5 text-xs leading-relaxed font-medium text-rose-900">
+                  <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-rose-600" />
                   <span>
-                    Currently Out of Stock — Available via Custom Bespoke
-                    Commission
+                    Currently out of stock — available via custom bespoke
+                    commission
                   </span>
                 </div>
               ) : isLowStock ? (
-                <div className="flex items-center gap-2 rounded-xl border border-amber-800/30 bg-amber-950/20 px-3 py-2 text-xs font-medium text-amber-300">
-                  <span className="h-2 w-2 animate-pulse rounded-full bg-amber-500" />
+                <div className="flex items-start gap-2.5 rounded-xl border border-amber-200 bg-amber-50 px-3 py-2.5 text-xs leading-relaxed font-medium text-amber-900">
+                  <span className="mt-1.5 h-1.5 w-1.5 shrink-0 animate-pulse rounded-full bg-amber-600" />
                   <span>
-                    Low Stock: Only {product.stock} units remaining in atelier
-                    inventory
+                    Low stock: only {product.stock}{' '}
+                    {product.stock === 1 ? 'unit' : 'units'} remaining in
+                    atelier inventory
                   </span>
                 </div>
               ) : (
-                <div className="flex items-center gap-2 rounded-xl border border-emerald-800/30 bg-emerald-950/20 px-3 py-2 text-xs font-medium text-emerald-300">
-                  <span className="h-2 w-2 rounded-full bg-emerald-500" />
+                <div className="flex items-start gap-2.5 rounded-xl border border-emerald-200 bg-emerald-50 px-3 py-2.5 text-xs leading-relaxed font-medium text-emerald-900">
+                  <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-emerald-600" />
                   <span>
-                    In Stock: {product.stock} units ready for immediate
+                    In stock: {product.stock}{' '}
+                    {product.stock === 1 ? 'unit' : 'units'} ready for immediate
                     white-glove dispatch
                   </span>
                 </div>
@@ -266,26 +300,26 @@ export const ProductDetailModal = ({
             </p>
 
             <div className="border-border-subtle bg-surface-muted/30 mt-6 space-y-2.5 rounded-2xl border p-4 text-xs">
-              <div className="text-text-secondary flex items-center gap-2">
+              <div className="text-text-secondary flex flex-wrap items-center gap-x-2 gap-y-0.5">
                 <Ruler className="text-brass h-4 w-4 shrink-0" />
                 <span className="text-text-primary font-medium">
                   Dimensions:
                 </span>
                 <span>{product.dimensions || 'Customizable to space'}</span>
               </div>
-              <div className="text-text-secondary flex items-center gap-2">
+              <div className="text-text-secondary flex flex-wrap items-center gap-x-2 gap-y-0.5">
                 <Layers className="text-brass h-4 w-4 shrink-0" />
                 <span className="text-text-primary font-medium">Material:</span>
                 <span>{product.material}</span>
               </div>
-              <div className="text-text-secondary flex items-center gap-2">
+              <div className="text-text-secondary flex flex-wrap items-center gap-x-2 gap-y-0.5">
                 <Clock className="text-brass h-4 w-4 shrink-0" />
                 <span className="text-text-primary font-medium">
                   Atelier Lead Time:
                 </span>
                 <span>{product.leadTime || '14–21 Working Days'}</span>
               </div>
-              <div className="text-text-secondary flex items-center gap-2">
+              <div className="text-text-secondary flex flex-wrap items-center gap-x-2 gap-y-0.5">
                 <ShieldCheck className="text-brass h-4 w-4 shrink-0" />
                 <span className="text-text-primary font-medium">
                   Joinery Guarantee:
@@ -295,7 +329,7 @@ export const ProductDetailModal = ({
             </div>
           </div>
 
-          <div className="border-border-subtle mt-6 space-y-3 border-t pt-4">
+          <div className="border-border-subtle bg-surface sticky bottom-0 z-10 -mx-5 mt-6 space-y-3 border-t px-5 pt-4 pb-5 sm:-mx-6 sm:px-6 sm:pb-6 md:-mx-8 md:px-8 md:pb-8">
             <div className="flex items-center gap-3">
               <div
                 className={cn(
@@ -377,10 +411,14 @@ export const ProductDetailModal = ({
                 href={whatsappUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="border-brass/40 bg-brass/10 text-brass-dark hover:bg-brass-light/40 flex w-full cursor-pointer items-center justify-center gap-2 rounded-full border py-3.5 text-xs font-bold tracking-wider uppercase shadow-xs transition-all duration-200 active:scale-98"
+                aria-label="Commission this piece on WhatsApp"
+                className="border-brass/40 bg-brass/10 text-brass-dark hover:bg-brass-light/40 flex w-full cursor-pointer items-center justify-center gap-2 rounded-full border px-4 py-3.5 text-center text-[11px] leading-tight font-bold tracking-wide uppercase shadow-xs transition-all duration-200 active:scale-98 sm:text-xs sm:tracking-wider"
               >
-                <MessageCircle className="text-whatsapp h-4 w-4" />
-                <span>Inquire Bespoke Order on WhatsApp</span>
+                <MessageCircle className="text-whatsapp h-4 w-4 shrink-0" />
+                <span className="sm:hidden">Commission on WhatsApp</span>
+                <span className="hidden sm:inline">
+                  Commission This Piece on WhatsApp
+                </span>
               </a>
             ) : (
               <button

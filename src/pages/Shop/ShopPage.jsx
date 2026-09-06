@@ -141,7 +141,7 @@ export function ShopPage() {
       <div className="container-page">
         <nav
           aria-label="Breadcrumb"
-          className="text-text-muted flex items-center gap-1.5 text-xs select-none"
+          className="text-text-muted flex flex-wrap items-center gap-x-1.5 gap-y-1 text-xs select-none"
         >
           <Link
             to="/"

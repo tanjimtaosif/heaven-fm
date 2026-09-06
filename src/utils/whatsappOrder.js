@@ -1,18 +1,21 @@
 import { COMPANY_INFO } from '@/constants/companyData'
 
+const formatAmount = (value) =>
+  `BDT ${Number(value || 0).toLocaleString('en-US')}`
+
 /**
- * Generates a clean, professional, and structured WhatsApp order message
- * strictly avoiding unnecessary emojis, decorative symbols, or messy formatting.
+ * Generates a clean, minimal, easy-to-read WhatsApp order message.
+ * Plain text with short labelled lines, no decorative separators or emojis.
  *
  * @param {Object} params
- * @param {string} params.orderRef - Unique order reference ID (e.g. HFM-ORD-2026-8291)
+ * @param {string} params.orderRef - Unique order reference ID (e.g. HFM-ORD-829134)
  * @param {Object} params.customerInfo - { name, phone, email }
  * @param {Object} params.deliveryAddress - { street, area, city, landmark }
- * @param {Object} params.paymentMethod - { label, id, description }
- * @param {Array} params.items - Array of ordered products { name, sku, category, finish, dimensions, quantity, price, notes }
- * @param {number} params.subtotal - Total order amount
+ * @param {Object} params.paymentMethod - { label, name, description }
+ * @param {Array} params.items - Ordered products { name, sku, category, finish, dimensions, quantity, price, notes }
+ * @param {number} params.subtotal - Items subtotal
  * @param {string} [params.customNotes] - Optional special requests or instructions
- * @returns {string} Clean, structured plain-text message for WhatsApp
+ * @returns {string} Clean plain-text message for WhatsApp
  */
 export function generateWhatsAppOrderMessage({
   orderRef,
@@ -23,102 +26,85 @@ export function generateWhatsAppOrderMessage({
   subtotal = 0,
   customNotes = '',
 }) {
-  const lines = []
+  const blocks = []
 
-  lines.push('HEAVEN FURNITURE MART - BESPOKE ORDER REQUEST')
-  lines.push('========================================')
-  if (orderRef) {
-    lines.push(`Order Reference: ${orderRef}`)
-    lines.push(
-      `Date: ${new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}`
-    )
-    lines.push('----------------------------------------')
-  }
-
-  // 1. Customer Personal Information
-  lines.push('CUSTOMER INFORMATION')
-  lines.push(`Full Name: ${customerInfo.name || 'N/A'}`)
-  lines.push(`Contact Phone: ${customerInfo.phone || 'N/A'}`)
-  if (customerInfo.email && customerInfo.email.trim()) {
-    lines.push(`Email Address: ${customerInfo.email.trim()}`)
-  }
-  lines.push('')
-
-  // 2. Customer Delivery Address
-  lines.push('DELIVERY ADDRESS')
-  lines.push(`Street / House / Building: ${deliveryAddress.street || 'N/A'}`)
-  lines.push(`Area / Neighborhood: ${deliveryAddress.area || 'N/A'}`)
-  lines.push(`City / District: ${deliveryAddress.city || 'Chattogram'}`)
-  if (deliveryAddress.landmark && deliveryAddress.landmark.trim()) {
-    lines.push(`Landmark / Instructions: ${deliveryAddress.landmark.trim()}`)
-  }
-  lines.push('')
-
-  // 3. Ordered Products Information
-  lines.push('ORDERED PRODUCTS')
-  lines.push('----------------------------------------')
-  items.forEach((item, index) => {
-    lines.push(`${index + 1}. ${item.name}`)
-    if (item.sku) {
-      lines.push(`   SKU: ${item.sku}`)
-    }
-    if (item.category) {
-      lines.push(`   Category: ${item.category}`)
-    }
-    if (item.finish) {
-      lines.push(`   Finish / Material: ${item.finish}`)
-    }
-    if (item.dimensions) {
-      lines.push(`   Dimensions: ${item.dimensions}`)
-    }
-    const unitPrice = Number(item.price) || 0
-    const itemTotal = unitPrice * (item.quantity || 1)
-    lines.push(`   Quantity: ${item.quantity || 1}`)
-    lines.push(`   Unit Price: BDT ${unitPrice.toLocaleString('en-US')}`)
-    lines.push(`   Line Total: BDT ${itemTotal.toLocaleString('en-US')}`)
-    if (item.notes && item.notes.trim()) {
-      lines.push(`   Item Notes: ${item.notes.trim()}`)
-    }
-    lines.push('')
-  })
-
-  // 4. Payment Method
-  lines.push('----------------------------------------')
-  lines.push('PAYMENT METHOD')
-  lines.push(
-    `Selected Method: ${paymentMethod.label || paymentMethod.name || 'bKash Mobile Banking'}`
+  // Header
+  const header = ['New Order Request', 'Heaven Furniture Mart']
+  if (orderRef) header.push(`Order Ref: ${orderRef}`)
+  header.push(
+    `Date: ${new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}`
   )
-  if (paymentMethod.description) {
-    lines.push(`Payment Details: ${paymentMethod.description}`)
-  }
-  lines.push('')
+  blocks.push(header.join('\n'))
 
-  // 5. Cart / Order Summary
-  lines.push('----------------------------------------')
-  lines.push('ORDER FINANCIAL SUMMARY')
+  // Customer
+  const customer = ['Customer']
+  customer.push(`Name: ${customerInfo.name || 'Not provided'}`)
+  customer.push(`Phone: ${customerInfo.phone || 'Not provided'}`)
+  if (customerInfo.email?.trim()) {
+    customer.push(`Email: ${customerInfo.email.trim()}`)
+  }
+  blocks.push(customer.join('\n'))
+
+  // Delivery address
+  const address = ['Delivery Address']
+  if (deliveryAddress.street?.trim())
+    address.push(deliveryAddress.street.trim())
+  if (deliveryAddress.area?.trim()) address.push(deliveryAddress.area.trim())
+  address.push(deliveryAddress.city?.trim() || 'Chattogram')
+  if (deliveryAddress.landmark?.trim()) {
+    address.push(`Landmark: ${deliveryAddress.landmark.trim()}`)
+  }
+  blocks.push(address.join('\n'))
+
+  // Items
   const totalQuantity = items.reduce((acc, it) => acc + (it.quantity || 1), 0)
-  lines.push(`Total Items Count: ${totalQuantity}`)
-  lines.push(`Items Subtotal: BDT ${Number(subtotal).toLocaleString('en-US')}`)
-  lines.push('Delivery: Complimentary White-Glove Service across Chattogram')
-  lines.push('Atelier Consultation: Included')
-  lines.push(`Total Amount: BDT ${Number(subtotal).toLocaleString('en-US')}`)
-  lines.push('----------------------------------------')
+  const itemLines = [`Items (${items.length})`]
+  items.forEach((item, index) => {
+    const quantity = item.quantity || 1
+    const unitPrice = Number(item.price) || 0
 
-  // 6. Custom Instructions / Notes
-  if (customNotes && customNotes.trim()) {
-    lines.push('')
-    lines.push('SPECIAL INSTRUCTIONS / CUSTOM REQUESTS')
-    lines.push(customNotes.trim())
-    lines.push('----------------------------------------')
+    if (index > 0) itemLines.push('')
+    itemLines.push(`${index + 1}. ${item.name}`)
+    itemLines.push(
+      `Qty ${quantity} x ${formatAmount(unitPrice)} = ${formatAmount(unitPrice * quantity)}`
+    )
+
+    const specs = []
+    if (item.category) specs.push(item.category)
+    if (item.finish) specs.push(item.finish)
+    if (item.dimensions) specs.push(item.dimensions)
+    if (specs.length) itemLines.push(specs.join(', '))
+
+    if (item.sku) itemLines.push(`SKU: ${item.sku}`)
+    if (item.notes?.trim()) itemLines.push(`Note: ${item.notes.trim()}`)
+  })
+  blocks.push(itemLines.join('\n'))
+
+  // Summary
+  const summary = ['Summary']
+  summary.push(`Total Pieces: ${totalQuantity}`)
+  summary.push(`Subtotal: ${formatAmount(subtotal)}`)
+  summary.push('Delivery: Free white-glove service in Chattogram')
+  summary.push(`Total Payable: ${formatAmount(subtotal)}`)
+  blocks.push(summary.join('\n'))
+
+  // Payment
+  const payment = ['Payment Method']
+  payment.push(
+    paymentMethod.label || paymentMethod.name || 'bKash Mobile Banking'
+  )
+  blocks.push(payment.join('\n'))
+
+  // Notes
+  if (customNotes?.trim()) {
+    blocks.push(['Special Instructions', customNotes.trim()].join('\n'))
   }
 
-  lines.push('')
-  lines.push('========================================')
-  lines.push(
-    'Kindly confirm piece availability, atelier production timeline, and invoice instructions.'
+  blocks.push(
+    'Please confirm availability, production timeline and payment details.'
   )
 
-  return lines.join('\n')
+  return blocks.join('\n\n')
 }
 
 /**

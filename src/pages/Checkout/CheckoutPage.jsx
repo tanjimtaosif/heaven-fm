@@ -767,7 +767,7 @@ export function CheckoutPage() {
               </div>
 
               {/* Sized and Minimal Grid */}
-              <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-3">
+              <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-3">
                 {PAYMENT_METHODS.map((pm) => {
                   const isSelected = selectedPaymentId === pm.id
                   return (
@@ -831,7 +831,7 @@ export function CheckoutPage() {
                 <span className="text-text-muted text-label-sm">Optional</span>
               </div>
               <textarea
-                rows={2}
+                rows={3}
                 value={customerInfo.notes}
                 onChange={(e) => handleInputChange('notes', e.target.value)}
                 placeholder="Specific room dimensions, fabric swatch requests, or delivery date preferences."
