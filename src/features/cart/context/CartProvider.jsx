@@ -41,11 +41,17 @@ export const CartProvider = ({ children }) => {
       const existingIndex = prevItems.findIndex(
         (item) => item.id === product.id
       )
+      const stockLimit = product.stock ?? 99
+
       if (existingIndex > -1) {
         const updated = [...prevItems]
+        const currentQty = updated[existingIndex].quantity
+        const newQty = Math.min(currentQty + quantity, stockLimit)
         updated[existingIndex] = {
           ...updated[existingIndex],
-          quantity: updated[existingIndex].quantity + quantity,
+          quantity: Math.max(1, newQty),
+          stock: stockLimit,
+          sku: product.sku || updated[existingIndex].sku || '',
           ...(options.notes ? { notes: options.notes } : {}),
         }
         return updated
@@ -55,6 +61,8 @@ export const CartProvider = ({ children }) => {
         ...prevItems,
         {
           id: product.id,
+          sku: product.sku || '',
+          stock: stockLimit,
           name: product.name,
           category: product.category,
           price: product.price,
@@ -62,7 +70,7 @@ export const CartProvider = ({ children }) => {
           image: product.image,
           finish: product.finish,
           dimensions: product.dimensions,
-          quantity: Math.max(1, quantity),
+          quantity: Math.min(Math.max(1, quantity), stockLimit),
           notes: options.notes || '',
         },
       ]
@@ -75,8 +83,10 @@ export const CartProvider = ({ children }) => {
       return prevItems
         .map((item) => {
           if (item.id === id) {
+            const stockLimit = item.stock ?? 99
             const newQty = item.quantity + delta
-            return newQty > 0 ? { ...item, quantity: newQty } : null
+            if (newQty <= 0) return null
+            return { ...item, quantity: Math.min(newQty, stockLimit) }
           }
           return item
         })
@@ -90,7 +100,13 @@ export const CartProvider = ({ children }) => {
       return
     }
     setItems((prev) =>
-      prev.map((item) => (item.id === id ? { ...item, quantity } : item))
+      prev.map((item) => {
+        if (item.id === id) {
+          const stockLimit = item.stock ?? 99
+          return { ...item, quantity: Math.min(quantity, stockLimit) }
+        }
+        return item
+      })
     )
   }, [])
 
@@ -138,7 +154,7 @@ export const CartProvider = ({ children }) => {
     items.forEach((item, idx) => {
       const lineTotal = item.price * item.quantity
       lines.push(
-        `${idx + 1}. *${item.name}* (${item.category})`,
+        `${idx + 1}. *${item.name}* (SKU: ${item.sku || 'N/A'}, ${item.category})`,
         `   • Specs: ${item.finish || 'Standard Bespoke'}`,
         item.dimensions ? `   • Dimensions: ${item.dimensions}` : '',
         `   • Qty: ${item.quantity} × ৳${item.price.toLocaleString('en-US')} = *৳${lineTotal.toLocaleString('en-US')}*`
