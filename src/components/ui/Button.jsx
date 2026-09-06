@@ -62,8 +62,10 @@ export const Button = forwardRef(
       onMouseLeave?.(e)
     }
 
+    // Every variant carries a 1px border (transparent when the variant does
+    // not draw one) so swapping variants never shifts a button's geometry.
     const baseStyles =
-      'group relative inline-flex items-center justify-center font-medium transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brass focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none cursor-pointer select-none'
+      'group relative inline-flex items-center justify-center border border-transparent font-medium transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brass focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none cursor-pointer select-none'
 
     const variants = {
       primary:
@@ -71,32 +73,46 @@ export const Button = forwardRef(
       brass:
         'bg-brass text-charcoal-deep hover:bg-brass-hover font-semibold shadow-sm active:scale-[0.98]',
       outline:
-        'border border-border-warm text-text-primary bg-transparent hover:bg-surface-muted hover:border-brass/50 active:scale-[0.98]',
+        'border-border-warm text-text-primary bg-transparent hover:bg-surface-muted hover:border-brass/50 active:scale-[0.98]',
       outlineDark:
-        'border border-canvas/30 text-canvas bg-transparent hover:bg-canvas/10 active:scale-[0.98]',
+        'border-canvas/30 text-canvas bg-transparent hover:bg-canvas/10 active:scale-[0.98]',
       ghost:
         'text-text-primary hover:bg-surface-muted hover:text-charcoal-deep',
       whatsapp:
         'bg-whatsapp text-white hover:bg-whatsapp-hover font-semibold shadow-sm active:scale-[0.98]',
       atelierShimmer:
-        'bg-charcoal-deep text-canvas border border-brass/40 hover:border-brass hover:shadow-glow-brass',
+        'bg-charcoal-deep text-canvas border-brass/40 hover:border-brass hover:shadow-glow-brass',
       borderBeam: 'text-canvas bg-charcoal-deep hover:shadow-glow-brass',
       liquidBrass:
-        'border border-brass text-charcoal-deep bg-transparent overflow-hidden',
+        'border-brass text-charcoal-deep bg-transparent overflow-hidden',
       pulseGlow: 'bg-brass text-charcoal-deep font-semibold shadow-glow-brass',
     }
 
-    const sizes = {
-      sm: 'text-xs tracking-wider uppercase px-3.5 py-1.5 rounded-full gap-1.5',
-      md: 'text-sm tracking-wide px-5 py-2.5 rounded-full gap-2',
-      lg: 'text-sm sm:text-[14.5px] tracking-wide px-6 py-2.5 sm:py-3 rounded-full gap-2',
+    // Height comes from the shared control scale, not from padding, so a
+    // button's height is independent of its variant, line-height and
+    // textRoll setting -- and matches an input of the same size.
+    const heights = {
+      sm: 'h-control-sm',
+      md: 'h-control-md',
+      lg: 'h-control-lg',
     }
+
+    const sizes = {
+      sm: 'text-xs tracking-wider uppercase px-3.5 rounded-full gap-1.5',
+      md: 'text-sm tracking-wide px-5 rounded-full gap-2',
+      lg: 'text-sm tracking-wide px-6 rounded-full gap-2',
+    }
+
+    // An unrecognised variant or size used to render an unstyled button
+    // (base styles only). Fall back to the defaults instead.
+    const resolvedVariant = variant in variants ? variant : 'primary'
+    const resolvedSize = size in sizes ? size : 'md'
 
     const resolvedRollColor =
       rollColor ||
-      (variant === 'brass'
+      (resolvedVariant === 'brass'
         ? 'text-charcoal-deep font-bold'
-        : variant === 'whatsapp'
+        : resolvedVariant === 'whatsapp'
           ? 'text-white'
           : 'text-brass font-semibold')
 
@@ -167,6 +183,7 @@ export const Button = forwardRef(
           ref={resolvedRef}
           className={cn(
             'group relative inline-flex cursor-pointer items-center justify-center overflow-hidden rounded-full p-[1.5px] transition-all duration-300 active:scale-[0.98]',
+            heights[resolvedSize],
             className
           )}
           {...props}
@@ -182,7 +199,7 @@ export const Button = forwardRef(
           <span
             className={cn(
               'bg-charcoal-deep text-canvas group-hover:bg-charcoal-surface relative z-10 inline-flex h-full w-full items-center justify-center rounded-full font-medium transition-colors duration-200',
-              sizes[size]
+              sizes[resolvedSize]
             )}
           >
             {renderContent()}
@@ -199,12 +216,13 @@ export const Button = forwardRef(
         onMouseLeave={handleMouseLeave}
         className={cn(
           baseStyles,
-          variants[variant],
-          sizes[size],
+          variants[resolvedVariant],
+          heights[resolvedSize],
+          sizes[resolvedSize],
           animation === 'liquid-fill' &&
-            'border-brass text-text-primary overflow-hidden border',
+            'border-brass text-text-primary overflow-hidden',
           animation === 'shimmer' &&
-            'border-brass/40 hover:border-brass hover:shadow-glow-brass overflow-hidden border',
+            'border-brass/40 hover:border-brass hover:shadow-glow-brass overflow-hidden',
           animation === 'underglow' && 'hover:shadow-glow-brass',
           className
         )}
