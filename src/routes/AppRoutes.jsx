@@ -6,6 +6,9 @@ import { HomePage } from '@/pages/Home'
 const ShopPage = lazy(() =>
   import('@/pages/Shop').then((m) => ({ default: m.ShopPage }))
 )
+const CheckoutPage = lazy(() =>
+  import('@/pages/Checkout').then((m) => ({ default: m.CheckoutPage }))
+)
 const NotFoundPage = lazy(() =>
   import('@/pages/NotFound').then((m) => ({ default: m.NotFoundPage }))
 )
@@ -38,6 +41,14 @@ const router = createBrowserRouter([
         element: (
           <SuspenseWrapper>
             <ShopPage />
+          </SuspenseWrapper>
+        ),
+      },
+      {
+        path: 'checkout',
+        element: (
+          <SuspenseWrapper>
+            <CheckoutPage />
           </SuspenseWrapper>
         ),
       },
