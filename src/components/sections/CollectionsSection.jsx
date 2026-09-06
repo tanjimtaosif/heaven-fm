@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
+import { Link } from 'react-router-dom'
 import { COMPANY_INFO } from '@/constants/companyData'
 import { Badge } from '@/components/ui'
 import { cn } from '@/lib/utils'
@@ -20,23 +21,6 @@ const STILLS = {
 
 const BESPOKE_CLIPS = [custom1, custom2]
 
-/**
- * Architectural Bento Placement (Skanvi-inspired 8-4 / 4-4-4 Composition):
- *
- * Tier 1 (Row 1):
- * - Living Room: Grand panoramic hero anchor (8 columns on lg)
- * - Bespoke Commissions: Portrait atelier video card (4 columns on lg)
- *
- * Tier 2 (Row 2):
- * - Bedroom: 4 columns
- * - Dining: 4 columns
- * - Office & Study: 4 columns
- *
- * Responsive:
- * - Mobile: Generous single-column stack
- * - Tablet: Living Room full width top banner (sm:col-span-2) + 2x2 grid
- * - Desktop: 12-column architectural bento
- */
 const PLACEMENT = {
   'living-room':
     'sm:col-span-2 sm:row-start-1 sm:h-[400px] lg:col-start-1 lg:col-span-8 lg:row-start-1 lg:h-[480px]',
@@ -50,9 +34,6 @@ const PLACEMENT = {
     'sm:col-start-2 sm:row-start-3 sm:h-[370px] lg:col-start-9 lg:col-span-4 lg:row-start-2 lg:h-[410px]',
 }
 
-/**
- * The two bespoke clips, cross-fading into one another.
- */
 const BespokeVideo = ({ hostRef }) => {
   const videoRefs = useRef([])
   const [active, setActive] = useState(0)
@@ -121,16 +102,17 @@ const CategoryCard = ({ category }) => {
   const detail =
     category.note || (category.items ? category.items.join('  ·  ') : '')
 
-  const targetHref =
-    category.id === 'bespoke-commissions'
-      ? '#contact'
-      : `#/shop?category=${category.id}`
+  const isInternal = category.id !== 'bespoke-commissions'
+  const CardComponent = isInternal ? Link : 'a'
+  const linkProps = isInternal
+    ? { to: `/shop?category=${category.id}` }
+    : { href: '#contact' }
 
   return (
-    <a
+    <CardComponent
       ref={hostRef}
       id={`category-${category.id}`}
-      href={targetHref}
+      {...linkProps}
       aria-label={`${category.title} — explore category and bespoke commissions`}
       className={cn(
         'group bg-charcoal-deep relative isolate flex flex-col justify-end overflow-hidden rounded-2xl',
@@ -152,9 +134,6 @@ const CategoryCard = ({ category }) => {
         />
       )}
 
-      {/* Skanvi-inspired editorial gradient scrim:
-          Leaves upper 50-60% completely clear and naturally lit, gently deepening
-          only at the bottom to ensure flawless typography legibility */}
       <div
         className="from-charcoal-deep/95 via-charcoal-deep/45 group-hover:from-charcoal-deep/98 pointer-events-none absolute inset-0 bg-linear-to-t to-transparent transition-opacity duration-300"
         aria-hidden="true"
@@ -166,7 +145,6 @@ const CategoryCard = ({ category }) => {
           isHero && 'lg:p-9'
         )}
       >
-        {/* Category Eyebrow & Badges */}
         <div className="flex items-center gap-2">
           {category.highlight ? (
             <span className="border-brass/40 bg-brass/20 text-brass-light inline-flex items-center gap-1.5 rounded-full border px-2.5 py-0.5 text-[10px] font-semibold tracking-[0.2em] uppercase backdrop-blur-xs">
@@ -180,7 +158,6 @@ const CategoryCard = ({ category }) => {
           )}
         </div>
 
-        {/* Editorial Headline */}
         <h3
           className={cn(
             'text-canvas mt-2 font-serif leading-[1.2] font-medium tracking-tight text-balance',
@@ -192,12 +169,10 @@ const CategoryCard = ({ category }) => {
           {category.subtitle}
         </h3>
 
-        {/* Curated Pieces / Description */}
         <p className="text-canvas/80 mt-2 text-xs leading-relaxed font-light tracking-wide text-pretty sm:text-sm">
           {detail}
         </p>
 
-        {/* Skanvi-style Interactive Exploration Affordance */}
         <div className="mt-4 flex items-center pt-1">
           <span className="text-canvas/95 group-hover:text-brass inline-flex items-center gap-2 text-xs font-semibold tracking-[0.14em] uppercase transition-colors duration-300 sm:text-[13px]">
             <span>{category.ctaLabel || `Explore ${category.title}`}</span>
@@ -206,19 +181,17 @@ const CategoryCard = ({ category }) => {
         </div>
       </div>
 
-      {/* Brass Hairline Border on Hover */}
       <div
         className="group-hover:border-brass/40 pointer-events-none absolute inset-0 rounded-2xl border border-transparent transition-colors duration-300"
         aria-hidden="true"
       />
-    </a>
+    </CardComponent>
   )
 }
 
 export const CollectionsSection = () => {
   return (
     <section id="collections" className="bg-canvas py-20 sm:py-24 lg:py-28">
-      {/* Section Header */}
       <div className="mx-auto max-w-7xl space-y-4 px-4 text-center sm:px-6 lg:px-8">
         <Badge variant="brass">Curated Spaces</Badge>
         <h2 className="text-charcoal-deep font-serif text-3xl font-bold sm:text-4xl lg:text-[2.65rem]">
@@ -231,7 +204,6 @@ export const CollectionsSection = () => {
         </p>
       </div>
 
-      {/* Skanvi-Inspired Asymmetric Architectural Bento Grid */}
       <div
         className={cn(
           'mx-auto mt-12 grid max-w-7xl grid-cols-1 gap-4 px-4 sm:mt-14 sm:px-6 lg:mt-16 lg:px-8',
