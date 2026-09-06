@@ -48,24 +48,6 @@ const SPEED_MAP = {
   fast: '20s',
 }
 
-/**
- * Reusable Marquee Component for continuous infinite rolling ticker/carousel.
- * Supports custom items, arbitrary children, adjustable speeds, directions,
- * edge gradient fade masks, pause-on-hover, and luxury brand styling.
- *
- * @param {Array} [props.items=DEFAULT_MARQUEE_ITEMS] - Array of marquee items ({ label, detail, icon, ... })
- * @param {React.ReactNode} [props.children] - Optional custom children to animate inside the marquee
- * @param {Function} [props.renderItem] - Custom item rendering callback `(item, index) => ReactNode`
- * @param {'slow'|'normal'|'fast'|number|string} [props.speed='normal'] - Animation speed/duration
- * @param {'left'|'right'} [props.direction='left'] - Scroll direction
- * @param {boolean} [props.pauseOnHover=true] - Pause marquee when user hovers
- * @param {boolean} [props.fade=true] - Enable smooth edge fade masks
- * @param {number} [props.repeat=2] - Number of duplicate tracks for seamless looping
- * @param {string} [props.gap='gap-8 sm:gap-12'] - Gap between items
- * @param {React.ReactNode} [props.separator] - Element or symbol between items (defaults to brass star ✦)
- * @param {string|React.ElementType} [props.as='aside'] - Container HTML tag or component
- * @param {string} [props.ariaLabel='Heaven Furniture Mart Highlights Marquee'] - Accessible label
- */
 export const Marquee = ({
   items = DEFAULT_MARQUEE_ITEMS,
   children,
@@ -96,7 +78,6 @@ export const Marquee = ({
     animationDirection: direction === 'right' ? 'reverse' : 'normal',
   }
 
-  // Generate an array of indices [0, 1, ..., repeat - 1] to replicate content for seamless looping
   const repeatArray = Array.from({ length: Math.max(2, repeat) })
 
   return (
@@ -138,7 +119,6 @@ export const Marquee = ({
                       )
                     }
 
-                    // Check if item is primitive string
                     if (typeof item === 'string') {
                       return (
                         <div
