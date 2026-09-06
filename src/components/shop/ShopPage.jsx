@@ -10,7 +10,6 @@ import { ChevronRight, Home } from 'lucide-react'
 export const ShopPage = ({ initialCategoryId = 'all', onNavigateHome }) => {
   const gridTopRef = useRef(null)
 
-  // Initialize useProducts hook
   const {
     products,
     categories,
@@ -28,14 +27,11 @@ export const ShopPage = ({ initialCategoryId = 'all', onNavigateHome }) => {
     categoryId: initialCategoryId,
   })
 
-  // Quick View Modal state
   const [activeModalProduct, setActiveModalProduct] = useState(null)
   const [modalInitialAngle, setModalInitialAngle] = useState(0)
 
-  // Handle Category selection from CategoryBar
   const handleCategorySelect = (categoryId) => {
     if (categoryId === 'bespoke') {
-      // Scroll to bespoke card or open bespoke consultation
       const bespokeCard = document.querySelector('[data-bespoke-card]')
       if (bespokeCard) {
         bespokeCard.scrollIntoView({ behavior: 'smooth' })
@@ -55,13 +51,11 @@ export const ShopPage = ({ initialCategoryId = 'all', onNavigateHome }) => {
     setModalInitialAngle(angleIndex)
   }
 
-  // Active Category info for breadcrumb
   const currentCategory = categories.find((c) => c.id === filters.categoryId)
 
   return (
     <div className="bg-canvas min-h-screen pt-24 pb-20 sm:pt-28 md:pt-32">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        {/* Breadcrumb Trail */}
         <nav
           aria-label="Breadcrumb"
           className="text-text-muted flex items-center gap-1.5 text-xs"
@@ -94,19 +88,15 @@ export const ShopPage = ({ initialCategoryId = 'all', onNavigateHome }) => {
           )}
         </nav>
 
-        {/* Master Catalog Header */}
         <ShopHeader totalCount={totalCount} />
 
-        {/* Category Horizontal Slider (Matching Reference) */}
         <CategoryBar
           activeCategoryId={filters.categoryId}
           onSelectCategory={handleCategorySelect}
         />
 
-        {/* Scroll anchor target */}
         <div ref={gridTopRef} className="scroll-mt-28" />
 
-        {/* Filter & Sort Controls Toolbar */}
         <ShopFilterToolbar
           categories={categories}
           sortOptions={sortOptions}
@@ -120,7 +110,6 @@ export const ShopPage = ({ initialCategoryId = 'all', onNavigateHome }) => {
           totalCount={totalCount}
         />
 
-        {/* Responsive Product Grid with Angle Switchers */}
         <ProductGrid
           products={products}
           onQuickView={handleQuickView}
@@ -129,7 +118,6 @@ export const ShopPage = ({ initialCategoryId = 'all', onNavigateHome }) => {
         />
       </div>
 
-      {/* Quick View & Multi-Angle Inspection Modal */}
       {activeModalProduct && (
         <ProductDetailModal
           key={`${activeModalProduct.id}-${modalInitialAngle}`}
