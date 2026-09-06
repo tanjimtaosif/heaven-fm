@@ -23,23 +23,11 @@ export function NotFoundPage() {
       </p>
 
       <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-        <Button
-          as={Link}
-          to="/"
-          variant="brass"
-          size="md"
-          className="rounded-full"
-        >
+        <Button as={Link} to="/" variant="brass" size="md">
           <ArrowLeft className="mr-2 h-4 w-4" />
           Return to Gallery
         </Button>
-        <Button
-          as={Link}
-          to="/shop"
-          variant="secondary"
-          size="md"
-          className="rounded-full"
-        >
+        <Button as={Link} to="/shop" variant="outline" size="md">
           Browse Catalog
         </Button>
       </div>
