@@ -14,9 +14,15 @@ export const ShopFilterToolbar = ({
   categories,
   sortOptions,
   priceRanges,
+  stockFilterOptions = [
+    { id: 'all', label: 'All Availability' },
+    { id: 'in-stock', label: 'In Stock Only' },
+    { id: 'out-of-stock', label: 'Made-to-Order / Out of Stock' },
+  ],
   filters,
   onSelectSort,
   onSelectPriceRange,
+  onSelectStockFilter,
   onSelectSubcategory,
   onSearchChange,
   onResetFilters,
@@ -24,10 +30,12 @@ export const ShopFilterToolbar = ({
 }) => {
   const [isSortOpen, setIsSortOpen] = useState(false)
   const [isPriceOpen, setIsPriceOpen] = useState(false)
+  const [isStockOpen, setIsStockOpen] = useState(false)
   const [isMobileFiltersOpen, setIsMobileFiltersOpen] = useState(false)
 
   const sortRef = useRef(null)
   const priceRef = useRef(null)
+  const stockRef = useRef(null)
 
   const activeCategory = categories.find((c) => c.id === filters.categoryId)
   const subcategories = activeCategory?.subcategories || []
@@ -40,6 +48,9 @@ export const ShopFilterToolbar = ({
       if (priceRef.current && !priceRef.current.contains(e.target)) {
         setIsPriceOpen(false)
       }
+      if (stockRef.current && !stockRef.current.contains(e.target)) {
+        setIsStockOpen(false)
+      }
     }
     document.addEventListener('mousedown', handleClickOutside)
     return () => document.removeEventListener('mousedown', handleClickOutside)
@@ -51,6 +62,9 @@ export const ShopFilterToolbar = ({
     priceRanges.find(
       (p) => p.min === filters.minPrice && p.max === filters.maxPrice
     ) || priceRanges[0]
+  const currentStock =
+    stockFilterOptions.find((s) => s.id === filters.stockFilter) ||
+    stockFilterOptions[0]
 
   const hasActiveFilters =
     filters.categoryId !== 'all' ||
@@ -58,6 +72,7 @@ export const ShopFilterToolbar = ({
     filters.sortBy !== 'featured' ||
     filters.minPrice > 0 ||
     filters.maxPrice < Infinity ||
+    (filters.stockFilter && filters.stockFilter !== 'all') ||
     Boolean(filters.searchQuery?.trim())
 
   const activeFilterCount =
@@ -65,6 +80,7 @@ export const ShopFilterToolbar = ({
     (filters.subcategory !== 'all' ? 1 : 0) +
     (filters.sortBy !== 'featured' ? 1 : 0) +
     (filters.minPrice > 0 || filters.maxPrice < Infinity ? 1 : 0) +
+    (filters.stockFilter && filters.stockFilter !== 'all' ? 1 : 0) +
     (filters.searchQuery?.trim() ? 1 : 0)
 
   return (
@@ -77,6 +93,7 @@ export const ShopFilterToolbar = ({
               onClick={() => {
                 setIsSortOpen(!isSortOpen)
                 setIsPriceOpen(false)
+                setIsStockOpen(false)
               }}
               className={cn(
                 'inline-flex cursor-pointer items-center gap-2 rounded-full border px-4 py-2 text-xs font-medium tracking-wide transition-all duration-200',
@@ -129,6 +146,7 @@ export const ShopFilterToolbar = ({
               onClick={() => {
                 setIsPriceOpen(!isPriceOpen)
                 setIsSortOpen(false)
+                setIsStockOpen(false)
               }}
               className={cn(
                 'inline-flex cursor-pointer items-center gap-2 rounded-full border px-4 py-2 text-xs font-medium tracking-wide transition-all duration-200',
@@ -183,6 +201,81 @@ export const ShopFilterToolbar = ({
             )}
           </div>
 
+          <div className="relative" ref={stockRef}>
+            <button
+              type="button"
+              onClick={() => {
+                setIsStockOpen(!isStockOpen)
+                setIsSortOpen(false)
+                setIsPriceOpen(false)
+              }}
+              className={cn(
+                'inline-flex cursor-pointer items-center gap-2 rounded-full border px-4 py-2 text-xs font-medium tracking-wide transition-all duration-200',
+                isStockOpen ||
+                  (filters.stockFilter && filters.stockFilter !== 'all')
+                  ? 'border-brass bg-brass-light/40 text-brass-dark'
+                  : 'border-border-subtle bg-surface text-text-primary hover:border-border-warm'
+              )}
+              aria-expanded={isStockOpen}
+            >
+              <span
+                className={cn(
+                  'h-2 w-2 rounded-full',
+                  filters.stockFilter === 'in-stock'
+                    ? 'bg-emerald-500'
+                    : filters.stockFilter === 'out-of-stock'
+                      ? 'bg-rose-500'
+                      : 'bg-brass'
+                )}
+              />
+              <span>{currentStock.label}</span>
+              <ChevronDown
+                className={cn(
+                  'h-3.5 w-3.5 transition-transform duration-200',
+                  isStockOpen && 'rotate-180'
+                )}
+              />
+            </button>
+
+            {isStockOpen && (
+              <div className="animate-fade-in border-border-subtle bg-surface absolute top-full left-0 z-30 mt-1.5 w-60 rounded-2xl border p-1.5 shadow-xl">
+                {stockFilterOptions.map((opt) => (
+                  <button
+                    key={opt.id}
+                    type="button"
+                    onClick={() => {
+                      onSelectStockFilter && onSelectStockFilter(opt.id)
+                      setIsStockOpen(false)
+                    }}
+                    className={cn(
+                      'flex w-full cursor-pointer items-center justify-between rounded-xl px-3 py-2 text-xs transition-colors',
+                      filters.stockFilter === opt.id
+                        ? 'bg-brass-light/80 text-brass-dark font-semibold'
+                        : 'text-text-secondary hover:bg-surface-muted hover:text-text-primary'
+                    )}
+                  >
+                    <div className="flex items-center gap-2">
+                      <span
+                        className={cn(
+                          'h-1.5 w-1.5 rounded-full',
+                          opt.id === 'in-stock'
+                            ? 'bg-emerald-500'
+                            : opt.id === 'out-of-stock'
+                              ? 'bg-rose-500'
+                              : 'bg-brass'
+                        )}
+                      />
+                      <span>{opt.label}</span>
+                    </div>
+                    {filters.stockFilter === opt.id && (
+                      <span className="bg-brass h-1.5 w-1.5 rounded-full" />
+                    )}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+
           {hasActiveFilters && (
             <button
               type="button"
@@ -205,7 +298,7 @@ export const ShopFilterToolbar = ({
             <SlidersHorizontal className="text-brass h-3.5 w-3.5" />
             <span>Filters & Sort</span>
             {activeFilterCount > 0 && (
-              <span className="bg-brass text-charcoal-deep flex h-4 w-4 items-center justify-center rounded-full text-[10px] font-bold">
+              <span className="bg-brass text-charcoal-deep text-label-xs flex h-4 w-4 items-center justify-center rounded-full font-bold">
                 {activeFilterCount}
               </span>
             )}
@@ -329,6 +422,52 @@ export const ShopFilterToolbar = ({
                     )}
                   </button>
                 ))}
+              </div>
+            </div>
+
+            <div className="border-border-subtle border-t py-4">
+              <span className="text-text-muted mb-2.5 block text-xs font-bold tracking-wider uppercase">
+                Stock Availability
+              </span>
+              <div className="grid grid-cols-1 gap-1.5">
+                {stockFilterOptions.map((opt) => {
+                  const isSelected =
+                    filters.stockFilter === opt.id ||
+                    (!filters.stockFilter && opt.id === 'all')
+
+                  return (
+                    <button
+                      key={opt.id}
+                      type="button"
+                      onClick={() =>
+                        onSelectStockFilter && onSelectStockFilter(opt.id)
+                      }
+                      className={cn(
+                        'flex cursor-pointer items-center justify-between rounded-xl px-3 py-2 text-xs transition-colors',
+                        isSelected
+                          ? 'bg-brass-light/80 text-brass-dark font-bold'
+                          : 'bg-surface-muted/50 text-text-secondary'
+                      )}
+                    >
+                      <div className="flex items-center gap-2">
+                        <span
+                          className={cn(
+                            'h-2 w-2 rounded-full',
+                            opt.id === 'in-stock'
+                              ? 'bg-emerald-500'
+                              : opt.id === 'out-of-stock'
+                                ? 'bg-rose-500'
+                                : 'bg-brass'
+                          )}
+                        />
+                        <span>{opt.label}</span>
+                      </div>
+                      {isSelected && (
+                        <span className="bg-brass h-2 w-2 rounded-full" />
+                      )}
+                    </button>
+                  )
+                })}
               </div>
             </div>
 
