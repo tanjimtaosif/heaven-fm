@@ -4,127 +4,137 @@ import { ArrowLeft, ArrowRight, ArrowUpRight } from 'lucide-react'
 import { Badge } from '@/components/ui'
 import { cn } from '@/lib/utils'
 
-import noirArchBedImg from '@/assets/products/beds/black-shot-1.webp'
-import emeraldBedImg from '@/assets/products/beds/green-shot-1.webp'
-import teakBedImg from '@/assets/products/beds/wooden-shot-1.webp'
-import brunelloWalnutNightstandImg from '@/assets/products/bedside-tables/brown-shot-1.webp'
-import alabasterNightstandImg from '@/assets/products/bedside-tables/white-shot-1.webp'
-import aethelgardVanityImg from '@/assets/products/dressing-table/white-shot-1.webp'
-import rivieraNavyVanityImg from '@/assets/products/dressing-table/navy-shot-1.webp'
-import vareseGlassWardrobeImg from '@/assets/products/wardrobes/coffee-shot-1.webp'
-import palazzoChocoWardrobeImg from '@/assets/products/wardrobes/choco-shot-1.webp'
-import arisTeakWardrobeImg from '@/assets/products/wardrobes/wood-shot-1.webp'
+import noirArchBedImg from '@/assets/products/beds/HFM-BED-001/shot-1.webp'
+import emeraldBedImg from '@/assets/products/beds/HFM-BED-002/shot-1.webp'
+import teakBedImg from '@/assets/products/beds/HFM-BED-004/shot-1.webp'
+import brunelloWalnutNightstandImg from '@/assets/products/bedside-tables/HFM-BST-001/shot-1.webp'
+import alabasterNightstandImg from '@/assets/products/bedside-tables/HFM-BST-003/shot-1.webp'
+import aethelgardVanityImg from '@/assets/products/dressing-tables/HFM-DRS-003/shot-1.webp'
+import rivieraNavyVanityImg from '@/assets/products/dressing-tables/HFM-DRS-001/shot-1.webp'
+import vareseGlassWardrobeImg from '@/assets/products/wardrobes/HFM-WDR-002/shot-1.webp'
+import palazzoChocoWardrobeImg from '@/assets/products/wardrobes/HFM-WDR-001/shot-1.webp'
+import arisTeakWardrobeImg from '@/assets/products/wardrobes/HFM-WDR-003/shot-1.webp'
 
 const FEATURED_FURNITURE_ITEMS = [
   {
-    id: 'noir-fluted-arch-bed',
-    name: 'The Noir Fluted Arch Bed',
-    room: 'Master Bed',
-    startingPrice: '৳135,000',
-    modelCount: 'Obsidian Bouclé',
-    material: 'Architectural Arched Headboard • Matte Bouclé',
+    id: 'royal-chevron-midnight-bed',
+    sku: 'HFM-BED-001',
+    name: 'The Royal Chevron Midnight Bed',
+    room: 'Master Bedroom',
+    startingPrice: '৳155,000',
+    modelCount: 'Midnight & Gold',
+    material: 'Midnight Velvet • 24K Gold Leaf Trim',
     image: noirArchBedImg,
-    alt: 'Master king arch bed with fluted channeled headboard in studio suite',
-    href: '/shop?category=bedroom&sub=beds',
+    alt: 'Royal chevron midnight velvet king bed with gold trellis frame',
+    href: '/shop?category=bedroom&subcategory=beds',
   },
   {
-    id: 'varese-espresso-wardrobe',
-    name: 'The Varese Glass Wardrobe',
-    room: 'Walk-in Wardrobe',
-    startingPrice: '৳165,000',
-    modelCount: 'Tinted Glass Fronts',
-    material: 'Smoked Espresso • Internal Illumination',
+    id: 'greek-key-carved-espresso-armoire',
+    sku: 'HFM-WDR-002',
+    name: 'The Greek-Key Espresso Armoire',
+    room: 'Wardrobe Suite',
+    startingPrice: '৳158,000',
+    modelCount: 'Smoked Espresso',
+    material: 'Carved Greek-Key Panels • Solid Mahogany',
     image: vareseGlassWardrobeImg,
-    alt: 'Architectural tinted glass luxury wardrobe armoire',
-    href: '/shop?category=bedroom&sub=wardrobes',
+    alt: 'Dark espresso mahogany armoire and chest with carved fretwork',
+    href: '/shop?category=bedroom&subcategory=wardrobes',
   },
   {
-    id: 'aethelgard-fluted-vanity',
-    name: 'The Aethelgard Vanity Suite',
+    id: 'alabaster-fluted-marble-vanity-suite',
+    sku: 'HFM-DRS-003',
+    name: 'The Alabaster Fluted Vanity Suite',
     room: 'Dressing Console',
-    startingPrice: '৳72,000',
-    modelCount: 'Alabaster White',
-    material: 'Ribbed Fluted Detail • Satin Brass Pulls',
+    startingPrice: '৳74,000',
+    modelCount: 'Ivory & Marble',
+    material: 'Natural Marble Top • Backlit LED Mirror',
     image: aethelgardVanityImg,
     alt: 'Fluted white dressing table vanity console with gold hardware',
-    href: '/shop?category=bedroom&sub=dressing-tables',
+    href: '/shop?category=bedroom&subcategory=dressing-tables',
   },
   {
-    id: 'brunello-walnut-nightstand',
-    name: 'The Brunello Walnut Pedestal',
+    id: 'neoclassical-empire-gilded-nightstand',
+    sku: 'HFM-BST-001',
+    name: 'The Neoclassical Empire Nightstand',
     room: 'Bedside Table',
-    startingPrice: '৳26,000',
-    modelCount: 'Warm Walnut',
-    material: 'Dovetailed Teak Subframe • Solid Brass Hardware',
+    startingPrice: '৳32,000',
+    modelCount: 'Empire Mahogany',
+    material: 'Solid Mahogany • Gilded Rope Molding',
     image: brunelloWalnutNightstandImg,
-    alt: 'Warm walnut solid wood bedside nightstand table',
-    href: '/shop?category=bedroom&sub=bedside-tables',
+    alt: 'Neoclassical solid mahogany nightstand with gilded columns',
+    href: '/shop?category=bedroom&subcategory=bedside-tables',
   },
   {
-    id: 'emerald-oasis-platform-bed',
-    name: 'The Emerald Wingback Bed',
-    room: 'Master Bed',
+    id: 'emerald-sovereign-quilted-bed',
+    sku: 'HFM-BED-002',
+    name: 'The Emerald Sovereign Bed',
+    room: 'Master Bedroom',
     startingPrice: '৳148,000',
     modelCount: 'Italian Velvet',
-    material: 'Deep Emerald Velvet • Winged Arch Headboard',
+    material: 'Italian Emerald Velvet • Diamond Quilted Footboard',
     image: emeraldBedImg,
     alt: 'Emerald green luxury upholstered wingback king bed',
-    href: '/shop?category=bedroom&sub=beds',
+    href: '/shop?category=bedroom&subcategory=beds',
   },
   {
-    id: 'palazzo-choco-wardrobe',
-    name: 'The Palazzo Modular Wardrobe',
-    room: 'Master Armoire',
-    startingPrice: '৳135,000',
-    modelCount: 'Modular System',
-    material: 'Deep Truffle Teak • Bronze Alloy Trim',
-    image: palazzoChocoWardrobeImg,
-    alt: 'Luxury chocolate teakwood modular master wardrobe suite',
-    href: '/shop?category=bedroom&sub=wardrobes',
-  },
-  {
-    id: 'riviera-navy-vanity',
-    name: 'The Riviera Navy Vanity',
-    room: 'Dressing Suite',
-    startingPrice: '৳65,000',
-    modelCount: 'Midnight Lacquer',
-    material: 'Deep Navy Lacquer • Backlit Mirror Ready',
-    image: rivieraNavyVanityImg,
-    alt: 'Midnight navy dressing table vanity console',
-    href: '/shop?category=bedroom&sub=dressing-tables',
-  },
-  {
-    id: 'alabaster-floating-nightstand',
-    name: 'The Alabaster Nightstand',
-    room: 'Bedside Table',
-    startingPrice: '৳28,000',
-    modelCount: 'Warm Ivory',
-    material: 'Warm Ivory Lacquer • Satin Brass Accents',
-    image: alabasterNightstandImg,
-    alt: 'White alabaster bedside nightstand table with drawer',
-    href: '/shop?category=bedroom&sub=bedside-tables',
-  },
-  {
-    id: 'nordic-minimal-teak-bed',
-    name: 'The Nordic Teak Platform Bed',
-    room: 'Master Bed',
-    startingPrice: '৳128,000',
-    modelCount: '100% Solid Teak',
-    material: 'Kiln-Dried Burma Teak • Japanese Joinery',
-    image: teakBedImg,
-    alt: 'Scandinavian minimalist solid teakwood platform bed',
-    href: '/shop?category=bedroom&sub=beds',
-  },
-  {
-    id: 'aris-scandinavian-wardrobe',
-    name: 'The Aris Teak 4-Door Wardrobe',
+    id: 'heritage-3door-solid-wood-wardrobe',
+    sku: 'HFM-WDR-001',
+    name: 'The Heritage 3-Door Teak Wardrobe',
     room: 'Master Wardrobe',
-    startingPrice: '৳145,000',
-    modelCount: 'Golden Teak',
-    material: 'Architectural Burma Teak • Brass Bar Handles',
+    startingPrice: '৳135,000',
+    modelCount: 'Solid Teak',
+    material: 'Solid Seasoned Teak • Full Mirror Door',
+    image: palazzoChocoWardrobeImg,
+    alt: 'Solid teakwood 3-door wardrobe with full-length dressing mirror',
+    href: '/shop?category=bedroom&subcategory=wardrobes',
+  },
+  {
+    id: 'halo-led-midnight-slate-vanity',
+    sku: 'HFM-DRS-001',
+    name: 'The Halo LED Midnight Vanity',
+    room: 'Dressing Suite',
+    startingPrice: '৳78,000',
+    modelCount: 'Slate & Brass',
+    material: 'Touch-Sensor Halo LED • Brushed Gold Trims',
+    image: rivieraNavyVanityImg,
+    alt: 'Midnight slate navy vanity console with halo LED mirror',
+    href: '/shop?category=bedroom&subcategory=dressing-tables',
+  },
+  {
+    id: 'versailles-round-marble-gilded-nightstand',
+    sku: 'HFM-BST-003',
+    name: 'The Versailles Marble Nightstand',
+    room: 'Bedside Table',
+    startingPrice: '৳38,000',
+    modelCount: 'Italian Marble',
+    material: 'Honed Marble Top • Gold Leaf Cabriole Base',
+    image: alabasterNightstandImg,
+    alt: 'Round French gilded nightstand with Italian cream marble top',
+    href: '/shop?category=bedroom&subcategory=bedside-tables',
+  },
+  {
+    id: 'louis-xv-french-provincial-linen-bed',
+    sku: 'HFM-BED-004',
+    name: 'The Louis XV Wingback Linen Bed',
+    room: 'Master Bedroom',
+    startingPrice: '৳138,000',
+    modelCount: 'Belgian Linen',
+    material: 'Natural Textured Linen • Nailhead Trim & Bench',
+    image: teakBedImg,
+    alt: 'French Provincial Louis XV upholstered linen wingback bed',
+    href: '/shop?category=bedroom&subcategory=beds',
+  },
+  {
+    id: 'royal-chittagong-teak-inlaid-wardrobe',
+    sku: 'HFM-WDR-003',
+    name: 'The Royal Chittagong Teak Wardrobe',
+    room: 'Master Wardrobe',
+    startingPrice: '৳185,000',
+    modelCount: 'Pure Segun Teak',
+    material: '100% Pure Chittagong Teak • Silver Scroll Inlays',
     image: arisTeakWardrobeImg,
-    alt: 'Scandinavian solid teak 4-door wardrobe armoire',
-    href: '/shop?category=bedroom&sub=wardrobes',
+    alt: 'Master artisan Chittagong teak wardrobe with silver inlays',
+    href: '/shop?category=bedroom&subcategory=wardrobes',
   },
 ]
 
@@ -301,16 +311,16 @@ export const PopularFurnituresSection = () => {
   return (
     <section
       id="popular-furnitures"
-      className="bg-canvas relative overflow-hidden py-20 select-none sm:py-24 lg:py-28"
+      className="bg-canvas section-y relative overflow-hidden select-none"
       aria-labelledby="featured-furniture-heading"
     >
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div className="container-page">
         <div className="flex flex-col items-start justify-between gap-6 md:flex-row md:items-end">
           <div className="space-y-3">
             <Badge variant="brass">Master Atelier Showcase</Badge>
             <h2
               id="featured-furniture-heading"
-              className="text-charcoal-deep font-serif text-3xl font-bold tracking-tight sm:text-4xl lg:text-[2.65rem]"
+              className="text-charcoal-deep text-display-sm font-serif font-bold"
             >
               Featured Bedroom Suites
             </h2>
@@ -415,11 +425,11 @@ export const PopularFurnituresSection = () => {
                   aria-hidden="true"
                 />
 
-                <span className="border-brass/30 bg-charcoal-deep/85 text-brass-light absolute top-3.5 left-3.5 rounded-full border px-2.5 py-1 text-[10px] font-semibold tracking-wider uppercase backdrop-blur-md">
+                <span className="border-brass/30 bg-charcoal-deep/85 text-brass-light text-label-xs absolute top-3.5 left-3.5 rounded-full border px-2.5 py-1 font-semibold tracking-wider uppercase backdrop-blur-md">
                   {item.room}
                 </span>
 
-                <span className="border-border-subtle/80 bg-surface/90 text-charcoal-deep absolute top-3.5 right-3.5 inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-[10px] font-medium tracking-wide shadow-xs backdrop-blur-md">
+                <span className="border-border-subtle/80 bg-surface/90 text-charcoal-deep text-label-xs absolute top-3.5 right-3.5 inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 font-medium tracking-wide shadow-xs backdrop-blur-md">
                   <span className="h-1.5 w-1.5 rounded-full bg-emerald-600" />
                   Showroom Ready
                 </span>
@@ -438,7 +448,7 @@ export const PopularFurnituresSection = () => {
 
                 <div className="border-border-subtle/70 mt-4 flex items-center justify-between border-t pt-3">
                   <div>
-                    <span className="text-text-muted block text-[10px] tracking-wider uppercase">
+                    <span className="text-text-muted text-label-xs block tracking-wider uppercase">
                       Starting From
                     </span>
                     <span className="text-charcoal-deep font-sans text-sm font-bold sm:text-base">
@@ -447,7 +457,7 @@ export const PopularFurnituresSection = () => {
                   </div>
 
                   <div className="text-right">
-                    <span className="text-text-muted block text-[10px] tracking-wider uppercase">
+                    <span className="text-text-muted text-label-xs block tracking-wider uppercase">
                       Finish Spec
                     </span>
                     <span className="text-brass-dark font-sans text-xs font-semibold sm:text-sm">
