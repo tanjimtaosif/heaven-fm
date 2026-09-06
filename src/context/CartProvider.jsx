@@ -6,7 +6,6 @@ import { BESPOKE_PRODUCTS } from '@/constants/productsData'
 const CART_STORAGE_KEY = 'heaven_bespoke_cart_v1'
 
 export const CartProvider = ({ children }) => {
-  // Initialize cart from localStorage if available
   const [items, setItems] = useState(() => {
     if (typeof window === 'undefined') return []
     try {
@@ -25,7 +24,6 @@ export const CartProvider = ({ children }) => {
     notes: '',
   })
 
-  // Synchronize to localStorage
   useEffect(() => {
     try {
       localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(items))
@@ -38,7 +36,6 @@ export const CartProvider = ({ children }) => {
   const closeCart = useCallback(() => setIsCartOpen(false), [])
   const toggleCart = useCallback(() => setIsCartOpen((prev) => !prev), [])
 
-  // Add Item to cart
   const addItem = useCallback((product, quantity = 1, options = {}) => {
     setItems((prevItems) => {
       const existingIndex = prevItems.findIndex(
@@ -73,7 +70,6 @@ export const CartProvider = ({ children }) => {
     setIsCartOpen(true)
   }, [])
 
-  // Update item quantity
   const updateQuantity = useCallback((id, delta) => {
     setItems((prevItems) => {
       return prevItems
@@ -88,7 +84,6 @@ export const CartProvider = ({ children }) => {
     })
   }, [])
 
-  // Direct quantity set
   const setItemQuantity = useCallback((id, quantity) => {
     if (quantity <= 0) {
       setItems((prev) => prev.filter((item) => item.id !== id))
@@ -99,24 +94,20 @@ export const CartProvider = ({ children }) => {
     )
   }, [])
 
-  // Remove item
   const removeItem = useCallback((id) => {
     setItems((prev) => prev.filter((item) => item.id !== id))
   }, [])
 
-  // Update item notes / bespoke instructions
   const updateItemNotes = useCallback((id, notes) => {
     setItems((prev) =>
       prev.map((item) => (item.id === id ? { ...item, notes } : item))
     )
   }, [])
 
-  // Clear entire cart
   const clearCart = useCallback(() => {
     setItems([])
   }, [])
 
-  // Calculate totals
   const totalCount = useMemo(() => {
     return items.reduce((acc, item) => acc + item.quantity, 0)
   }, [items])
@@ -129,7 +120,6 @@ export const CartProvider = ({ children }) => {
     return `৳${subtotal.toLocaleString('en-US')}`
   }, [subtotal])
 
-  // Generate structured WhatsApp order URL
   const generateWhatsAppUrl = useCallback(() => {
     if (items.length === 0) {
       return COMPANY_INFO.contact.whatsappUrl
