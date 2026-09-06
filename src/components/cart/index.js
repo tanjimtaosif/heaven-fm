@@ -1,2 +1,1 @@
-export { CartSidebar } from './CartSidebar'
-export { FloatingCartTrigger } from './FloatingCartTrigger'
+export * from '@/features/cart'
