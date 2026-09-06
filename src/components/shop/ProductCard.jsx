@@ -16,7 +16,6 @@ export const ProductCard = ({ product, onQuickView }) => {
   const currentImage = images[activeImageIndex] || product.image
   const hasMultipleAngles = images.length > 1
 
-  // Handle Add to Cart with visual feedback
   const handleAddToCart = (e) => {
     e.stopPropagation()
     addItem(product)
@@ -24,7 +23,6 @@ export const ProductCard = ({ product, onQuickView }) => {
     setTimeout(() => setIsAdded(false), 2000)
   }
 
-  // Mobile Touch Swipe Handling
   const handleTouchStart = (e) => {
     touchStartXRef.current = e.touches[0].clientX
   }
@@ -36,10 +34,8 @@ export const ProductCard = ({ product, onQuickView }) => {
 
     if (Math.abs(deltaX) > 40) {
       if (deltaX < 0) {
-        // Swipe left -> next angle
         setActiveImageIndex((prev) => (prev + 1) % images.length)
       } else {
-        // Swipe right -> prev angle
         setActiveImageIndex(
           (prev) => (prev - 1 + images.length) % images.length
         )
@@ -55,7 +51,6 @@ export const ProductCard = ({ product, onQuickView }) => {
       aria-label={`${product.name}, ${product.priceFormatted}`}
     >
       <div>
-        {/* Main Photo Frame (3:4 aspect ratio) */}
         <div
           className="bg-surface-muted/60 relative aspect-3/4 w-full cursor-pointer overflow-hidden rounded-xl select-none"
           onClick={() => onQuickView && onQuickView(product, activeImageIndex)}
@@ -69,7 +64,6 @@ export const ProductCard = ({ product, onQuickView }) => {
             loading="lazy"
           />
 
-          {/* Badges Overlay */}
           <div className="absolute top-2.5 left-2.5 z-10 flex flex-wrap gap-1.5">
             {product.isNew && (
               <span className="bg-charcoal-surface/90 text-brass rounded-full px-2.5 py-0.5 text-[10px] font-semibold tracking-wider uppercase shadow-xs backdrop-blur-xs">
@@ -83,7 +77,6 @@ export const ProductCard = ({ product, onQuickView }) => {
             )}
           </div>
 
-          {/* Quick View Floating Overlay Trigger */}
           <button
             type="button"
             onClick={(e) => {
@@ -97,7 +90,6 @@ export const ProductCard = ({ product, onQuickView }) => {
             <Eye className="h-4 w-4" />
           </button>
 
-          {/* Mobile Swipe Angle Pill Indicator */}
           {hasMultipleAngles && (
             <div className="pointer-events-none absolute right-2.5 bottom-2.5 flex items-center gap-1 rounded-full bg-black/60 px-2 py-0.5 text-[10px] font-medium text-white/90 backdrop-blur-xs sm:hidden">
               <span>
@@ -107,7 +99,6 @@ export const ProductCard = ({ product, onQuickView }) => {
           )}
         </div>
 
-        {/* Multi-Angle Thumbnail Strip (Directly below image, per reference design!) */}
         {hasMultipleAngles && (
           <div className="mt-2.5 flex items-center gap-1.5 overflow-x-auto pb-1">
             {images.map((imgUrl, idx) => {
@@ -148,14 +139,11 @@ export const ProductCard = ({ product, onQuickView }) => {
           </div>
         )}
 
-        {/* Product Details */}
         <div className="mt-3">
-          {/* Eyebrow / Department Tag */}
           <span className="text-text-muted text-[11px] font-medium tracking-wide uppercase">
             {product.subcategoryLabel || product.category}
           </span>
 
-          {/* Product Title */}
           <h2
             onClick={() =>
               onQuickView && onQuickView(product, activeImageIndex)
@@ -165,19 +153,16 @@ export const ProductCard = ({ product, onQuickView }) => {
             {product.name}
           </h2>
 
-          {/* Short Description */}
           <p className="text-text-secondary mt-1 line-clamp-2 text-xs leading-relaxed">
             {product.shortDescription}
           </p>
 
-          {/* Craft Timber & Dimension Spec */}
           <div className="text-text-muted mt-2 flex items-center gap-1.5 text-[11px]">
             <span className="truncate">{product.material}</span>
           </div>
         </div>
       </div>
 
-      {/* Footer: Price & Add to Bag CTA */}
       <div className="border-border-subtle/80 mt-4 flex items-center justify-between border-t pt-3">
         <div>
           <span className="text-text-muted block text-[10px] tracking-wider uppercase">
@@ -188,7 +173,6 @@ export const ProductCard = ({ product, onQuickView }) => {
           </span>
         </div>
 
-        {/* Add to Bag Button */}
         <button
           type="button"
           onClick={handleAddToCart}
