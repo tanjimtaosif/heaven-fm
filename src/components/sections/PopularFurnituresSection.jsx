@@ -1,9 +1,9 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
+import { Link } from 'react-router-dom'
 import { ArrowLeft, ArrowRight, ArrowUpRight } from 'lucide-react'
 import { Badge } from '@/components/ui'
 import { cn } from '@/lib/utils'
 
-// Furnished Master Bedroom Suites Photography from Heaven Furniture Mart assets
 import noirArchBedImg from '@/assets/products/beds/black-shot-1.webp'
 import emeraldBedImg from '@/assets/products/beds/green-shot-1.webp'
 import teakBedImg from '@/assets/products/beds/wooden-shot-1.webp'
@@ -15,10 +15,6 @@ import vareseGlassWardrobeImg from '@/assets/products/wardrobes/coffee-shot-1.we
 import palazzoChocoWardrobeImg from '@/assets/products/wardrobes/choco-shot-1.webp'
 import arisTeakWardrobeImg from '@/assets/products/wardrobes/wood-shot-1.webp'
 
-/**
- * Curated Master Bedroom Furniture Suites matching Heaven Furniture Mart's luxury brand theme:
- * Playfair Display typography, warm brass accents, meaningful catalog pricing & furnished photography.
- */
 const FEATURED_FURNITURE_ITEMS = [
   {
     id: 'noir-fluted-arch-bed',
@@ -29,7 +25,7 @@ const FEATURED_FURNITURE_ITEMS = [
     material: 'Architectural Arched Headboard • Matte Bouclé',
     image: noirArchBedImg,
     alt: 'Master king arch bed with fluted channeled headboard in studio suite',
-    href: '#/shop?category=bedroom&sub=beds',
+    href: '/shop?category=bedroom&sub=beds',
   },
   {
     id: 'varese-espresso-wardrobe',
@@ -40,7 +36,7 @@ const FEATURED_FURNITURE_ITEMS = [
     material: 'Smoked Espresso • Internal Illumination',
     image: vareseGlassWardrobeImg,
     alt: 'Architectural tinted glass luxury wardrobe armoire',
-    href: '#/shop?category=bedroom&sub=wardrobes',
+    href: '/shop?category=bedroom&sub=wardrobes',
   },
   {
     id: 'aethelgard-fluted-vanity',
@@ -51,7 +47,7 @@ const FEATURED_FURNITURE_ITEMS = [
     material: 'Ribbed Fluted Detail • Satin Brass Pulls',
     image: aethelgardVanityImg,
     alt: 'Fluted white dressing table vanity console with gold hardware',
-    href: '#/shop?category=bedroom&sub=dressing-tables',
+    href: '/shop?category=bedroom&sub=dressing-tables',
   },
   {
     id: 'brunello-walnut-nightstand',
@@ -62,7 +58,7 @@ const FEATURED_FURNITURE_ITEMS = [
     material: 'Dovetailed Teak Subframe • Solid Brass Hardware',
     image: brunelloWalnutNightstandImg,
     alt: 'Warm walnut solid wood bedside nightstand table',
-    href: '#/shop?category=bedroom&sub=bedside-tables',
+    href: '/shop?category=bedroom&sub=bedside-tables',
   },
   {
     id: 'emerald-oasis-platform-bed',
@@ -73,7 +69,7 @@ const FEATURED_FURNITURE_ITEMS = [
     material: 'Deep Emerald Velvet • Winged Arch Headboard',
     image: emeraldBedImg,
     alt: 'Emerald green luxury upholstered wingback king bed',
-    href: '#/shop?category=bedroom&sub=beds',
+    href: '/shop?category=bedroom&sub=beds',
   },
   {
     id: 'palazzo-choco-wardrobe',
@@ -84,7 +80,7 @@ const FEATURED_FURNITURE_ITEMS = [
     material: 'Deep Truffle Teak • Bronze Alloy Trim',
     image: palazzoChocoWardrobeImg,
     alt: 'Luxury chocolate teakwood modular master wardrobe suite',
-    href: '#/shop?category=bedroom&sub=wardrobes',
+    href: '/shop?category=bedroom&sub=wardrobes',
   },
   {
     id: 'riviera-navy-vanity',
@@ -95,7 +91,7 @@ const FEATURED_FURNITURE_ITEMS = [
     material: 'Deep Navy Lacquer • Backlit Mirror Ready',
     image: rivieraNavyVanityImg,
     alt: 'Midnight navy dressing table vanity console',
-    href: '#/shop?category=bedroom&sub=dressing-tables',
+    href: '/shop?category=bedroom&sub=dressing-tables',
   },
   {
     id: 'alabaster-floating-nightstand',
@@ -106,7 +102,7 @@ const FEATURED_FURNITURE_ITEMS = [
     material: 'Warm Ivory Lacquer • Satin Brass Accents',
     image: alabasterNightstandImg,
     alt: 'White alabaster bedside nightstand table with drawer',
-    href: '#/shop?category=bedroom&sub=bedside-tables',
+    href: '/shop?category=bedroom&sub=bedside-tables',
   },
   {
     id: 'nordic-minimal-teak-bed',
@@ -117,7 +113,7 @@ const FEATURED_FURNITURE_ITEMS = [
     material: 'Kiln-Dried Burma Teak • Japanese Joinery',
     image: teakBedImg,
     alt: 'Scandinavian minimalist solid teakwood platform bed',
-    href: '#/shop?category=bedroom&sub=beds',
+    href: '/shop?category=bedroom&sub=beds',
   },
   {
     id: 'aris-scandinavian-wardrobe',
@@ -128,11 +124,11 @@ const FEATURED_FURNITURE_ITEMS = [
     material: 'Architectural Burma Teak • Brass Bar Handles',
     image: arisTeakWardrobeImg,
     alt: 'Scandinavian solid teak 4-door wardrobe armoire',
-    href: '#/shop?category=bedroom&sub=wardrobes',
+    href: '/shop?category=bedroom&sub=wardrobes',
   },
 ]
 
-const TOTAL_ORIGINAL = FEATURED_FURNITURE_ITEMS.length // 10 items
+const TOTAL_ORIGINAL = FEATURED_FURNITURE_ITEMS.length
 
 export const PopularFurnituresSection = () => {
   const scrollContainerRef = useRef(null)
@@ -140,23 +136,17 @@ export const PopularFurnituresSection = () => {
   const resumeTimeoutRef = useRef(null)
   const [progress, setProgress] = useState(0)
 
-  // 3 sets of items for true seamless infinite wrapping without jump or scroll-back
-  // Set 0 (0..9): Backward buffer
-  // Set 1 (10..19): Canonical primary view
-  // Set 2 (20..29): Forward buffer
   const displayItems = [
     ...FEATURED_FURNITURE_ITEMS,
     ...FEATURED_FURNITURE_ITEMS,
     ...FEATURED_FURNITURE_ITEMS,
   ]
 
-  // Pause continuous sliding helper
   const pauseAutoScroll = useCallback(() => {
     isPausedRef.current = true
     if (resumeTimeoutRef.current) clearTimeout(resumeTimeoutRef.current)
   }, [])
 
-  // Resume continuous sliding helper
   const resumeAutoScroll = useCallback((delay = 500) => {
     if (resumeTimeoutRef.current) clearTimeout(resumeTimeoutRef.current)
     resumeTimeoutRef.current = setTimeout(() => {
@@ -164,7 +154,6 @@ export const PopularFurnituresSection = () => {
     }, delay)
   }, [])
 
-  // Update progress indicator
   const updateProgress = useCallback(() => {
     const el = scrollContainerRef.current
     if (!el || !el.children || el.children.length < 3 * TOTAL_ORIGINAL) return
@@ -179,7 +168,6 @@ export const PopularFurnituresSection = () => {
     setProgress(pct)
   }, [])
 
-  // Position at Set 1 on initial load
   useEffect(() => {
     const el = scrollContainerRef.current
     if (!el) return
@@ -198,9 +186,6 @@ export const PopularFurnituresSection = () => {
     return () => clearTimeout(timer)
   }, [updateProgress])
 
-  // Continuous marquee glide animation loop via requestAnimationFrame
-  // NOTE: Container intentionally does NOT have `scroll-smooth` in CSS,
-  // preventing the browser from animating a backward scroll when normalizing scrollLeft!
   useEffect(() => {
     const el = scrollContainerRef.current
     if (!el) return
@@ -211,7 +196,6 @@ export const PopularFurnituresSection = () => {
     if (prefersReducedMotion) return
 
     let animationFrameId
-    // Dignified, smooth luxury marquee sliding speed (pixels per frame)
     const speed = 0.95
 
     const step = () => {
@@ -228,9 +212,6 @@ export const PopularFurnituresSection = () => {
         if (loopWidth > 0) {
           el.scrollLeft += speed
 
-          // Seamless infinite wrap:
-          // Immediately as Set 1 moves past into Set 2, reset scrollLeft back by loopWidth.
-          // Since Set 1 and Set 2 are pixel-identical, the transition is completely invisible.
           if (el.scrollLeft >= endOffset) {
             el.scrollLeft -= loopWidth
           } else if (el.scrollLeft < startOffset) {
@@ -251,7 +232,6 @@ export const PopularFurnituresSection = () => {
     }
   }, [updateProgress])
 
-  // Manual scroll step (Prev / Next arrow buttons) with programmatic smooth scroll
   const handleScroll = (direction) => {
     pauseAutoScroll()
     const el = scrollContainerRef.current
@@ -266,7 +246,6 @@ export const PopularFurnituresSection = () => {
     const gap = 24
     const scrollAmount = (cardWidth + gap) * (direction === 'left' ? -1 : 1)
 
-    // Pre-normalize boundary if user is about to scroll outside buffer range
     if (
       direction === 'left' &&
       el.scrollLeft - Math.abs(scrollAmount) < startOffset - loopWidth * 0.4
@@ -279,10 +258,8 @@ export const PopularFurnituresSection = () => {
       el.scrollLeft -= loopWidth
     }
 
-    // Programmatic smooth scroll for button clicks
     el.scrollBy({ left: scrollAmount, behavior: 'smooth' })
 
-    // Normalize bounds and resume continuous marquee after user action settles
     if (resumeTimeoutRef.current) clearTimeout(resumeTimeoutRef.current)
     resumeTimeoutRef.current = setTimeout(() => {
       if (!el || !el.children || el.children.length < 3 * TOTAL_ORIGINAL) return
@@ -296,7 +273,6 @@ export const PopularFurnituresSection = () => {
     }, 1200)
   }
 
-  // Touch handlers for mobile gesture interaction
   const handleTouchStart = () => {
     pauseAutoScroll()
   }
@@ -313,7 +289,6 @@ export const PopularFurnituresSection = () => {
     const endOffset = el.children[2 * TOTAL_ORIGINAL]?.offsetLeft || 0
     const loopWidth = endOffset - startOffset
 
-    // Boundary normalization during manual mobile swiping
     if (loopWidth > 0) {
       if (el.scrollLeft >= endOffset + loopWidth * 0.4) {
         el.scrollLeft -= loopWidth
@@ -329,7 +304,6 @@ export const PopularFurnituresSection = () => {
       className="bg-canvas relative overflow-hidden py-20 select-none sm:py-24 lg:py-28"
       aria-labelledby="featured-furniture-heading"
     >
-      {/* Brand Section Header */}
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col items-start justify-between gap-6 md:flex-row md:items-end">
           <div className="space-y-3">
@@ -347,9 +321,7 @@ export const PopularFurnituresSection = () => {
             </p>
           </div>
 
-          {/* Luxury Atelier Navigation Controls (Matching Brand Palette) */}
           <div className="flex items-center gap-4 self-end md:self-auto">
-            {/* Satin Brass Progress Track */}
             <div
               className="bg-border-warm/70 relative h-1 w-24 overflow-hidden rounded-full sm:w-32"
               role="progressbar"
@@ -364,7 +336,6 @@ export const PopularFurnituresSection = () => {
               />
             </div>
 
-            {/* Circular Atelier Navigation Buttons */}
             <div className="flex items-center gap-2">
               <button
                 type="button"
@@ -396,7 +367,6 @@ export const PopularFurnituresSection = () => {
         </div>
       </div>
 
-      {/* Seamless Marquee Sliding Reel */}
       <div
         className="relative mt-10 sm:mt-12 lg:mt-14"
         onMouseEnter={pauseAutoScroll}
@@ -419,9 +389,9 @@ export const PopularFurnituresSection = () => {
           }}
         >
           {displayItems.map((item, index) => (
-            <a
+            <Link
               key={`${item.id}-${index}`}
-              href={item.href}
+              to={item.href}
               data-card
               className={cn(
                 'group bg-surface relative flex shrink-0 flex-col overflow-hidden rounded-2xl sm:rounded-3xl',
@@ -431,7 +401,6 @@ export const PopularFurnituresSection = () => {
               )}
               aria-label={`${item.name} — from ${item.startingPrice}, explore collection`}
             >
-              {/* Product Photography Container */}
               <div className="bg-surface-muted relative aspect-4/3 w-full overflow-hidden sm:aspect-square">
                 <img
                   src={item.image}
@@ -441,39 +410,32 @@ export const PopularFurnituresSection = () => {
                   className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
                 />
 
-                {/* Subtle scrim sheen on hover */}
                 <div
                   className="from-charcoal-deep/40 pointer-events-none absolute inset-0 bg-linear-to-t via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100"
                   aria-hidden="true"
                 />
 
-                {/* Room Category Pill Badge */}
                 <span className="border-brass/30 bg-charcoal-deep/85 text-brass-light absolute top-3.5 left-3.5 rounded-full border px-2.5 py-1 text-[10px] font-semibold tracking-wider uppercase backdrop-blur-md">
                   {item.room}
                 </span>
 
-                {/* Showroom Furnished Pill */}
                 <span className="border-border-subtle/80 bg-surface/90 text-charcoal-deep absolute top-3.5 right-3.5 inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-[10px] font-medium tracking-wide shadow-xs backdrop-blur-md">
                   <span className="h-1.5 w-1.5 rounded-full bg-emerald-600" />
                   Showroom Ready
                 </span>
               </div>
 
-              {/* Card Meta Content */}
               <div className="flex flex-col justify-between p-4.5 sm:p-5">
                 <div>
-                  {/* Furniture Name (Serif Elegance) */}
                   <h3 className="text-charcoal-deep group-hover:text-brass-dark font-serif text-lg font-semibold tracking-tight transition-colors duration-200 sm:text-xl">
                     {item.name}
                   </h3>
 
-                  {/* Material & Craft Detail */}
                   <p className="text-text-muted mt-1 line-clamp-1 text-xs font-normal">
                     {item.material}
                   </p>
                 </div>
 
-                {/* Pricing & Specification Row */}
                 <div className="border-border-subtle/70 mt-4 flex items-center justify-between border-t pt-3">
                   <div>
                     <span className="text-text-muted block text-[10px] tracking-wider uppercase">
@@ -494,13 +456,12 @@ export const PopularFurnituresSection = () => {
                   </div>
                 </div>
 
-                {/* Explore Action Link */}
                 <div className="text-charcoal-deep group-hover:text-brass mt-3.5 flex items-center justify-between text-xs font-semibold tracking-wider uppercase transition-colors duration-200">
                   <span>Explore Suite</span>
                   <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-300 ease-out group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                 </div>
               </div>
-            </a>
+            </Link>
           ))}
         </div>
       </div>
