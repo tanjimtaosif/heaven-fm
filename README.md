@@ -9,7 +9,7 @@
 
 **Heaven Furniture Mart** is an editorial, mobile-first web application designed and engineered for a luxury bespoke furniture studio based on Agrabad Access Road in Chattogram, Bangladesh.
 
-Built with **React 19**, **React Router v7**, **Tailwind CSS v4**, and **Vite**, the application bridges high-touch artisanal woodworking with a modern digital storefront. It showcases curated custom furniture portfolios, highlights master joinery craftsmanship, provides an interactive multi-step bespoke quotation atelier, and streamlines client orders directly into private showroom consultations, multi-option checkout, and instant WhatsApp ordering.
+Built with **React 19**, **React Router v7**, **Tailwind CSS v4**, and **Vite**, the application bridges high-touch artisanal woodworking with a modern digital storefront. It showcases curated custom furniture portfolios, highlights master joinery craftsmanship, provides an interactive 5-step bespoke quotation atelier with a custom luxury calendar picker, and streamlines client orders directly into private showroom consultations, multi-gateway checkout, and instant WhatsApp ordering.
 
 ---
 
@@ -17,44 +17,56 @@ Built with **React 19**, **React Router v7**, **Tailwind CSS v4**, and **Vite**,
 
 ### 🛍️ Comprehensive Shop & Atelier Catalog (`/shop`)
 
-- **Multi-Facet Filtering:** Filter furniture by category (Living, Dining, Bedroom, Executive Office, Bespoke Suites), price ranges, and wood species (Burma Teak, Chittagong Gamari, Sheesham, Mahogany, Red Oak).
-- **Live Search & Sorting:** Instant product filtering and sorting by featured status, price, and newest arrivals.
-- **Product Detail Modal:** Rich lightbox modal detailing timber specifications, warranty coverage, artisan joinery details, high-resolution imagery, and direct action triggers (_Add to Cart_ or _Order via WhatsApp_).
-- **Bespoke Commission Callouts:** Contextual cards encouraging custom dimension requests for unique architectural layouts.
+- **Interactive Category Navigation (`CategoryBar`):** Horizontally scrollable category pills with real-time product count badges, active pill indicators, and subcategory filtering with smooth, hidden-scrollbar overflow navigation.
+- **Multi-Facet Filtering & Live Search (`ShopFilterToolbar`):** Instant product search and filtering across categories (Living Room, Bedroom, Dining, Office & Study, Bespoke Commissions), stock availability (_In Stock_ vs _Made to Order_), and price ranges.
+- **Flexible Sorting:** Sort furniture by featured status, price (low-to-high / high-to-low), and newest arrivals.
+- **Product Lightbox Gallery Modal (`ProductDetailModal`):** High-resolution multi-angle photography gallery with shot selector thumbnails (3 distinct angles per item), timber species specifications, warranty coverage, artisan joinery details, and direct action triggers (_Add to Cart_ or _Order via WhatsApp_).
+- **Inline Bespoke Commission Cards (`BespokeCalloutCard`):** Contextual studio callout cards woven directly into the product catalog grid inviting clients to commission custom dimensions and architectural layouts.
+- **Responsive Breadcrumb Navigation:** Dynamic hierarchy links (_Home > Catalog > Category > Subcategory_) providing effortless navigation.
 
-### 🛒 Persistent Cart Drawer & Seamless Checkout (`/checkout`)
+### 🛒 Persistent Cart Drawer & Multi-Gateway Checkout (`/checkout`)
 
-- **Global Cart Management:** Global state powered by React Context (`CartProvider`) with item quantity adjustments, custom order notes, and real-time total calculations in BDT (৳).
-- **Slide-out Cart Drawer:** Glassmorphism side drawer with smooth entry animations and quick checkout shortcuts.
-- **Floating Cart Trigger:** Unobtrusive floating trigger badge on desktop and mobile with live item counts.
-- **Bespoke Checkout Page:**
-  - Order review with breakdown of product items, quantities, and totals.
-  - Delivery details collection (Customer Name, Phone, Delivery Address, City, Special Instructions).
-  - Flexible Payment Method selection (Cash on Delivery, Bank Wire Transfer, bKash, Nagad).
-  - WhatsApp Order Generator (`whatsappOrder.js`) formatting structured, clean order receipts for instant atelier confirmation.
+- **Global Cart Management:** Global reactive state powered by React Context (`CartProvider`) with item quantity adjustments, custom order notes, and real-time total calculations in BDT (৳).
+- **Slide-out Cart Drawer (`CartSidebar`):** Glassmorphism side drawer with smooth entry transitions, backdrop dismiss, and quick checkout shortcuts.
+- **Floating Cart Trigger (`FloatingCartTrigger`):** Unobtrusive floating trigger badge on desktop and mobile with dynamic item counters.
+- **Comprehensive Checkout Page (`CheckoutPage`):**
+  - Itemized order review with product thumbnails, wood finishes, dimensions, quantities, and totals.
+  - Delivery details collection with validation (Client Name, Phone, Delivery Address, Area, City, Landmark, Special Requests).
+  - Multi-option payment method integration (`paymentMethods.js`):
+    - **bKash Mobile Banking** (concierge confirmation via verified merchant number)
+    - **SSLCommerz Multi-Gateway** (Visa, Mastercard, AMEX, Internet Banking, and Mobile Wallets)
+    - **Visa Card** (debit / credit card payment links & POS slips)
+    - **Mastercard** (debit / credit card payment links)
+    - **Cash on Delivery (COD)** (white-glove delivery across Chattogram with booking deposit)
+  - **WhatsApp Order Dispatcher (`whatsappOrder.js`):** Generates structured, elegant order receipts containing unique Order IDs (`HFM-ORD-XXXXXX`), customer info, delivery address, payment method, itemized list, and BDT totals for instant studio confirmation.
 
-### 📋 Interactive Bespoke Quotation Wizard
+### 📋 5-Step Interactive Bespoke Quotation Wizard
 
-- **Multi-Step Studio Flow:** Step-by-step custom furniture quotation modal (`QuotationModal`, `QuotationProvider`):
-  1. Room & Space Selection (Living, Dining, Bedroom, Office, Full Home).
-  2. Wood Species & Finishing Preferences (Solid Teak, Gamari, Lacquer, Natural Oil).
-  3. Dimension Estimates & Reference Upload / Note Specification.
-  4. Private Showroom Appointment Booking & Contact Details.
-- Pre-fills a tailored consultation brief sent directly to the studio's team.
+- **Multi-Step Studio Flow (`QuotationModal`, `QuotationProvider`):**
+  1. **Scope & Space (`ScopeStep`):** Select target spaces (Living Room, Bedroom, Dining, Office & Study, Full Residence / Architectural Project) and furniture pieces.
+  2. **Timber & Finishing Specifications (`SpecsStep`):** Select premium seasoned wood species (Burma Teak, Chittagong Gamari, Sheesham, Mahogany, Red Oak), finish treatments (Natural Matte Oil, Semi-Gloss Satin, High-Gloss Piano Lacquer, Raw Brushed), approximate dimensions, and bespoke design briefs.
+  3. **Showroom Appointment Scheduling (`AppointmentStep`):** Custom-engineered luxury date picker (`DatePickerField`) with interactive calendar flyout, month navigation, blackout past dates, and preferred time slot selection (Morning, Afternoon, Evening) for private showroom visits or virtual consultations.
+  4. **Client Contact Details (`ContactStep`):** Full name, phone number, email address, and preferred consultation channel.
+  5. **Review & Dispatch (`ReviewStep`):** Itemized atelier brief review with a direct 1-click trigger to dispatch the structured consultation brief to WhatsApp (`buildQuotationMessage.js`).
+- **Inline Consultation Banner (`QuotationSection`):** Embedded invitation on the home page offering quick access to the consultation wizard.
 
-### 🎬 Scroll-Driven Video Reveal & Editorial Motion
+### 🎬 Editorial Motion & Scroll Experiences
 
-- **Scroll-Driven Video Reveal:** Dynamic showroom promo film (`promo.mp4`) that peeks at the bottom of the hero section and expands smoothly via GPU-composited `clip-path: inset()` scroll animations with zero layout shift.
-- **Hero Inline Showcase:** High-impact visual teaser capturing raw timber finishing and joinery techniques.
-- **Lenis Smooth Scrolling:** Integrated buttery-smooth inertia scrolling wrapped via `SmoothScrollProvider`.
-- **Direction-Aware Floating Navbar:** Automatically retreats on downward scroll ($\Delta > 10\text{px}$) and reappears on upward scroll ($\Delta < -10\text{px}$).
+- **Scroll-Driven Video Reveal (`ScrollVideoRevealSection`):** Showcase promo film (`promo.mp4`) that peeks at the bottom of the hero section and smoothly expands via GPU-composited `clip-path: inset()` scroll interpolation with zero layout shift.
+- **Hero Inline Showcase (`HeroInlineFilm`):** High-impact visual teaser capturing raw timber finishing and joinery techniques.
+- **Lenis Smooth Inertia Scrolling (`SmoothScrollProvider`):** Integrated buttery-smooth inertia scrolling across all viewports with smart anchor jumping and scroll-to-top route resets.
+- **Direction-Aware Floating Navbar (`Navbar`):** Intelligently retreats on downward scroll ($\Delta > 10\text{px}$) and seamlessly reappears on upward scroll ($\Delta < -10\text{px}$), with a mobile navigation drawer.
+- **Global Atelier Lighting (`AtelierBackdrop`):** Ambient lighting and subtle architectural gradients providing warmth without visual distraction.
 
-### ✨ Luxury Component Design System
+### 🏛️ Luxury Editorial Sections & UI Design System
 
-- **Button System:** Multi-variant buttons (`primary`, `brass`, `outline`, `whatsapp`, `ghost`) supporting staggered letter-cascade animations, full-phrase text rolling effects, subtle shimmer sweeps, and directional hover arrows.
-- **Infinite Marquee:** Continuous brand ticker highlighting core studio pillars with edge gradient masks.
-- **Milestones & Why Choose Us:** Interactive hover cards exhibiting decades of woodworking heritage, master joiners, lifetime structural guarantees, and premium imported finishes.
-- **Interactive FAQ Accordion:** Comprehensive answers covering custom orders, showroom visits, timber sourcing, and nationwide delivery.
+- **Interactive Milestones Timeline (`MilestonesSection`):** Decade-spanning studio history (2020–2026: Studio Founded, Agrabad Showroom Launch, International Furniture Fair, Chamber of Commerce, Nationwide BFIOA Recognition) with interactive cursor-tracking image previews on desktop and responsive cards on mobile.
+- **Dual-Mode Testimonials Explorer (`TestimonialsSection`):** Client review carousel featuring category filter tabs (All, Living Room, Bedroom, Dining, Commercial/Office), auto-advancing review cards with animated progress timer bars, verified buyer badges, and Google Review trust ratings.
+- **Why Choose Us (`WhyChooseUsSection`):** Four core craftsmanship pillars (Finest Seasoned Woods, Lifetime Structural Guarantee, Custom Tailored to Your Space, White-Glove Chattogram Delivery) with interactive hover cards.
+- **Interactive FAQ Accordion (`FaqSection`):** Studio questions and answers organized with category filtering covering custom commissioning, timber sourcing, delivery logistics, and showroom visits.
+- **Luxury Button Design System (`Button.jsx`):** Multi-variant button system (`primary`, `brass`, `outline`, `whatsapp`, `ghost`) supporting staggered letter cascades, full-phrase text rolls, metallic shimmer sweeps, brass glow effects, and directional hover arrows.
+- **Custom Luxury Form Fields (`Field.jsx`, `fieldStyles.js`):** Unified inputs, selects, textareas, and floating labels tailored to the studio palette.
+- **Minimal Luxury Scrollbars (`src/styles/custom.css`):** Slim 6px brass-tinted scrollbars for WebKit and Firefox, paired with utility classes (`no-scrollbar`, `scrollbar-none`) for clean, uncluttered horizontal scrolling.
 
 ---
 
@@ -62,10 +74,11 @@ Built with **React 19**, **React Router v7**, **Tailwind CSS v4**, and **Vite**,
 
 | Category              | Technology                                   | Version              | Purpose                                                                |
 | :-------------------- | :------------------------------------------- | :------------------- | :--------------------------------------------------------------------- |
-| **UI Library**        | [React](https://react.dev/)                  | `^19.2.8`            | Declarative component UI engine with modern hooks                      |
+| **UI Library**        | [React](https://react.dev/)                  | `^19.2.8`            | Declarative component UI engine with modern React 19 hooks             |
 | **Routing**           | [React Router](https://reactrouter.com/)     | `^7.18.3`            | Client-side routing with code-splitting (`createBrowserRouter`)        |
-| **Tooling & Bundler** | [Vite](https://vite.dev/)                    | `^8.2.2`             | Lightning-fast development server & optimized rollup production builds |
+| **Tooling & Bundler** | [Vite](https://vite.dev/)                    | `^8.2.2`             | Lightning-fast development server & optimized production rollup builds |
 | **Styling**           | [Tailwind CSS](https://tailwindcss.com/)     | `^4.3.3`             | Modern CSS-first `@theme` design tokens and atomic utility styling     |
+| **Vite Plugin**       | `@tailwindcss/vite`                          | `^4.3.3`             | First-party Vite integration for Tailwind v4                           |
 | **Smooth Scroll**     | [Lenis](https://lenis.darkroom.engineering/) | `^1.3.26`            | High-performance smooth inertia scrolling                              |
 | **Icons**             | [Lucide React](https://lucide.dev/)          | `^1.40.0`            | Minimalist editorial icons                                             |
 | **Class Utilities**   | `clsx` & `tailwind-merge`                    | `^2.1.1` / `^3.6.0`  | Conflict-free dynamic Tailwind class composition                       |
@@ -77,9 +90,9 @@ Built with **React 19**, **React Router v7**, **Tailwind CSS v4**, and **Vite**,
 
 ```
 heaven-fm/
-├── index.html                     # Entry HTML with Open Graph, preconnects & Google Fonts
+├── index.html                     # Entry HTML with Open Graph meta, preconnects & Google Fonts
 ├── jsconfig.json                  # Path aliases (@/*) & IDE IntelliSense
-├── vite.config.js                 # Vite build setup with Tailwind & path aliases
+├── vite.config.js                 # Vite build configuration with Tailwind & path aliases
 ├── package.json                   # Dependencies, scripts & engine requirements
 ├── eslint.config.js               # ESLint 9 flat configuration (React Hooks, React Refresh)
 ├── .prettierrc                    # Prettier formatting rules & Tailwind sorting plugin
@@ -90,38 +103,47 @@ heaven-fm/
 │   └── favicon.svg                # Monogram SVG browser icon
 └── src/
     ├── assets/
+    │   ├── category/              # Category imagery (sofas, beds, dining, office)
     │   ├── logo/                  # Brand SVG vector logos
-    │   └── promo/                 # Showcase video assets (promo.mp4)
+    │   ├── milestones/            # Historical timeline milestone images
+    │   ├── payment-mathod/        # Payment gateway badges (bKash, Visa, Mastercard, SSLCommerz)
+    │   ├── products/              # High-resolution product photography (3 angles per product)
+    │   ├── promo/                 # Showcase promo video asset (promo.mp4)
+    │   ├── reviews/               # Verified client commission photography
+    │   ├── sale/                  # Promotional banners & badges
+    │   └── whychooseus/           # Atelier craft photography
     ├── components/
-    │   ├── layout/                # Global Navbar (scroll-detecting), Footer
+    │   ├── layout/                # Navbar (scroll-detecting), Footer, AtelierBackdrop
     │   ├── providers/             # SmoothScrollProvider (Lenis integration)
-    │   └── ui/                    # Core UI primitives (Button, Card, Badge, Marquee, Field)
+    │   └── ui/                    # Core UI primitives (Button, Card, Badge, Marquee, Field, DatePickerField)
     ├── config/
     │   └── site.js                # Global atelier metadata, contact info & nav links
     ├── constants/
-    │   ├── companyData.js         # Company heritage, showroom locations, contact channels
-    │   ├── productsData.js        # Catalog items, categories, timber specs & pricing
-    │   ├── quotationData.js       # Options & configurations for custom quotes
-    │   ├── reviewsData.js         # Client testimonials and press quotes
+    │   ├── companyData.js         # Company heritage, showroom locations, milestones, contact info
+    │   ├── productsData.js        # Catalog items, categories, timber specs, dimensions & pricing
+    │   ├── quotationData.js       # Options, steps, wood species & finishes for custom quotes
+    │   ├── reviewsData.js         # Client testimonials, ratings, and press quotes
     │   └── faq.js                 # Studio FAQ questions & answers
     ├── context/                   # Global context declarations
     ├── features/
-    │   ├── cart/                  # Cart sidebar, state provider, floating trigger
-    │   ├── home/                  # Landing sections (Hero, ScrollReveal, Milestones, FAQ, etc.)
-    │   ├── quotation/             # Bespoke quotation wizard modal & multi-step form
-    │   └── shop/                  # Product catalog, filter toolbar, detail modal, cards
-    ├── hooks/                     # Custom reusable hooks (useMediaQuery, etc.)
-    ├── layouts/                   # MainLayout with persistent Navbar, Footer, Drawers
+    │   ├── cart/                  # Cart drawer, global CartProvider, floating trigger
+    │   ├── home/                  # Home sections (Hero, ScrollReveal, Milestones, Testimonials, FAQ, etc.)
+    │   ├── quotation/             # Bespoke 5-step quotation wizard modal, fields, and message builders
+    │   └── shop/                  # Product catalog, CategoryBar, filter toolbar, detail modal, cards
+    ├── hooks/                     # Custom reusable hooks (useMediaQuery, useIsDesktop, etc.)
+    ├── layouts/                   # MainLayout with persistent Navbar, Footer, Drawers, and scroll monitors
     ├── pages/
     │   ├── Home/                  # Editorial studio landing page
     │   ├── Shop/                  # Filterable furniture collection page
-    │   ├── Checkout/              # Multi-channel bespoke checkout page
+    │   ├── Checkout/              # Multi-channel bespoke checkout page with payment options
     │   └── NotFound/              # Branded 404 error page
     ├── routes/
     │   └── AppRoutes.jsx          # Route hierarchy with lazy-loaded Suspense boundaries
+    ├── styles/
+    │   └── custom.css             # Minimal luxury scrollbars & scrollbar-hiding utilities
     ├── utils/
     │   ├── cn.js                  # Tailwind class merging utility (clsx + twMerge)
-    │   └── whatsappOrder.js       # WhatsApp URL formatters and message encoders
+    │   └── whatsappOrder.js       # WhatsApp order URL formatters and message encoders
     ├── App.jsx                    # Top-level application providers composition
     ├── index.css                  # Master Tailwind v4 CSS tokens, keyframes & base layers
     └── main.jsx                   # React DOM createRoot entry point
@@ -137,13 +159,19 @@ Brand tokens are declared using CSS-first `@theme` variables in [`src/index.css`
 | :---------------- | :------------------------ | :--------------------------------------- | :------------------------------------------------------- |
 | **Typography**    | `font-serif`              | _Playfair Display_, _Cormorant Garamond_ | Editorial headings, section titles & hero typography     |
 |                   | `font-sans`               | _Plus Jakarta Sans_                      | High-legibility UI body, spec cards, form fields         |
+|                   | `font-mono`               | _ui-monospace_, _Menlo_, _Consolas_      | Product SKUs, order reference IDs & dimensions           |
 | **Canvas**        | `bg-canvas`               | `#faf8f5`                                | Warm-sand, non-glare editorial background                |
-| **Deep Charcoal** | `bg-charcoal-deep`        | `#0f1e21`                                | High-contrast luxury charcoal for dark sections          |
-|                   | `bg-charcoal-surface`     | `#172c30`                                | Elevated dark cards, footer, and contrast accents        |
+| **Deep Charcoal** | `bg-charcoal-deep`        | `#0f1e21`                                | High-contrast luxury charcoal for dark sections & footer |
+|                   | `bg-charcoal-surface`     | `#172c30`                                | Elevated dark cards and contrast accents                 |
+|                   | `bg-charcoal-muted`       | `#243e44`                                | Secondary dark containers and pill backgrounds           |
 | **Satin Brass**   | `text-brass` / `bg-brass` | `#c49f66`                                | Metallic accent for badges, rules, buttons & focus rings |
+|                   | `text-brass-dark`         | `#8f6f3e`                                | High-contrast brass for active text on light canvas      |
+|                   | `bg-brass-light`          | `#f8f3ea`                                | Subtle brass-tinted pill and container backgrounds       |
 | **Warm Wood**     | `text-wood-walnut`        | `#7e5b3e`                                | Timber heritage accent representing fine wood joinery    |
+|                   | `text-wood-tan`           | `#c8a882`                                | Subtle wood grain and card accents                       |
 | **Surfaces**      | `bg-surface`              | `#ffffff`                                | Elevated cards, dialogs, drawers & popovers              |
 |                   | `border-border-subtle`    | `#ece4d9`                                | Delicate hairline borders                                |
+|                   | `border-border-warm`      | `#dfd3c3`                                | Defined borders for cards and form controls              |
 
 ---
 
@@ -217,6 +245,7 @@ The project is pre-configured for seamless zero-config deployment on [Vercel](ht
 ## 📞 Studio & Showroom Information
 
 - **Brand:** Heaven Furniture Mart
+- **Tagline:** Designed. Crafted. Customized.
 - **Showroom Address:** Agrabad Access Road, Chattogram, Bangladesh
 - **Managing Director:** Abul Kalam Bhuiyan
 - **Hotline / Telephone:** [+880 1960-481983](tel:+8801960481983)
@@ -224,3 +253,4 @@ The project is pre-configured for seamless zero-config deployment on [Vercel](ht
 - **Direct WhatsApp:** [Chat with Atelier](https://wa.me/8801960481983)
 - **Facebook:** [Heaven Furniture Mart](https://facebook.com/HeavenFurnitureMart)
 - **Instagram:** [@heaven_furniture_ltd](https://instagram.com/heaven_furniture_ltd)
+- **YouTube:** [@HeavenFurnitureMart](https://youtube.com/@HeavenFurnitureMart)
