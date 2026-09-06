@@ -8,7 +8,6 @@ export const BespokeCalloutCard = () => {
 
   return (
     <div className="border-charcoal-border bg-charcoal-deep text-canvas relative flex flex-col justify-between overflow-hidden rounded-2xl border p-6 shadow-xl sm:p-7">
-      {/* Subtle Grain Background Accent */}
       <div className="bg-brass/10 pointer-events-none absolute -top-12 -right-12 h-44 w-44 rounded-full blur-3xl" />
 
       <div>
