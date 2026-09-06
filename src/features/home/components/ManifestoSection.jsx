@@ -24,9 +24,9 @@ export const ManifestoSection = () => {
   return (
     <section
       id="why-us"
-      className="border-border-subtle border-y bg-white py-20"
+      className="border-border-subtle section-y border-y bg-white"
     >
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div className="container-page">
         <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-12">
           <div className="space-y-6 lg:col-span-6">
             <Badge variant="brass">{COMPANY_INFO.brandIntro.label}</Badge>
