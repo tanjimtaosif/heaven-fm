@@ -7,7 +7,6 @@ export const ShopHeader = ({ totalCount = 0 }) => {
 
   return (
     <header className="relative pt-6 pb-8 md:pt-10 md:pb-12">
-      {/* Editorial Headline & Subtitle */}
       <div className="max-w-4xl">
         <div className="border-brass/30 bg-brass-light/60 text-brass-dark dark:bg-brass/10 inline-flex items-center gap-2 rounded-full border px-3.5 py-1 text-xs font-semibold tracking-wider uppercase">
           <Sparkles className="text-brass h-3.5 w-3.5" />
@@ -24,7 +23,6 @@ export const ShopHeader = ({ totalCount = 0 }) => {
           proportions of your home.
         </p>
 
-        {/* Collapsible Atelier Craft Note */}
         <div className="mt-3">
           <button
             type="button"
@@ -60,7 +58,6 @@ export const ShopHeader = ({ totalCount = 0 }) => {
         </div>
       </div>
 
-      {/* Craft Guarantees Strip */}
       <div className="text-text-muted border-border-subtle/80 mt-6 flex flex-wrap items-center gap-x-6 gap-y-2 border-t pt-4 text-xs">
         <div className="flex items-center gap-1.5">
           <Hammer className="text-brass h-3.5 w-3.5" />
