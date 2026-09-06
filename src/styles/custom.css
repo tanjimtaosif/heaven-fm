@@ -1,0 +1,88 @@
+/* ==========================================================================
+   Minimal Luxury Scrollbar (Global)
+   Tailored to Heaven Furniture Mart's warm canvas & brass aesthetic.
+   Slim 6px profile, transparent track, elegant warm-brass thumb.
+   ========================================================================== */
+
+/* Standard CSS (Firefox and modern standards) */
+html,
+body,
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(196, 159, 102, 0.35) transparent;
+}
+
+*:hover {
+  scrollbar-color: rgba(196, 159, 102, 0.6) transparent;
+}
+
+/* WebKit (Chrome, Edge, Safari, Opera) */
+::-webkit-scrollbar,
+*::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track,
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb,
+*::-webkit-scrollbar-thumb {
+  background-color: rgba(196, 159, 102, 0.35);
+  border-radius: 9999px;
+  transition: background-color 0.2s ease-in-out;
+}
+
+::-webkit-scrollbar-thumb:hover,
+*::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(196, 159, 102, 0.7);
+}
+
+::-webkit-scrollbar-thumb:active,
+*::-webkit-scrollbar-thumb:active {
+  background-color: rgba(143, 111, 62, 0.9);
+}
+
+::-webkit-scrollbar-corner,
+*::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+/* Bulletproof scrollbar hiding for horizontal scroll containers across all mobile and desktop browsers */
+.no-scrollbar,
+.scrollbar-none,
+[data-no-scrollbar] {
+  -ms-overflow-style: none !important;
+  scrollbar-width: none !important;
+}
+
+.no-scrollbar::-webkit-scrollbar,
+.scrollbar-none::-webkit-scrollbar,
+[data-no-scrollbar]::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  max-height: 0 !important;
+  max-width: 0 !important;
+  -webkit-appearance: none !important;
+  background: transparent !important;
+  opacity: 0 !important;
+}
+
+.no-scrollbar::-webkit-scrollbar-thumb,
+.scrollbar-none::-webkit-scrollbar-thumb,
+[data-no-scrollbar]::-webkit-scrollbar-thumb {
+  display: none !important;
+  background: transparent !important;
+  border: none !important;
+}
+
+.no-scrollbar::-webkit-scrollbar-track,
+.scrollbar-none::-webkit-scrollbar-track,
+[data-no-scrollbar]::-webkit-scrollbar-track {
+  display: none !important;
+  background: transparent !important;
+  border: none !important;
+}

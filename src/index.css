@@ -266,6 +266,21 @@
   }
 }
 
+/* Hides the native scrollbar while keeping the element scrollable.
+   Used by the horizontal category rail and the product angle strips. */
+.no-scrollbar {
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  -webkit-appearance: none !important;
+  background: transparent !important;
+}
+
 /* The section vertical rhythm, as one class. */
 @utility section-y {
   padding-block: var(--spacing-section-y);
@@ -283,6 +298,11 @@
   html {
     background-color: var(--color-canvas);
     color: var(--color-text-primary);
+
+    /* Chrome on Android inflates text inside tall blocks ("font boosting"),
+       which blew up form placeholders and label-sm helper copy on phones. */
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
   }
 
   html:not(.lenis) {
@@ -343,8 +363,13 @@
     animation: drawer-in 0.42s cubic-bezier(0.16, 1, 0.3, 1) both;
   }
 
+  .animate-slide-up {
+    animation: slide-up 0.34s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
   @media (prefers-reduced-motion: reduce) {
-    .animate-drawer-in {
+    .animate-drawer-in,
+    .animate-slide-up {
       animation: none !important;
     }
   }
@@ -356,6 +381,15 @@
   }
   to {
     transform: translateX(0);
+  }
+}
+
+@keyframes slide-up {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
   }
 }
 
