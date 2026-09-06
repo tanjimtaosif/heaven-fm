@@ -1,8 +1,3 @@
-/**
- * Heaven Furniture Mart — Master FAQ Data & Fetcher
- * Derived directly from company-details.pdf
- */
-
 export const FAQ_CATEGORIES = [
   { id: 'all', label: 'All Inquiries' },
   { id: 'bespoke', label: 'Bespoke Process' },
@@ -84,15 +79,8 @@ export const FAQS = [
   },
 ]
 
-/**
- * Asynchronously loads FAQ entries.
- * Simulates an API fetch while guaranteeing instantaneous availability and zero layout shifts.
- *
- * @returns {Promise<typeof FAQS>}
- */
 export async function fetchFaqs() {
   return new Promise((resolve) => {
-    // Immediate microtask resolution for blazing performance
     resolve(FAQS)
   })
 }
