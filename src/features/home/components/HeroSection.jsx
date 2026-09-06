@@ -2,9 +2,10 @@ import { Fragment } from 'react'
 import heroBg from '@/assets/hero-bg.webp'
 import { COMPANY_INFO } from '@/constants/companyData'
 import { Button, Badge } from '@/components/ui'
-import { Sparkles, ArrowRight, MessageSquare } from 'lucide-react'
-import { useIsDesktop, useMediaQuery } from '@/hooks'
+import { Sparkles, ArrowRight, ClipboardList } from 'lucide-react'
+import { useIsCompact, useIsDesktop } from '@/hooks'
 import { HeroInlineFilm } from './HeroInlineFilm'
+import { useQuotation } from '@/features/quotation'
 
 const CREDENTIALS = [
   'Agrabad Atelier',
@@ -13,11 +14,12 @@ const CREDENTIALS = [
 ]
 
 export const HeroSection = () => {
+  const { openQuotation } = useQuotation()
   const words = COMPANY_INFO.hero.headline.split(' ')
 
   const isDesktop = useIsDesktop()
 
-  const isCompact = !useMediaQuery('(min-width: 640px)')
+  const isCompact = useIsCompact()
 
   return (
     <section
@@ -42,7 +44,7 @@ export const HeroSection = () => {
       >
         <div className="flex h-[44vh] flex-col items-center gap-6">
           <span className="via-brass/35 w-px grow bg-linear-to-b from-transparent to-transparent" />
-          <span className="text-text-muted rotate-180 text-[10px] tracking-[0.42em] uppercase [writing-mode:vertical-rl]">
+          <span className="text-text-muted text-label-xs rotate-180 tracking-[0.42em] uppercase [writing-mode:vertical-rl]">
             Est. {COMPANY_INFO.foundedYear}
           </span>
         </div>
@@ -54,14 +56,14 @@ export const HeroSection = () => {
         aria-hidden="true"
       >
         <div className="flex h-[44vh] flex-col items-center gap-6">
-          <span className="text-text-muted text-[10px] tracking-[0.42em] uppercase [writing-mode:vertical-rl]">
+          <span className="text-text-muted text-label-xs tracking-[0.42em] uppercase [writing-mode:vertical-rl]">
             Agrabad · Chattogram
           </span>
           <span className="via-brass/35 w-px grow bg-linear-to-b from-transparent to-transparent" />
         </div>
       </div>
 
-      <div className="relative mx-auto w-full max-w-7xl px-4 py-1 sm:px-6 sm:py-2 lg:px-8">
+      <div className="container-page relative py-1 sm:py-2">
         <div className="mx-auto max-w-3xl text-center">
           <div
             className="animate-veil-lift flex items-center justify-center gap-4"
@@ -73,7 +75,7 @@ export const HeroSection = () => {
             />
             <Badge
               variant="brass"
-              className="border-brass-border/70 text-wood-walnut/90 shadow-subtle bg-white/70 px-4 py-1.5 text-[10px] tracking-[0.28em] backdrop-blur-sm"
+              className="border-brass-border/70 text-wood-walnut/90 shadow-subtle text-label-xs bg-white/70 px-4 py-1.5 tracking-[0.28em] backdrop-blur-sm"
             >
               <Sparkles className="text-brass h-3 w-3" />
               {COMPANY_INFO.hero.badge}
@@ -84,7 +86,7 @@ export const HeroSection = () => {
             />
           </div>
 
-          <h1 className="text-charcoal-deep relative mt-4 font-serif text-[2.5rem] leading-[1.12] font-semibold tracking-[-0.022em] text-balance sm:mt-5 sm:text-5xl lg:text-6xl xl:text-[4.75rem]">
+          <h1 className="text-charcoal-deep text-display-lg relative mt-4 font-serif font-semibold text-balance sm:mt-5">
             {words.map((word, index) => {
               const isLast = index === words.length - 1
               return (
@@ -132,7 +134,7 @@ export const HeroSection = () => {
           </div>
 
           <p
-            className="text-text-secondary animate-veil-lift mx-auto mt-4 max-w-xl text-[14.5px] leading-[1.75] font-light text-pretty sm:mt-5 sm:text-[16px]"
+            className="text-text-secondary animate-veil-lift mx-auto mt-4 max-w-xl text-sm leading-[1.75] font-light text-pretty sm:mt-5 sm:text-base"
             style={{ animationDelay: `${380 + words.length * 70}ms` }}
           >
             {COMPANY_INFO.hero.subheadline}
@@ -143,10 +145,7 @@ export const HeroSection = () => {
             style={{ animationDelay: `${470 + words.length * 70}ms` }}
           >
             <Button
-              as="a"
-              href={COMPANY_INFO.contact.whatsappUrl}
-              target="_blank"
-              rel="noopener noreferrer"
+              onClick={() => openQuotation()}
               size="lg"
               variant="primary"
               animation="shimmer"
@@ -154,7 +153,7 @@ export const HeroSection = () => {
               rollType="stagger"
               className="flex-1 px-4 shadow-[0_14px_30px_-12px_rgba(15,30,33,0.55)] sm:flex-none sm:px-6"
             >
-              <MessageSquare className="text-brass h-4 w-4" />
+              <ClipboardList className="text-brass h-4 w-4" />
               {COMPANY_INFO.hero.primaryCta}
             </Button>
 
@@ -176,7 +175,7 @@ export const HeroSection = () => {
           </div>
 
           <div
-            className="text-text-muted animate-veil-lift mt-5 flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-[10px] tracking-[0.24em] uppercase sm:mt-6 sm:text-[11px]"
+            className="text-text-muted animate-veil-lift text-label-xs sm:text-label-sm mt-5 flex flex-wrap items-center justify-center gap-x-4 gap-y-2 tracking-[0.24em] uppercase sm:mt-6"
             style={{ animationDelay: `${560 + words.length * 70}ms` }}
           >
             {CREDENTIALS.map((item, index) => (
