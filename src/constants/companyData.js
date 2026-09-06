@@ -1,8 +1,3 @@
-/**
- * Heaven Furniture Mart — Master Company Data & Constants
- * Single Source of Truth derived from company-details.pdf
- */
-
 export const COMPANY_INFO = {
   name: 'Heaven Furniture Mart',
   tagline: 'Designed. Crafted. Customized.',
@@ -33,7 +28,6 @@ export const COMPANY_INFO = {
       "Step into Chattogram's premier bespoke interior studio. We curate, tailor, and handcraft timeless luxury pieces built specifically for your architecture and lifestyle.",
     primaryCta: 'Get Quote',
     secondaryCta: 'Explore Collections',
-    // Tightened label for phones, where the two CTAs share one row
     secondaryCtaShort: 'Collections',
   },
 
@@ -188,10 +182,6 @@ export const COMPANY_INFO = {
     },
   ],
 
-  /**
-   * Why Choose Us — four reasons presented as a scroll-stacked deck.
-   * `image` keys map to the files in src/assets/whychooseus.
-   */
   whyChooseUs: [
     {
       id: 'designed-around-you',
