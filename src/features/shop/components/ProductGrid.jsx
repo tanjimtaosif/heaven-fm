@@ -1,4 +1,5 @@
 import { useState, useMemo } from 'react'
+import { useLenis } from '@/components/providers'
 import { ProductCard } from './ProductCard'
 import { BespokeCalloutCard } from './BespokeCalloutCard'
 import { ChevronLeft, ChevronRight, SearchX, RotateCcw } from 'lucide-react'
@@ -12,6 +13,7 @@ export const ProductGrid = ({
   onResetFilters,
   gridTopRef,
 }) => {
+  const lenis = useLenis()
   const [currentPage, setCurrentPage] = useState(1)
 
   const totalPages = Math.max(1, Math.ceil(products.length / ITEMS_PER_PAGE))
@@ -19,7 +21,14 @@ export const ProductGrid = ({
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage)
     if (gridTopRef && gridTopRef.current) {
-      gridTopRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      if (lenis) {
+        lenis.scrollTo(gridTopRef.current, { offset: -110, duration: 0.9 })
+      } else {
+        gridTopRef.current.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start',
+        })
+      }
     }
   }
 

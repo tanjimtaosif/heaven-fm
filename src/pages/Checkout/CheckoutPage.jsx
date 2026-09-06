@@ -1,5 +1,6 @@
 import { useState, useEffect, useMemo, useRef } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { useLenis } from '@/components/providers'
 import { useCart } from '@/context'
 import { Button, controlStyles, inputStyles } from '@/components/ui'
 import { PAYMENT_METHODS } from './paymentMethods'
@@ -33,6 +34,7 @@ const CITY_OPTIONS = ['Chattogram', 'Dhaka', 'Sylhet', 'Other']
 export function CheckoutPage() {
   const location = useLocation()
   const navigate = useNavigate()
+  const lenis = useLenis()
   const { items: cartItems, subtotal: cartSubtotal, clearCart } = useCart()
 
   // Determine whether this checkout is for a single "Buy Now" item or full Cart
@@ -187,21 +189,19 @@ export function CheckoutPage() {
     setErrors(newErrors)
 
     if (Object.keys(newErrors).length > 0) {
-      if (newErrors.name && nameRef.current) {
-        nameRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' })
-        nameRef.current.focus()
-      } else if (newErrors.phone && phoneRef.current) {
-        phoneRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' })
-        phoneRef.current.focus()
-      } else if (newErrors.street && streetRef.current) {
-        streetRef.current.scrollIntoView({
-          behavior: 'smooth',
-          block: 'center',
-        })
-        streetRef.current.focus()
-      } else if (newErrors.area && areaRef.current) {
-        areaRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' })
-        areaRef.current.focus()
+      const focusTarget =
+        (newErrors.name && nameRef.current) ||
+        (newErrors.phone && phoneRef.current) ||
+        (newErrors.street && streetRef.current) ||
+        (newErrors.area && areaRef.current)
+
+      if (focusTarget) {
+        if (lenis) {
+          lenis.scrollTo(focusTarget, { offset: -120, duration: 0.8 })
+        } else {
+          focusTarget.scrollIntoView({ behavior: 'smooth', block: 'center' })
+        }
+        focusTarget.focus()
       }
       return false
     }

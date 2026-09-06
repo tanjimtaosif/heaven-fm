@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useCart } from '@/context'
+import { useLenis } from '@/components/providers'
 import { COMPANY_INFO } from '@/constants/companyData'
 import {
   X,
@@ -24,6 +25,7 @@ export const ProductDetailModal = ({
 }) => {
   const navigate = useNavigate()
   const { addItem } = useCart()
+  const lenis = useLenis()
   const [activeAngleIndex, setActiveAngleIndex] = useState(initialAngleIndex)
   const [quantity, setQuantity] = useState(1)
   const [isAdded, setIsAdded] = useState(false)
@@ -33,12 +35,14 @@ export const ProductDetailModal = ({
       if (e.key === 'Escape') onClose()
     }
     window.addEventListener('keydown', handleKeyDown)
+    if (lenis) lenis.stop()
     document.body.style.overflow = 'hidden'
     return () => {
       window.removeEventListener('keydown', handleKeyDown)
+      if (lenis) lenis.start()
       document.body.style.overflow = ''
     }
-  }, [onClose])
+  }, [onClose, lenis])
 
   if (!product) return null
 
@@ -101,6 +105,7 @@ export const ProductDetailModal = ({
       aria-label={product.name}
     >
       <div
+        data-lenis-prevent
         className="animate-scale-in border-border-subtle bg-surface relative flex max-h-[92vh] w-full max-w-4xl flex-col overflow-y-auto rounded-3xl border shadow-2xl md:flex-row md:overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
@@ -194,7 +199,10 @@ export const ProductDetailModal = ({
           )}
         </div>
 
-        <div className="flex flex-col justify-between p-6 md:w-1/2 md:overflow-y-auto md:p-8">
+        <div
+          data-lenis-prevent
+          className="flex flex-col justify-between p-6 md:w-1/2 md:overflow-y-auto md:p-8"
+        >
           <div>
             <div className="flex flex-wrap items-center gap-2">
               <span className="text-brass-dark text-xs font-semibold tracking-wider uppercase">

@@ -76,13 +76,11 @@ export function SmoothScrollProvider({ children }) {
   )
 
   const lenisOptions = {
-    lerp: isReducedMotion ? 1 : 0.065,
+    lerp: isReducedMotion ? 1 : 0.08,
     smoothWheel: !isReducedMotion,
-    wheelMultiplier: 0.95,
-    touchMultiplier: 1.4,
-    syncTouch: true,
-    syncTouchLerp: isReducedMotion ? 1 : 0.075,
-    touchInertiaExponent: 1.8,
+    wheelMultiplier: 1.0,
+    touchMultiplier: 1.0,
+    syncTouch: false,
     infinite: false,
     autoRaf: true,
   }

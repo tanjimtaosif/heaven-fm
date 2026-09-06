@@ -19,6 +19,7 @@ import {
 import { COMPANY_INFO } from '@/constants/companyData'
 import { QUOTATION_STEPS } from '@/constants/quotationData'
 import { useCart } from '@/features/cart'
+import { useLenis } from '@/components/providers'
 import { cn } from '@/lib/utils'
 import { useQuotation } from '../hooks/useQuotation'
 import { generateReference, validateStep } from '../utils/quotationSchema'
@@ -43,6 +44,7 @@ const QuotationDialog = () => {
   const { closeQuotation, form, updateForm, toggleInArray, resetForm } =
     useQuotation()
   const { items: bagItems, subtotalFormatted } = useCart()
+  const lenis = useLenis()
 
   const [stepIndex, setStepIndex] = useState(0)
   const [errors, setErrors] = useState({})
@@ -68,14 +70,16 @@ const QuotationDialog = () => {
     }
 
     window.addEventListener('keydown', handleKeyDown)
+    if (lenis) lenis.stop()
     document.body.style.overflow = 'hidden'
     panelRef.current?.focus()
 
     return () => {
       window.removeEventListener('keydown', handleKeyDown)
+      if (lenis) lenis.start()
       document.body.style.overflow = ''
     }
-  }, [closeQuotation])
+  }, [closeQuotation, lenis])
 
   // Every step change starts at the top of the panel, not mid-form.
   useEffect(() => {
@@ -178,6 +182,7 @@ const QuotationDialog = () => {
     >
       <div
         ref={panelRef}
+        data-lenis-prevent
         tabIndex={-1}
         onClick={(e) => e.stopPropagation()}
         className="animate-scale-in border-border-subtle bg-canvas relative flex h-[94vh] w-full max-w-5xl flex-col overflow-hidden rounded-t-3xl border shadow-2xl outline-none sm:h-auto sm:max-h-[92vh] sm:rounded-3xl md:flex-row"
@@ -365,6 +370,7 @@ const QuotationDialog = () => {
             <>
               <div
                 ref={scrollRef}
+                data-lenis-prevent
                 className="min-h-0 grow overflow-y-auto px-5 py-6 sm:px-7 sm:py-7"
               >
                 {step.id === 'scope' && <ScopeStep {...stepProps} />}
@@ -390,7 +396,7 @@ const QuotationDialog = () => {
                   type="button"
                   onClick={handleBack}
                   disabled={stepIndex === 0}
-                  className="border-border-warm text-text-primary hover:bg-surface-muted flex cursor-pointer items-center gap-1.5 rounded-full border px-4 py-2.5 text-xs font-medium transition-colors disabled:cursor-not-allowed disabled:opacity-40"
+                  className="border-border-warm text-text-primary hover:bg-surface-muted flex cursor-pointer items-center gap-1.5 rounded-full border px-4 py-2.5 text-xs font-medium transition-colors disabled:pointer-events-none disabled:opacity-40"
                 >
                   <ArrowLeft className="h-3.5 w-3.5" />
                   Back

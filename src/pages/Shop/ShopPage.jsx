@@ -1,5 +1,6 @@
-import { useRef, useState, useEffect } from 'react'
+import { useRef, useState, useEffect, useCallback } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
+import { useLenis } from '@/components/providers'
 import { useProducts } from '@/features/shop'
 import {
   ShopHeader,
@@ -12,12 +13,25 @@ import { ChevronRight, Home } from 'lucide-react'
 
 export function ShopPage() {
   const [searchParams, setSearchParams] = useSearchParams()
+  const lenis = useLenis()
   const rawCategory = searchParams.get('category') || 'all'
   const categoryFromUrl =
     rawCategory === 'bespoke-commissions' ? 'bespoke' : rawCategory
   const subcategoryFromUrl =
     searchParams.get('subcategory') || searchParams.get('sub') || 'all'
   const gridTopRef = useRef(null)
+
+  const scrollToTarget = useCallback(
+    (target) => {
+      if (!target) return
+      if (lenis) {
+        lenis.scrollTo(target, { offset: -110, duration: 1.0 })
+      } else {
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      }
+    },
+    [lenis]
+  )
 
   const {
     products,
@@ -80,11 +94,11 @@ export function ShopPage() {
       setTimeout(() => {
         const bespokeCard = document.querySelector('[data-bespoke-card]')
         if (bespokeCard) {
-          bespokeCard.scrollIntoView({ behavior: 'smooth' })
+          scrollToTarget(bespokeCard)
         }
       }, 50)
     } else if (gridTopRef.current) {
-      gridTopRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      scrollToTarget(gridTopRef.current)
     }
   }
 
@@ -103,7 +117,7 @@ export function ShopPage() {
     })
 
     if (gridTopRef.current) {
-      gridTopRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      scrollToTarget(gridTopRef.current)
     }
   }
 
@@ -111,7 +125,7 @@ export function ShopPage() {
     resetFilters()
     setSearchParams(new URLSearchParams())
     if (gridTopRef.current) {
-      gridTopRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      scrollToTarget(gridTopRef.current)
     }
   }
 
