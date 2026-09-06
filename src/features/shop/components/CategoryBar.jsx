@@ -131,7 +131,7 @@ export const CategoryBar = ({ activeCategoryId = 'all', onSelectCategory }) => {
                 >
                   {item.name}
                 </span>
-                <span className="text-text-muted block text-[11px]">
+                <span className="text-text-muted text-label-sm block">
                   {item.id === 'all'
                     ? 'Full Catalog'
                     : item.id === 'bespoke'
