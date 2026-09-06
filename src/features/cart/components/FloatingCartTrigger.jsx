@@ -1,11 +1,14 @@
+import { useLocation } from 'react-router-dom'
 import { useCart } from '@/context'
 import { ShoppingBag } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 export const FloatingCartTrigger = () => {
+  const location = useLocation()
   const { totalCount, isCartOpen, openCart } = useCart()
 
-  if (totalCount === 0 || isCartOpen) return null
+  if (totalCount === 0 || isCartOpen || location.pathname === '/checkout')
+    return null
 
   return (
     <div className="animate-fade-up fixed right-4 bottom-5 z-40 sm:right-6 sm:bottom-6">
@@ -23,7 +26,7 @@ export const FloatingCartTrigger = () => {
       >
         <ShoppingBag className="h-5 w-5 transition-transform duration-300 group-hover:scale-110" />
 
-        <span className="bg-brass text-charcoal-deep ring-charcoal-deep absolute -top-1 -right-1 flex h-5 min-w-5 items-center justify-center rounded-full px-1 text-[11px] font-extrabold shadow-xs ring-2">
+        <span className="bg-brass text-charcoal-deep ring-charcoal-deep text-label-sm absolute -top-1 -right-1 flex h-5 min-w-5 items-center justify-center rounded-full px-1 font-extrabold shadow-xs ring-2">
           {totalCount}
         </span>
       </button>
