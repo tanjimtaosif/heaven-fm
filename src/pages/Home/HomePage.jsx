@@ -10,6 +10,7 @@ import {
   FaqSection,
   ContactSection,
 } from '@/features/home'
+import { QuotationSection } from '@/features/quotation'
 import { useIsDesktop } from '@/hooks'
 
 export function HomePage() {
@@ -28,6 +29,7 @@ export function HomePage() {
       <PopularFurnituresSection />
       <WhyChooseUsSection />
       <TestimonialsSection />
+      <QuotationSection />
       <FaqSection />
       <ContactSection />
     </>
