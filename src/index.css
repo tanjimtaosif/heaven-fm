@@ -1,19 +1,12 @@
 @import 'tailwindcss';
 
 @theme {
-  /* ==========================================================================
-     TYPOGRAPHY TOKENS
-     ========================================================================== */
   --font-serif: 'Playfair Display', 'Cormorant Garamond', Georgia, serif;
   --font-sans:
     'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont,
     'Segoe UI', Roboto, sans-serif;
   --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 
-  /* ==========================================================================
-     BRAND & ARCHITECTURAL COLOR TOKENS
-     ========================================================================== */
-  /* Studio Light Theme Canvas & Surfaces */
   --color-canvas: #faf8f5;
   --color-surface: #ffffff;
   --color-surface-muted: #f4efea;
@@ -21,40 +14,32 @@
   --color-border-subtle: #ece4d9;
   --color-border-warm: #dfd3c3;
 
-  /* Grounding Contrast & Deep Charcoal-Teal */
   --color-charcoal-deep: #0f1e21;
   --color-charcoal-surface: #172c30;
   --color-charcoal-muted: #243e44;
   --color-charcoal-border: #2c484e;
   --color-charcoal-subtle: #1c3237;
 
-  /* Satin Brass & Muted Gold (Logo & Accent) */
   --color-brass: #c49f66;
   --color-brass-hover: #b28c53;
   --color-brass-light: #f8f3ea;
   --color-brass-border: #e8d8c3;
   --color-brass-dark: #8f6f3e;
 
-  /* Typography / Text Tones */
   --color-text-primary: #1f1a17;
   --color-text-secondary: #5c524b;
   --color-text-muted: #8d8075;
   --color-text-inverse: #faf8f5;
   --color-text-inverse-muted: #a8b2b4;
 
-  /* Wood & Material Craft */
   --color-wood-tan: #c8a882;
   --color-wood-walnut: #7e5b3e;
   --color-wood-sand: #eae1d5;
   --color-wood-oak: #a88665;
 
-  /* Interactive & Utility */
   --color-whatsapp: #25d366;
   --color-whatsapp-hover: #20bd5a;
 
-  /* ==========================================================================
-     SEMANTIC COMPONENT TOKENS (Design System Standard)
-     ========================================================================== */
   --color-background: #faf8f5;
   --color-foreground: #1f1a17;
 
@@ -81,9 +66,6 @@
   --color-success: #16a34a;
   --color-success-foreground: #ffffff;
 
-  /* ==========================================================================
-     BORDER RADIUS TOKENS
-     ========================================================================== */
   --radius-xs: 0.125rem;
   --radius-sm: 0.25rem;
   --radius-md: 0.375rem;
@@ -94,9 +76,6 @@
   --radius-4xl: 2rem;
   --radius-full: 9999px;
 
-  /* ==========================================================================
-     BOX SHADOW & ELEVATION TOKENS
-     ========================================================================== */
   --shadow-subtle: 0 1px 2px 0 rgba(15, 30, 33, 0.04);
   --shadow-card:
     0 4px 20px -2px rgba(15, 30, 33, 0.05),
@@ -111,9 +90,6 @@
   --shadow-glow-brass: 0 0 35px -5px rgba(196, 159, 102, 0.22);
   --shadow-glow-charcoal: 0 10px 30px -5px rgba(15, 30, 33, 0.3);
 
-  /* ==========================================================================
-     ANIMATION & KEYFRAME TOKENS
-     ========================================================================== */
   --animate-fade-in: fade-in 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   --animate-fade-up: fade-up 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   --animate-fade-down: fade-down 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
@@ -227,7 +203,6 @@
   }
 }
 
-/* Custom base & aesthetic enhancements */
 @layer base {
   html {
     background-color: var(--color-canvas);
@@ -263,9 +238,6 @@
   }
 }
 
-/* ==========================================================================
-   ANIMATED BUTTON UTILITIES
-   ========================================================================== */
 @layer utilities {
   .animate-shimmer-sweep {
     animation: shimmer-sweep 3s ease-in-out infinite;
@@ -291,7 +263,6 @@
     animation-play-state: paused;
   }
 
-  /* Cart drawer — quiet slide in from the right edge */
   .animate-drawer-in {
     animation: drawer-in 0.42s cubic-bezier(0.16, 1, 0.3, 1) both;
   }
@@ -312,7 +283,6 @@
   }
 }
 
-/* Testimonials autoplay progress bar sweep */
 @keyframes testimonial-progress {
   from {
     transform: scaleX(0);
@@ -322,11 +292,6 @@
   }
 }
 
-/* ==========================================================================
-   HERO — ATELIER ATMOSPHERE & EDITORIAL REVEAL CHOREOGRAPHY
-   ========================================================================== */
-
-/* Word-by-word mask reveal (letterpress curtain lift) */
 @keyframes word-rise {
   from {
     transform: translateY(110%) rotate(1.5deg);
@@ -338,7 +303,6 @@
   }
 }
 
-/* Soft veil lift for supporting copy & controls */
 @keyframes veil-lift {
   from {
     opacity: 0;
@@ -352,7 +316,6 @@
   }
 }
 
-/* Brass hairline drawing itself outward from centre */
 @keyframes hairline-draw {
   from {
     opacity: 0;
@@ -364,7 +327,6 @@
   }
 }
 
-/* Descending brass bead — the thread that leads the eye into the film */
 @keyframes thread-fall {
   0% {
     transform: translateY(-140%);
@@ -380,7 +342,6 @@
   }
 }
 
-/* Slow ambient light drift for the warm atmosphere pools */
 @keyframes aurora-drift {
   0%,
   100% {
@@ -393,7 +354,6 @@
   }
 }
 
-/* One-pass satin sweep across the display type after it settles */
 @keyframes satin-pass {
   0% {
     transform: translateX(-160%) skewX(-14deg);
@@ -433,16 +393,10 @@
     animation: satin-pass 2.4s cubic-bezier(0.32, 0, 0.2, 1) 1.5s both;
   }
 
-  /* Fine film grain — keeps large flat cream fields from reading as digital-flat */
   .bg-grain {
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   }
 
-  /* Soft paper tooth for light surfaces. The noise carries its own low
-     opacity and is desaturated in the filter, so it can sit directly on an
-     element's own background-image — behind all content, needing no extra
-     layer and creating no stacking-order problems. The warm sheen rides on
-     top of the tooth and below everything else. */
   .bg-paper-grain {
     background-image:
       radial-gradient(
@@ -454,7 +408,6 @@
       url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23p)' opacity='0.16'/%3E%3C/svg%3E");
   }
 
-  /* Architectural column rules, faded at the edges */
   .bg-atelier-rules {
     background-image: repeating-linear-gradient(
       to right,
@@ -476,8 +429,6 @@
     filter: none !important;
   }
 
-  /* The satin pass only reads as a highlight while it travels — parked, it
-     is just a lit panel across the headline. Drop it entirely. */
   .animate-satin-pass {
     display: none !important;
   }
