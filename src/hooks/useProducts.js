@@ -10,10 +10,6 @@ import {
   getProductsByCategory,
 } from '@/constants/productsData'
 
-/**
- * Custom React hook for seamless product catalog data fetching,
- * filtering, sorting, and search state management.
- */
 export function useProducts(initialFilters = {}) {
   const [filters, setFilters] = useState({
     categoryId: 'all',
