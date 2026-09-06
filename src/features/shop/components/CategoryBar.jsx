@@ -120,7 +120,7 @@ export const CategoryBar = ({ activeCategoryId = 'all', onSelectCategory }) => {
               type="button"
               onClick={() => scroll('left')}
               disabled={!canScrollLeft}
-              className="border-border-subtle bg-surface text-text-secondary hover:border-brass hover:text-brass flex h-8 w-8 items-center justify-center rounded-full border shadow-sm transition-all active:scale-95 pointer-events-auto cursor-pointer disabled:pointer-events-none"
+              className="border-border-subtle bg-surface text-text-secondary hover:border-brass hover:text-brass pointer-events-auto flex h-8 w-8 cursor-pointer items-center justify-center rounded-full border shadow-sm transition-all active:scale-95 disabled:pointer-events-none"
               aria-label="Scroll categories left"
             >
               <ChevronLeft className="h-4 w-4" />
@@ -139,7 +139,7 @@ export const CategoryBar = ({ activeCategoryId = 'all', onSelectCategory }) => {
               type="button"
               onClick={() => scroll('right')}
               disabled={!canScrollRight}
-              className="border-border-subtle bg-surface text-text-secondary hover:border-brass hover:text-brass flex h-8 w-8 items-center justify-center rounded-full border shadow-sm transition-all active:scale-95 pointer-events-auto cursor-pointer disabled:pointer-events-none"
+              className="border-border-subtle bg-surface text-text-secondary hover:border-brass hover:text-brass pointer-events-auto flex h-8 w-8 cursor-pointer items-center justify-center rounded-full border shadow-sm transition-all active:scale-95 disabled:pointer-events-none"
               aria-label="Scroll categories right"
             >
               <ChevronRight className="h-4 w-4" />

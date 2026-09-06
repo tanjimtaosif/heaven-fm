@@ -241,7 +241,7 @@ export const DatePickerField = ({
                   onClick={handlePrevMonth}
                   disabled={!canGoPrev}
                   aria-label="Previous month"
-                  className="hover:bg-surface-muted text-text-muted hover:text-text-primary flex h-7 w-7 items-center justify-center rounded-full transition-colors cursor-pointer disabled:pointer-events-none disabled:opacity-20"
+                  className="hover:bg-surface-muted text-text-muted hover:text-text-primary flex h-7 w-7 cursor-pointer items-center justify-center rounded-full transition-colors disabled:pointer-events-none disabled:opacity-20"
                 >
                   <ChevronLeft className="h-4 w-4" />
                 </button>
@@ -250,7 +250,7 @@ export const DatePickerField = ({
                   onClick={handleNextMonth}
                   disabled={!canGoNext}
                   aria-label="Next month"
-                  className="hover:bg-surface-muted text-text-muted hover:text-text-primary flex h-7 w-7 items-center justify-center rounded-full transition-colors cursor-pointer disabled:pointer-events-none disabled:opacity-20"
+                  className="hover:bg-surface-muted text-text-muted hover:text-text-primary flex h-7 w-7 cursor-pointer items-center justify-center rounded-full transition-colors disabled:pointer-events-none disabled:opacity-20"
                 >
                   <ChevronRight className="h-4 w-4" />
                 </button>
