@@ -6,10 +6,6 @@ import { Sparkles, ArrowRight, MessageSquare } from 'lucide-react'
 import { useIsDesktop, useMediaQuery } from '@/hooks'
 import { HeroInlineFilm } from './HeroInlineFilm'
 
-/**
- * Credential line beneath the CTAs — small-caps signatures separated by
- * brass lozenges. Keeps the lower half of the hero composed instead of hollow.
- */
 const CREDENTIALS = [
   'Agrabad Atelier',
   '100% Bespoke',
@@ -19,13 +15,8 @@ const CREDENTIALS = [
 export const HeroSection = () => {
   const words = COMPANY_INFO.hero.headline.split(' ')
 
-  // Below lg the pinned scroll-reveal film is replaced by an inline player
-  // that lives inside this section, so the page keeps flowing naturally.
   const isDesktop = useIsDesktop()
 
-  // Both CTAs share a single row on phones, so the secondary one drops to its
-  // short label. Resolved as a string (not a responsive <span>) to keep the
-  // Button's per-letter text-roll intact.
   const isCompact = !useMediaQuery('(min-width: 640px)')
 
   return (
@@ -33,9 +24,6 @@ export const HeroSection = () => {
       id="hero"
       className="relative flex w-full flex-col items-center justify-center overflow-x-clip pt-28 pb-12 sm:pt-32 sm:pb-14 lg:min-h-dvh lg:pt-28 lg:pb-10"
     >
-      {/* ====================================================================
-          ATMOSPHERIC ATELIER BACKGROUND IMAGE (Enhanced Visibility & Seamless Blend)
-          ==================================================================== */}
       <div
         className="pointer-events-none absolute inset-x-0 top-0 h-dvh overflow-hidden mask-[linear-gradient(180deg,black_0%,black_65%,transparent_100%)] select-none lg:inset-0 lg:h-full"
         aria-hidden="true"
@@ -45,12 +33,8 @@ export const HeroSection = () => {
           alt=""
           className="h-full w-full object-cover object-center opacity-38 mix-blend-multiply"
         />
-        {/* Soft atmospheric gradient dissolving smoothly into the video section ground */}
         <div className="45% absolute inset-0 bg-linear-to-b from-white/10 via-transparent to-[#f0eae1]/85" />
       </div>
-      {/* ====================================================================
-          SIDE RAILS — vertical hairlines with the studio's signature marks
-          ==================================================================== */}
       <div
         className="animate-veil-lift pointer-events-none absolute inset-y-0 left-7 hidden items-center xl:flex"
         style={{ animationDelay: '900ms' }}
@@ -77,12 +61,8 @@ export const HeroSection = () => {
         </div>
       </div>
 
-      {/* ====================================================================
-          MAIN HERO CENTRE CONTENT
-          ==================================================================== */}
       <div className="relative mx-auto w-full max-w-7xl px-4 py-1 sm:px-6 sm:py-2 lg:px-8">
         <div className="mx-auto max-w-3xl text-center">
-          {/* Eyebrow: hairline — seal — hairline */}
           <div
             className="animate-veil-lift flex items-center justify-center gap-4"
             style={{ animationDelay: '60ms' }}
@@ -104,16 +84,11 @@ export const HeroSection = () => {
             />
           </div>
 
-          {/* Display headline — word-by-word curtain lift, last word set in
-              italic with a drawn brass swash. */}
           <h1 className="text-charcoal-deep relative mt-4 font-serif text-[2.5rem] leading-[1.12] font-semibold tracking-[-0.022em] text-balance sm:mt-5 sm:text-5xl lg:text-6xl xl:text-[4.75rem]">
             {words.map((word, index) => {
               const isLast = index === words.length - 1
               return (
                 <Fragment key={`${word}-${index}`}>
-                  {/* Padding + matching negative margin gives descenders and
-                      the italic overhang room inside the clipping mask without
-                      altering the line box. */}
                   <span className="mx-[-0.08em] mt-[-0.08em] mb-[-0.2em] inline-block overflow-hidden px-[0.08em] pt-[0.08em] pb-[0.2em] align-bottom">
                     <span
                       className="animate-word-rise inline-block"
@@ -140,14 +115,12 @@ export const HeroSection = () => {
               )
             })}
 
-            {/* Single satin pass across the display type once it settles */}
             <span
               className="animate-satin-pass pointer-events-none absolute inset-y-0 left-0 w-1/3 bg-linear-to-r from-transparent via-white/55 to-transparent mix-blend-overlay"
               aria-hidden="true"
             />
           </h1>
 
-          {/* Ornamental rule */}
           <div
             className="animate-veil-lift mt-4 flex items-center justify-center gap-3 sm:mt-5"
             style={{ animationDelay: `${300 + words.length * 70}ms` }}
@@ -165,7 +138,6 @@ export const HeroSection = () => {
             {COMPANY_INFO.hero.subheadline}
           </p>
 
-          {/* Conversion CTAs with luxe satin shimmer & text rolling */}
           <div
             className="animate-veil-lift mt-6 flex flex-row items-center justify-center gap-3 sm:mt-7 sm:gap-4"
             style={{ animationDelay: `${470 + words.length * 70}ms` }}
@@ -203,7 +175,6 @@ export const HeroSection = () => {
             </Button>
           </div>
 
-          {/* Studio credentials — small caps with brass lozenge separators */}
           <div
             className="text-text-muted animate-veil-lift mt-5 flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-[10px] tracking-[0.24em] uppercase sm:mt-6 sm:text-[11px]"
             style={{ animationDelay: `${560 + words.length * 70}ms` }}
@@ -221,7 +192,6 @@ export const HeroSection = () => {
             ))}
           </div>
 
-          {/* Brass thread leading the eye down into the film */}
           <div
             className="animate-veil-lift mt-5 flex justify-center sm:mt-6"
             style={{ animationDelay: `${650 + words.length * 70}ms` }}
@@ -234,10 +204,6 @@ export const HeroSection = () => {
         </div>
       </div>
 
-      {/* ====================================================================
-          INLINE ATELIER FILM (mobile & tablet only)
-          On lg+ the film is the pinned ScrollVideoRevealSection below instead.
-          ==================================================================== */}
       {!isDesktop && <HeroInlineFilm />}
     </section>
   )
