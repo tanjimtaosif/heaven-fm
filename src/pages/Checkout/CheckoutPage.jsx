@@ -707,10 +707,10 @@ export function CheckoutPage() {
                     <span className="text-brass-dark">*</span>
                   </label>
                   <div className="relative">
-                    <textarea
+                    <input
                       id="delivery-street"
                       ref={streetRef}
-                      rows={2}
+                      type="text"
                       value={customerInfo.street}
                       onChange={(e) =>
                         handleInputChange('street', e.target.value)
@@ -718,7 +718,7 @@ export function CheckoutPage() {
                       placeholder="e.g. House 14, Road 5, Block B, Flat 3A"
                       className={cn(controlStyles(!!errors.street), 'pl-10')}
                     />
-                    <MapPin className="text-text-muted absolute top-3.5 left-3.5 h-4 w-4" />
+                    <MapPin className="text-text-muted absolute top-1/2 left-3.5 h-4 w-4 -translate-y-1/2" />
                   </div>
                   {errors.street && (
                     <p className="text-destructive text-label-sm flex items-center gap-1.5 font-medium">
