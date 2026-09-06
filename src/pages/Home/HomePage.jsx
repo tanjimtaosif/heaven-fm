@@ -6,6 +6,7 @@ import {
   CollectionsSection,
   PopularFurnituresSection,
   WhyChooseUsSection,
+  MilestonesSection,
   TestimonialsSection,
   FaqSection,
   ContactSection,
@@ -28,6 +29,7 @@ export function HomePage() {
       <CollectionsSection />
       <PopularFurnituresSection />
       <WhyChooseUsSection />
+      <MilestonesSection />
       <TestimonialsSection />
       <QuotationSection />
       <FaqSection />
