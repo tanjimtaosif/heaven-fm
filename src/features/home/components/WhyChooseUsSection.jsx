@@ -2,6 +2,7 @@ import { useRef, useEffect, useCallback } from 'react'
 import { useLenis } from '@/components/providers'
 import { COMPANY_INFO } from '@/constants/companyData'
 import { Badge, Button } from '@/components/ui'
+import { useQuotation } from '@/features/quotation'
 
 import why1 from '@/assets/whychooseus/why-1.webp'
 import why2 from '@/assets/whychooseus/why-2.webp'
@@ -23,6 +24,7 @@ function clamp(value, min, max) {
 }
 
 export const WhyChooseUsSection = () => {
+  const { openQuotation } = useQuotation()
   const wrapperRefs = useRef([])
   const cardRefs = useRef([])
 
@@ -69,7 +71,7 @@ export const WhyChooseUsSection = () => {
   }, [updateStack])
 
   return (
-    <section id="why-choose-us" className="bg-canvas relative py-20 sm:py-24">
+    <section id="why-choose-us" className="bg-canvas section-y relative">
       <div
         className="pointer-events-none absolute inset-0 overflow-hidden"
         aria-hidden="true"
@@ -86,7 +88,7 @@ export const WhyChooseUsSection = () => {
         <div className="bg-grain absolute inset-0 mask-[linear-gradient(180deg,transparent_0%,#000_5%,#000_94%,transparent_100%)] opacity-[0.05] mix-blend-multiply" />
       </div>
 
-      <div className="relative mx-auto max-w-7xl space-y-4 px-4 text-center sm:px-6 lg:px-8">
+      <div className="container-page relative space-y-4 text-center">
         <Badge variant="brass">The Heaven Difference</Badge>
         <h2 className="text-charcoal-deep font-serif text-3xl font-bold sm:text-4xl">
           Why Choose Us
@@ -97,25 +99,25 @@ export const WhyChooseUsSection = () => {
         </p>
       </div>
 
-      <div className="relative mx-auto mt-12 max-w-7xl px-4 pb-[6vh] sm:mt-14 sm:px-6 lg:px-8">
+      <div className="container-page relative mt-12 pb-[6vh] sm:mt-14">
         <div
-          className="pointer-events-none absolute inset-y-0 -left-6 hidden min-[1400px]:block"
+          className="3xl:block pointer-events-none absolute inset-y-0 -left-6 hidden"
           aria-hidden="true"
         >
           <div className="sticky top-[24vh] flex h-[52vh] flex-col items-center gap-6">
             <span className="via-brass/35 w-px grow bg-linear-to-b from-transparent to-transparent" />
-            <span className="text-text-muted rotate-180 text-[10px] tracking-[0.42em] uppercase [writing-mode:vertical-rl]">
+            <span className="text-text-muted text-label-xs rotate-180 tracking-[0.42em] uppercase [writing-mode:vertical-rl]">
               01 — {String(COMPANY_INFO.whyChooseUs.length).padStart(2, '0')}
             </span>
           </div>
         </div>
 
         <div
-          className="pointer-events-none absolute inset-y-0 -right-6 hidden min-[1400px]:block"
+          className="3xl:block pointer-events-none absolute inset-y-0 -right-6 hidden"
           aria-hidden="true"
         >
           <div className="sticky top-[24vh] flex h-[52vh] flex-col items-center gap-6">
-            <span className="text-text-muted text-[10px] tracking-[0.42em] uppercase [writing-mode:vertical-rl]">
+            <span className="text-text-muted text-label-xs tracking-[0.42em] uppercase [writing-mode:vertical-rl]">
               {COMPANY_INFO.tagline}
             </span>
             <span className="via-brass/35 w-px grow bg-linear-to-b from-transparent to-transparent" />
@@ -153,12 +155,12 @@ export const WhyChooseUsSection = () => {
                         className="bg-brass/45 h-px w-6"
                         aria-hidden="true"
                       />
-                      <span className="text-text-muted text-[10px] tracking-[0.24em] uppercase">
+                      <span className="text-text-muted text-label-xs tracking-[0.24em] uppercase">
                         {item.eyebrow}
                       </span>
                     </div>
 
-                    <h3 className="text-charcoal-deep mt-5 font-serif text-[1.7rem] font-semibold tracking-tight text-balance sm:text-[2rem] lg:text-[2.6rem]">
+                    <h3 className="text-charcoal-deep text-display-sm mt-5 font-serif font-semibold text-balance">
                       {item.title}
                     </h3>
 
@@ -166,7 +168,7 @@ export const WhyChooseUsSection = () => {
                       {item.points.map((point) => (
                         <li
                           key={point}
-                          className="text-text-secondary flex items-start gap-3 text-sm leading-relaxed lg:text-[15px]"
+                          className="text-text-secondary flex items-start gap-3 text-sm leading-relaxed lg:text-base"
                         >
                           <span
                             className="bg-brass/70 mt-[0.5em] h-1 w-1 shrink-0 rotate-45"
@@ -179,8 +181,7 @@ export const WhyChooseUsSection = () => {
 
                     <div className="mt-8">
                       <Button
-                        as="a"
-                        href="#contact"
+                        onClick={() => openQuotation()}
                         size="md"
                         variant="primary"
                         className="rounded-full"
