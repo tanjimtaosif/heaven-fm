@@ -52,7 +52,7 @@ export const HeroInlineFilm = () => {
           className="to-brass/40 h-px w-8 bg-linear-to-r from-transparent"
           aria-hidden="true"
         />
-        <span className="text-text-muted text-[10px] tracking-[0.32em] uppercase">
+        <span className="text-text-muted text-label-xs tracking-[0.32em] uppercase">
           Atelier Showcase · Motion
         </span>
         <span
@@ -104,7 +104,7 @@ export const HeroInlineFilm = () => {
         />
 
         <div className="pointer-events-none absolute top-3 left-1/2 z-20 -translate-x-1/2">
-          <div className="bg-charcoal-deep/75 text-canvas inline-flex items-center gap-2 rounded-full border border-white/20 px-3 py-1 text-[9px] font-medium tracking-[0.25em] uppercase shadow-lg backdrop-blur-md">
+          <div className="bg-charcoal-deep/75 text-canvas text-label-xs inline-flex items-center gap-2 rounded-full border border-white/20 px-3 py-1 font-medium tracking-[0.25em] uppercase shadow-lg backdrop-blur-md">
             <span className="bg-brass h-1.5 w-1.5 animate-pulse rounded-full" />
             <span>Atelier Reel</span>
           </div>
@@ -123,14 +123,14 @@ export const HeroInlineFilm = () => {
             {isMuted ? (
               <>
                 <VolumeX className="text-brass h-3.5 w-3.5 transition-colors" />
-                <span className="text-[10px] font-medium tracking-wide uppercase">
+                <span className="text-label-xs font-medium tracking-wide uppercase">
                   Tap to Unmute
                 </span>
               </>
             ) : (
               <>
                 <Volume2 className="h-3.5 w-3.5 text-emerald-400 transition-colors" />
-                <span className="text-[10px] font-medium tracking-wide text-emerald-300 uppercase">
+                <span className="text-label-xs font-medium tracking-wide text-emerald-300 uppercase">
                   Sound On
                 </span>
               </>
@@ -162,7 +162,7 @@ export const HeroInlineFilm = () => {
         <p className="text-charcoal-deep font-serif text-lg font-medium tracking-tight">
           Crafted Around You
         </p>
-        <p className="text-text-secondary mx-auto mt-1 max-w-sm text-[13px] leading-relaxed">
+        <p className="text-text-secondary text-label-md mx-auto mt-1 max-w-sm leading-relaxed">
           Tangible luxury, seasoned timber joinery, and tailored spatial
           proportions.
         </p>
