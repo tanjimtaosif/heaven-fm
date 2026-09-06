@@ -3,6 +3,7 @@ import { ChevronLeft, ChevronRight, Sparkles, CheckCircle2 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { Badge, Button } from '@/components/ui'
 import { TESTIMONIALS } from '@/constants/reviewsData'
+import { usePrefersReducedMotion } from '@/hooks'
 
 const TOTAL = TESTIMONIALS.length
 const TRANSITION_MS = 520
@@ -14,23 +15,6 @@ const ALL_CARDS = [
   ...TESTIMONIALS.map((t, i) => ({ ...t, trackKey: `set1-${t.id}-${i}` })),
   ...TESTIMONIALS.map((t, i) => ({ ...t, trackKey: `set2-${t.id}-${i}` })),
 ]
-
-const useReducedMotion = () => {
-  const [reduced, setReduced] = useState(() =>
-    typeof window === 'undefined'
-      ? false
-      : window.matchMedia('(prefers-reduced-motion: reduce)').matches
-  )
-
-  useEffect(() => {
-    const mq = window.matchMedia('(prefers-reduced-motion: reduce)')
-    const onChange = (e) => setReduced(e.matches)
-    mq.addEventListener('change', onChange)
-    return () => mq.removeEventListener('change', onChange)
-  }, [])
-
-  return reduced
-}
 
 const ReviewCard = ({ testimonial, textAnimStyle }) => {
   return (
@@ -66,7 +50,7 @@ const ReviewCard = ({ testimonial, textAnimStyle }) => {
             </svg>
           </div>
 
-          <span className="border-brass/30 bg-brass-light/80 text-wood-walnut inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-[10.5px] font-semibold tracking-wider uppercase">
+          <span className="border-brass/30 bg-brass-light/80 text-wood-walnut text-label-xs inline-flex items-center gap-1.5 rounded-full border px-3 py-1 font-semibold tracking-wider uppercase">
             <Sparkles className="text-brass h-3 w-3" />
             {testimonial.reviewer.category}
           </span>
@@ -79,7 +63,7 @@ const ReviewCard = ({ testimonial, textAnimStyle }) => {
             className="flex min-h-28.75 items-center sm:min-h-32.5 lg:min-h-35"
           >
             <blockquote>
-              <p className="text-text-primary font-serif text-[17px] leading-[1.68] font-normal tracking-tight text-pretty sm:text-[18.5px] lg:text-[19.5px]">
+              <p className="text-text-primary font-serif text-lg leading-[1.68] font-normal tracking-tight text-pretty sm:text-lg lg:text-xl">
                 &ldquo;{testimonial.quote}&rdquo;
               </p>
             </blockquote>
@@ -100,19 +84,19 @@ const ReviewCard = ({ testimonial, textAnimStyle }) => {
             </div>
 
             <div className="min-w-0">
-              <h3 className="text-charcoal-deep font-serif text-[15px] leading-snug font-semibold">
+              <h3 className="text-charcoal-deep font-serif text-base leading-snug font-semibold">
                 {testimonial.reviewer.name}
               </h3>
               <p className="text-text-muted mt-0.5 text-xs">
                 {testimonial.reviewer.location}
               </p>
-              <p className="text-brass mt-1 line-clamp-1 text-[11px] font-medium">
+              <p className="text-brass text-label-sm mt-1 line-clamp-1 font-medium">
                 {testimonial.reviewer.project}
               </p>
             </div>
           </div>
 
-          <div className="border-brass-border bg-brass-light text-wood-walnut hidden shrink-0 items-center gap-1.5 rounded-full border px-2.5 py-1 text-[10px] font-semibold tracking-widest uppercase sm:inline-flex">
+          <div className="border-brass-border bg-brass-light text-wood-walnut text-label-xs hidden shrink-0 items-center gap-1.5 rounded-full border px-2.5 py-1 font-semibold tracking-widest uppercase sm:inline-flex">
             <CheckCircle2 className="text-brass h-3 w-3" />
             Verified
           </div>
@@ -207,15 +191,15 @@ const ImageGallery = ({ currentIndex, isTransitioning, onSelectCard }) => {
               {isActive && (
                 <div className="absolute right-5 bottom-5 left-5 sm:right-6 sm:bottom-6 sm:left-6">
                   <div className="flex items-center gap-2">
-                    <span className="bg-brass text-charcoal-deep inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-[10px] font-semibold tracking-wider uppercase shadow-xs">
+                    <span className="bg-brass text-charcoal-deep text-label-xs inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 font-semibold tracking-wider uppercase shadow-xs">
                       <Sparkles className="h-2.5 w-2.5" />
                       Active Project
                     </span>
-                    <span className="text-canvas/80 line-clamp-1 text-[11px] font-medium tracking-wide">
+                    <span className="text-canvas/80 text-label-sm line-clamp-1 font-medium tracking-wide">
                       {card.reviewer.location}
                     </span>
                   </div>
-                  <h4 className="text-canvas mt-2 font-serif text-lg font-medium tracking-tight sm:text-xl lg:text-[1.3rem]">
+                  <h4 className="text-canvas mt-2 font-serif text-lg font-medium tracking-tight sm:text-xl">
                     {card.image.title}
                   </h4>
                 </div>
@@ -223,10 +207,10 @@ const ImageGallery = ({ currentIndex, isTransitioning, onSelectCard }) => {
 
               {!isActive && (
                 <div className="absolute inset-x-0 bottom-3 flex flex-col items-center justify-end px-1 sm:bottom-4">
-                  <span className="bg-charcoal-deep/80 text-canvas rounded-full px-2 py-0.5 text-[9px] font-semibold tracking-widest uppercase backdrop-blur-xs">
+                  <span className="bg-charcoal-deep/80 text-canvas text-label-xs rounded-full px-2 py-0.5 font-semibold tracking-widest uppercase backdrop-blur-xs">
                     Next
                   </span>
-                  <span className="text-canvas/90 mt-1 line-clamp-1 hidden text-center text-[10px] font-medium sm:block">
+                  <span className="text-canvas/90 text-label-xs mt-1 line-clamp-1 hidden text-center font-medium sm:block">
                     {card.reviewer.initials}
                   </span>
                 </div>
@@ -254,7 +238,7 @@ export const TestimonialsSection = () => {
   const isLockedRef = useRef(false)
   const labelId = useId()
 
-  const prefersReducedMotion = useReducedMotion()
+  const prefersReducedMotion = usePrefersReducedMotion()
 
   const activeReviewIndex = trackIndex % TOTAL
   const currentTestimonial = TESTIMONIALS[activeReviewIndex]
@@ -452,7 +436,7 @@ export const TestimonialsSection = () => {
     <section
       id="testimonials"
       ref={sectionRef}
-      className="bg-canvas relative py-20 sm:py-24 lg:py-28"
+      className="bg-canvas section-y relative"
       aria-labelledby={labelId}
       aria-roledescription="carousel"
       onMouseEnter={() => setIsPaused(true)}
@@ -474,11 +458,11 @@ export const TestimonialsSection = () => {
         <div className="bg-grain absolute inset-0 mask-[linear-gradient(180deg,transparent_0%,#000_5%,#000_94%,transparent_100%)] opacity-[0.05] mix-blend-multiply" />
       </div>
 
-      <div className="relative mx-auto max-w-7xl space-y-4 px-4 text-center sm:px-6 lg:px-8">
+      <div className="container-page relative space-y-4 text-center">
         <Badge variant="brass">Client Stories & Portfolios</Badge>
         <h2
           id={labelId}
-          className="text-charcoal-deep font-serif text-3xl font-bold sm:text-4xl lg:text-[2.65rem]"
+          className="text-charcoal-deep text-display-sm font-serif font-bold"
         >
           Crafted With Purpose,{' '}
           <span className="text-brass italic">Loved in Every Home</span>
@@ -490,7 +474,7 @@ export const TestimonialsSection = () => {
         </p>
       </div>
 
-      <div className="relative mx-auto mt-12 max-w-7xl px-4 sm:mt-16 sm:px-6 lg:px-8">
+      <div className="container-page relative mt-12 sm:mt-16">
         <div className="grid grid-cols-1 items-stretch gap-6 lg:grid-cols-12 lg:gap-8 xl:gap-10">
           <div className="h-107.5 sm:h-117.5 lg:col-span-5 lg:h-127.5">
             <ReviewCard
@@ -560,11 +544,11 @@ export const TestimonialsSection = () => {
         </div>
 
         <div
-          className="pointer-events-none absolute inset-y-0 -right-6 hidden min-[1400px]:block"
+          className="3xl:block pointer-events-none absolute inset-y-0 -right-6 hidden"
           aria-hidden="true"
         >
           <div className="sticky top-[24vh] flex h-[52vh] flex-col items-center gap-6">
-            <span className="text-text-muted text-[10px] tracking-[0.42em] uppercase [writing-mode:vertical-rl]">
+            <span className="text-text-muted text-label-xs tracking-[0.42em] uppercase [writing-mode:vertical-rl]">
               Client Reviews
             </span>
             <span className="via-brass/35 w-px grow bg-linear-to-b from-transparent to-transparent" />
